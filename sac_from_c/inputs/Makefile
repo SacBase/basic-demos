@@ -2,7 +2,8 @@
 #
 # General Setup:
 #
-SAC2CFLAGS = -O3 -v1 -noLIR
+SAC2CFLAGS = -O3 -v1 -ssa
+#SAC2CFLAGS = -O3 -v1 -noLIR
 #SAC2CFLAGS += -noopt -doPHM -doAPS -doRCAO -doMSCA
 
 #
