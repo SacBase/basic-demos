@@ -9,7 +9,7 @@ SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3
 #
 # just to make sure that local dependencies can be ressolved properly:
 #
-SAC_LIBRARY_PATH := $(SAC_LIBRARY_PATH)\:../lib
+export SAC_LIBRARY_PATH := $(SAC_LIBRARY_PATH):../lib
 
 #
 # Setup for Makefile.standard:
