@@ -121,7 +121,7 @@ features: features.c include/featuresMod_fix.h include/featuresMod_gen.h
 	                 $(SACBASE)/stdlib/hidden/lib/MathC.a \
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
-	                 -lm -lsac_heapmgr -lsac
+	                 $(LIB_M) -lsac_heapmgr -lsac
 
 
 ################################################################################
@@ -147,7 +147,7 @@ useTwoLibs: useTwoLibs.c include/useTwoLibsMod1.h include/useTwoLibsMod2.h
 	                 $(SACBASE)/stdlib/hidden/lib/MathC.a \
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
-	                 -lm -lsac_heapmgr -lsac
+	                 $(LIB_M) -lsac_heapmgr -lsac
 
 
 ################################################################################
@@ -175,7 +175,7 @@ objects: objects.c include/IntStack.h include/objectsMod.h
 	                 $(SACBASE)/stdlib/hidden/lib/MathC.a \
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
-	                 -lm -lsac_heapmgr -lsac
+	                 $(LIB_M) -lsac_heapmgr -lsac
 
 
 ################################################################################
@@ -199,7 +199,7 @@ useTypes: useTypes.c include/useTypesMod.h
 			$(SACBASE)/stdlib/modules/structures/lib/List.a \
 			$(SACBASE)/stdlib/hidden/lib/MathC.a \
 			$(SACBASE)/stdlib/modules/structures/lib/Char.a \
-			-lm -lsac_heapmgr -lsac
+			$(LIB_M) -lsac_heapmgr -lsac
 
 
 
