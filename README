@@ -141,8 +141,42 @@ as well as the non-zero elements of the initial array. Some of these can be foun
 in inputs/NASmg*.
 
 
-11) APLlogd3.sac
+11) APLlogd1.sac
 
 This is a very small benchmark which demonstrates the capabilities of With-Loop-
-Folding in the context of APL / APL expressions.
+Folding in the context of APL / APL expressions. It originates from a kernel
+routine from a signal processing application.
 
+
+12) APLlogd2.sac
+
+APLlogd2.sac is a variant of APLlogd1.sac. Instead of using vector minus, it uses
+2-ary reduce for computing the differences between adjacent elements of a vector.
+
+
+13) APLmconv.sac
+
+APLmconv.sac is a kernel routine from a seismic signal processing application.
+It implements one-dimensional convolution and heavily relies on vector valued
+operations. 
+
+
+14) APLmconv_opt.sac
+
+This program mimics an (very UGLY) alternative APL-implementation of the 
+one-dimensional convolution implemented by APLmconv.sac. The main difference 
+being that this APL-version avoids huge intermediate arrays.
+
+
+15) mconv.sac
+
+This is a third version of one-dimensional convolution. It constitutes an approach
+as one might want to write a SAC program directly.
+
+
+16) APLtomcatv.sac
+
+TOMCATV is one of the Spec-benchmarks. It is a vectorized mesh generation program
+and requires the compiler to do some aggressive optimizations 8-))
+This version is derived from an APL implementation of TOMCATV and thus heavily
+is based on aggregate operations.
