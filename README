@@ -7,196 +7,58 @@
  *   This file is to give an overview of the SAC demo programs that come
  *   with the SAC distribution.
  *   
- *   The directory comes with a Makefile that contains pattern rules
- *   for making executables from SAC-source files. Therefore each of the
- *   demo programs <name>.sac can be compiled by simply running (GNU-)
- *   "make <name>". The pattern rules provided even comprise an implicit
- *   dependency-checking system. It makes sure that any module needed for
- *   the compilation of a particular program will be compiled on beforehand.
+ *   The directory comes with a Makefile that genericly forces the creation
+ *   of all demo programs by calling make recursively in all of it's 
+ *   sub directories.
+ *   
+ *   In the sequel, a coarse classification of the existing demos is given
+ *   which coincides with the directory structure chosen. More detailed
+ *   descriptions of particular demo programs can be found in the README
+ *   files of the sub directories themselves.
  *   
  *****************************************************************************/
 
 
+1) simple
 
-SAC demo modules and classes:
-=============================
+This directory contains very simple examples such as gcd only. It is primarily
+usefull for the entirely novice user.
 
 
-1) IntStack.dec / IntStack.sac
+2) tutorials
 
-The SAC class IntStack demonstrates the basic concepts of how states and
-state modifications are integrated into the functional framework of SAC.
-An integer stack is implemented as an example data structure. Besides the
-appropriate abstract data type, a set of common access and manipulation
-functions is provided. Using the notion of global objects in SAC, also,
-a predefined global stack is incorporated.
+The demo programs of this directory are less ment for studying the program codes
+themselves but for running the compiled applications and inspecting the output
+generated. Due to their basic nature, they are a good starting point when
+being familiar with C and trying to get used to the peculiarities of SAC.
 
-Apart from the state specific stuff, this class is also a useful introduction
-to the declaration and implementation of modules in SAC since classes are
-special kinds of modules.
 
+3) states
 
+Here you will find some examples for demonstrating how to create your own 
+state-full data structures in SAC. Since the documentation on states and
+state-modifications in SAC is not too extensive this might be a good
+source for getting started with states in SAC.
 
 
-SAC demo programs:
-==================
+4) numerical
 
+Several benchmarks from numerical computing can be found in this directory.
+In most cases, the SAC programs contain several alternative implementations
+between which can be chosen by means of compiler flags.
 
-1) gcd.sac
 
-This SAC demo program is ment as a very basic, introductory example.
-It prints the greatest common denominator of 22 and 27. The main objective
-of this program is to demonstrate the similarity between SAC and C programs.
-Furthermore, it makes use of some minor extensions introduced in SAC for
-convenience reasons, e.g. omited type declarations or multiple return values.
+5) c_from_sac
 
-2) arrays.sac
+The programs in this directory demonstrate how C-libraries can be used from
+SAC programs. However, besides the examples found in this directory there
+are several further examples hidden in the standard library.
 
-This SAC demo program prints an introduction to the SAC array concept.
-Basic issues like the SAC specific representation of arrays are covered
-as well as the basic operations on arrays. Moreover, the functionality of
-some high-level array operations that used to be primitive in former versions
-of SAC, but are now provided by the module 'Array' from the SAC standard 
-library, is explained by means of examples.
+6) sac_from_c
 
+sac_from_c contains several examples for how to export the various features 
+of SAC to the C world. Probably, this is the most interesting part of the demos
+if you intend to replace part of an existing C/C++/Fortran program by a
+SAC implementation.
 
-3) withloop.sac
 
-This SAC demo program prints an introduction to the SAC specific array
-construct with-loop. However, only a subset of the complete functionality
-of today's with-loops is covered by this demo program.
-
-
-4) use_CommandLine.sac
-
-This SAC demo program prints a reference guide to the module 'CommandLine'
-from the SAC standard library. This module provides access to the command
-line arguments of a SAC application program.
-
-
-5) use_String.sac
-
-This SAC demo program prints a reference guide to the module 'String' from
-he SAC standard library. This module provides strings as an abstract data type
-along with a large set of operations on strings.
-
-
-6) use_IntStack.sac
-
-This SAC demo program demonstrates the usage of the demo class IntStack
-(see above). Some comprehensive stack operations are defined based on the
-stack primitives provided by the class IntStack. These are applied to various
-example stacks and the respective results are printed.
-
-
-7) relax_fix.sac
-
-This SAC demo program implements 2-dimensional relaxation with a 4-point
-stencil and fixed boundary conditions. This is a typical example of a 
-program used for benchmarking.
-
-
-8) relax_fix_rotate.sac
-
-Basically, this is the same program as "relax_fix.sac". The only difference
-is that the relaxation step is specified by a summation of rotated arrays
-rather than an element-wise specification of sums of neighbor elements.
-It demonstrates nicely the effect of WithLoopFolding. For more details see
-<hhtp://www.informatik.uni-kiel.de/~sacbase/papers/wlf-exp-london-98.ps.gz>.
-
-
-9) NASmg_with_borders.sac
-
-This is the SAC implementation of the NAS benchmark MG. The main goal
-of this implementation is to to specify exactly the same algorithm as 
-given in the Fortran benchmark, but try to specify it much more elegantly.
-For more details see <hhtp://www.informatik.uni-kiel.de/~sacbase/papers/
-scientific-applications-sac-bonn-96.ps.gz>.
-The source code contains 4 different versions which can be selected by
-setting two compiler flags. For details concerning these versions see the
-comments in the source code itself.
-
-For running this demo, an input_file has to be specified which contains the size
-as well as the non-zero elements of the initial array. Some of these can be found
-in inputs/NASmg*.
-
-
-10) NASmg_rotate.sac
-
-This is another SAC implementation of the NAS benchmark MG. The difference
-in comparison to NASmg_with_borders.sac is that the multigrid relaxation
-is not performed on arrays which carry copies of the "opposite borders"
-but on arrays without borders. This is achieved by using rotate functions
-which cyclicly shift elements of arrays. By means of With-Loop-Folding
-this program can be transformed into code which is competitive with the code
-generated from NASmg_with_borders.sac. For more details see
-<hhtp://www.informatik.uni-kiel.de/~sacbase/papers/wlf-exp-london-98.ps.gz>.
-
-Warning: due to some "non-optimal" design decisions made in the sac2c compiler,
-the compilation of this file requires about 1 GByte of memory for compilation.
-We hope to come up with a better solution for the next release...
-
-For running this demo, an input_file has to be specified which contains the size
-as well as the non-zero elements of the initial array. Some of these can be found
-in inputs/NASmg*.
-
-
-11) APLlogd1.sac
-
-This is a very small benchmark which demonstrates the capabilities of With-Loop-
-Folding in the context of APL / APL expressions. It originates from a kernel
-routine from a signal processing application.
-
-
-12) APLlogd2.sac
-
-APLlogd2.sac is a variant of APLlogd1.sac. Instead of using vector minus, it uses
-2-ary reduce for computing the differences between adjacent elements of a vector.
-
-
-13) APLmconv.sac
-
-APLmconv.sac is a kernel routine from a seismic signal processing application.
-It implements one-dimensional convolution and heavily relies on vector valued
-operations. 
-
-
-14) APLmconv_opt.sac
-
-This program mimics an (very UGLY) alternative APL-implementation of the 
-one-dimensional convolution implemented by APLmconv.sac. The main difference 
-being that this APL-version avoids huge intermediate arrays.
-
-
-15) mconv.sac
-
-This is a third version of one-dimensional convolution. It constitutes an approach
-as one might want to write a SAC program directly.
-
-
-16) APLtomcatv.sac
-
-TOMCATV is one of the Spec-benchmarks. It is a vectorized mesh generation program
-and requires the compiler to do some aggressive optimizations 8-))
-This version is derived from an APL implementation of TOMCATV and thus heavily
-is based on aggregate operations.
-
-
-17) pde1.sac
-
-The PDE1 benchmark is a 3D Poisson solver using red/black sucessive over-relaxation.
-This version is derived from an FORTRAN 90 implementation.
-
-
-18) shallow.sac
-
-The shallow-water-benchmark ...
-Use -D to change parameters, for further comments refer to sac file:
-  -DMM      modifies x-direction (default 65 resulting in 64 rows)
-  -DNN      modifies y-direction (default MM resulting in MM - 1 columns)
-            DIRECTIONS will be subtracted by 1!
-  -DITER    modifies iterations (default 50)
-  -DMPRINT  tellss when printing is done
-Also changeable: 
-  - Usage of floats (default) or doubles (-DUSEDOUBLES).
-  - Inlininge: Some functions will be inlined only if -DDOINL is set.
