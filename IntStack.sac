@@ -41,6 +41,7 @@ classtype int[STACKSIZE];
 
 
 import StdIO:all;
+import Array:all;
 
 
 objdef IntStack Stack=create_stack();
