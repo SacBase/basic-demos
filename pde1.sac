@@ -1,0 +1,214 @@
+/*
+ *  PDE1
+ *  3-Dimensional Poisson Solver Using Red-Black Relaxation  
+ *  Benchmark 
+ * 
+ *  sac-version
+ *  Jan-Hendrik Schoeler, March 1999, CAU
+ *  developed from the following fortran-version
+ *
+ *
+ *  WARNING: FOR OPTIMIZATIONS ON THIS ALGORITM sac2c NEEDS PLENTY OF MEMORY
+ *
+ *
+ *  Original author:  Max Lemke (1989, PALLAS GmbH)
+ *                    PALLAS GmbH                                  
+ *                    Hermulheimer Str. 10                          
+ *                    5040 Bruhl, GERMANY                           
+ *                    tel.:+49-2232-18960   e-mail:karls@pallas-gmbh.de
+ *                                                                 
+ *       Subset HPF:  Vladimir Getov                      
+ *                    (1993, University of Southampton)    
+ *
+ *  For numerical Verification:
+ *     The average Convergence rate should be somewhere between 0.7 and 0.98
+ */ 
+
+import Array:all;
+import ArrayIO:all;
+import ScalarIO:all;
+import Math:all;
+
+/*
+ *  Parameters for the algorithm.
+ *
+ *  N is the edgelength of the used threedimensional arrays. 
+ *  N must be defined as 2^NN, to match the original Fortran-Code!!!
+ *  
+ *  NX, NY and NZ represent the edgelengths for each of the three dimensions.
+ *  They are used in the code for the creation of the arrays.
+ *  
+ *  ITER the the number of Iterarions to be done.
+ */
+
+#ifndef N
+#define N 64 
+#endif
+
+#define NX N 
+#define NY N 
+#define NZ N 
+
+#ifndef ITER
+#define ITER 10 
+#endif
+
+/*
+ *  g is the (given) Boundary value function from the poisson equation. 
+ *  All three inputvalues or squared and added. 
+ */
+inline double g (double x, double y, double z)
+{
+  return (x * x + y * y + z * z);
+}
+
+/* 
+ *  starsum add the sixth neighbor elements of an element in a specified vector by iv.
+ *  a is a threedimensinal array, so the neighbors in this case are the ones 
+ *  to the north, south, west, east, top, and bottom.
+ *  iv is only allowed to spefify inner elements of a! 
+ *
+ *  ! Due problems to in sac2c this code does not compile with the inlined function,
+ *  ! and with functions-calls the resulting program is to slow.
+ *  ! So this function is inlined by hand, at three places.
+ */
+/*
+ *  inline double starsum (double[] a, int[] iv)
+ *  {
+ *    return (u[iv+[1,0,0]] + u[iv-[1,0,0]] +
+ *            u[iv+[0,1,0]] + u[iv-[0,1,0]] +
+ *            u[iv+[0,0,1]] + u[iv-[0,0,1]]);
+ *  } 
+ */
+
+/*
+ *  Computes maximum norm of the defect. 
+ *  u and f must have the same shape and dimension 3.
+ */
+inline double maxnorm (double[] u, double[] f, double h)
+{
+  fac = 1 / (h * h);
+
+  /* 
+   *  ! Inlined starsum could be used here!!!
+   */
+  u = with (. < iv < .)
+      { val = fabs(f[iv] + fac * (-6d * u[iv] + 
+                                  u[iv+[1,0,0]] + u[iv-[1,0,0]] +      
+                                  u[iv+[0,1,0]] + u[iv-[0,1,0]] +
+                                  u[iv+[0,0,1]] + u[iv-[0,0,1]])); }
+      modarray (u, iv, val);
+
+  return (maxval (u));
+}
+
+/* 
+ *  Returns initial values for u, f, 
+ *  where u and f are threedimensinal arrays of shape [NX,NY,NZ].
+ *   
+ */
+inline double[], double[] init (double h)
+{
+  /* 
+   *  Initialize u: inner points with 0 and the 6 sides with special values 
+   */
+  u = with ([0,0,0] <= [i,j,k] <= [0,NY-1,NZ-1])
+      genarray ([NX,NY,NZ], g(0d, j*h, k*h));
+
+  u = with ([NX-1,0,0] <= iv = [i,j,k] <= [NX-1,NY-1,NZ-1])
+      modarray (u, iv, g((NX-1)*h,j*h, k*h)); 
+
+  u = with ([0,0,0] <= iv = [i,j,k] <= [NX-1,0,NZ-1])
+      modarray (u, iv, g(i*h,0d,k*h));
+
+  u = with ([0,NY-1,0] <= iv = [i,j,k] <= [NX-1,NY-1,NZ-1])
+      modarray (u, iv, g(i*h,(NY-1)*h,k*h));
+
+  u = with ([0,0,0] <= iv = [i,j,k] <= [NX-1,NY-1,0])
+      modarray (u, iv, g(i*h,j*h,0d));
+
+  u = with ([0,0,NZ-1] <= iv = [i,j,k] <= [NX-1,NY-1,NZ-1])
+      modarray (u, iv, g(i*h,j*h,(NZ-1)*h));
+
+  /* 
+   * Initialize f: inner points with 6, all other with 0 
+   */ 
+  f = with (. < iv < .)
+      genarray ([NX,NY,NZ], 6d);
+
+  return (u, f);
+}
+
+/*
+ *   This is the essential routine of the algorithm, where all the work ist done.
+ *   The relaxation on u ist to be done as many times as specified by iter. 
+ *   u and f must be threedimensional arrays.
+ */
+inline double[] relax (double[] u, double[] f, double h, int iter)
+{
+  hsq = h * h;
+  factor = 1d/6d;
+
+  /* 
+   *  iter iterarions will be done, counting from 1 to iter.
+   */
+  printf("Iterations starting.\n");
+  for (nrel=1;nrel<=iter;nrel++)
+  {
+    printf ("Iteration: %i\n", nrel); 
+    /* 
+     *  Relaxing all the red elements.  
+     *
+     *  ! Inlined starsum could be used here!!!
+     */
+    u = with (. < iv < . step [2,1,1])
+        modarray (u, iv, factor * (hsq * f[iv] + 
+                                   u[iv+[1,0,0]] + u[iv-[1,0,0]] +
+                                   u[iv+[0,1,0]] + u[iv-[0,1,0]] +
+                                   u[iv+[0,0,1]] + u[iv-[0,0,1]] ));
+    /* 
+     *  Relaxing all the black elements.  
+     *  
+     *  ! Inlined starsum could be used here!!!
+     */
+    u = with ([1,0,0] < iv < . step [2,1,1])
+        modarray (u, iv, factor * (hsq * f[iv] + 
+                                   u[iv+[1,0,0]] + u[iv-[1,0,0]] +
+                                   u[iv+[0,1,0]] + u[iv-[0,1,0]] +
+                                   u[iv+[0,0,1]] + u[iv-[0,0,1]] ));
+  }
+  printf("Iterations finished.\n");
+  return (u);
+}
+
+int main()
+{
+  printf("PDE1\n");
+  printf("3D RED BLACK RELAXATION BENCHMARK\n");
+  h = 1d / (NX - 1);
+
+  /*
+   *  Next five lines:
+   *  1. u and f are initialized as threedimensinal arrays of shape [NX,NY,NZ].  
+   *  2. The maximumnorm of u before the relaxation is calculated.
+   *  3. The relaxation is done
+   *  4. The maximumnorm of u after the relaxation is calculated.
+   *  5. The convergence-rate of the relaxation is calculated, 
+   *      by the two maximumnorm-values.
+   */
+  u, f = init (h);
+  res1 = maxnorm(u,f,h);
+  u = relax (u, f, h, ITER);
+  res2 = maxnorm(u,f,h);
+  convr = pow(res2/res1,0.1d); 
+
+  /* 
+   *  Printing results.
+   */
+  printf("Number of internal points per direction  = x%i y%i z%i\n", NX-2, NY-2, NZ-2);
+  printf("Internal gridsize of cubic grid          = %i\n", (NX-2) * (NY-2) * (NZ - 2));
+  printf("Average convergence rate (%i Iterations) = %g\n", ITER, convr); 
+
+  printf("STOP\n");
+  return(0);
+}
