@@ -108,3 +108,4 @@ int main()
   printf( "sum( logd( 0.5 + tod(iota([%d])))) = %f\n", N, res);
   return(0);
 }
+

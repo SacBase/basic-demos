@@ -46,3 +46,4 @@ functions:
   void print(IntStack &stack);
   void print();
 }
+
