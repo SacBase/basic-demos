@@ -25,7 +25,6 @@
  *             <basetype> from_<class> (<class> cls)
  * and         <class>    to_<class> (<basetype> val).
  *
- * 
  */
 
 
