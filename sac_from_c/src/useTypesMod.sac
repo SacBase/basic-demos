@@ -1,0 +1,35 @@
+Module useTypesMod:
+import List: all;
+import Random: all;
+import ScalarIO: all;
+
+list newList()
+{
+  return(nil());
+}
+
+list appendList(list l1, list l2)
+{
+  return(append(l1, l2));
+}
+
+list fillList(list l, int count)
+{
+  int i;
+  for(i=1; i<=count; i++) {
+    l = cons(random(1, 100), l);
+  }
+  return(l);
+}
+
+void printList(list l)
+{
+  print("list: <");
+  while(length(l)>0) {
+    print(hd(l));
+    print(" ");
+    l = drop(1,l);
+  } 
+  print(">\n");
+}
+
