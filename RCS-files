@@ -1,8 +1,12 @@
+APLlogd3.sac
 IntStack.dec
 IntStack.sac
 Makefile
+NASmg_rotate.sac
+NASmg_with_borders.sac
 README
 arrays.sac
+gcd.sac
 relax.sac
 use_CommandLine.sac
 use_IntStack.sac
