@@ -1,4 +1,5 @@
 import StdIO: all;
+import Array: all;
 
 void NewBlock()
 {
