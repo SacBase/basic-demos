@@ -1,0 +1,26 @@
+ModuleDec external List:
+
+/*
+ *  The SAC standard module List provides lists of integers as an
+ *  additional data type offering access functions as usual.
+ */
+
+own: 
+{
+  implicit types: list;
+
+  functions:
+
+    list nil();					#pragma refcounting [0]
+    list cons( int ELEM, list LIST);		#pragma refcounting [0,2]
+    int  hd( list LIST);			#pragma refcounting [1]
+    list tl( list LIST);			#pragma refcounting [0,1]
+    bool empty( list LIST);			#pragma refcounting [1]
+    list append( list LIST1, list LIST2);	#pragma refcounting [0,1,2]
+    int  nth( int N, list LIST);		#pragma refcounting [2]
+    int  length( list LIST);			#pragma refcounting [1]
+    list drop( int N, list LIST);		#pragma refcounting [0,2]
+    list take( int N, list LIST);		#pragma refcounting [0,2]
+}
+    
+

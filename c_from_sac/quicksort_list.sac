@@ -1,0 +1,30 @@
+import List:all;
+import StdIO: all;
+
+void print( list l)
+{
+  printf( "(");
+  if( !empty( l)) {
+    printf( "%d", hd( l));
+  }
+  print_tl( tl( l));
+}
+
+void print_tl( list l)
+{
+  if( empty( l)) {
+    printf( ")\n" );
+  } else {
+    printf( ":%d", hd( l));
+    print_tl( tl( l));
+  }
+}
+
+int main()
+{
+  l = cons( 1, nil());
+
+  print( l);
+
+  return(0);
+}
