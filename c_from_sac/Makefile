@@ -10,6 +10,7 @@ SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3
 # Setup for Makefile.standard:
 #
 # EXCLUDE_FILES               =
+MAKE_MT_ALSO                = yes
 # TARGETDIR                   = .
 # LIBTARGETDIR                = .
 LIBSRCDIR                   = $(patsubst %.libDD,src/%/,$@)
@@ -26,3 +27,4 @@ CHECKLOGFILE    = ./CHECKLOG
 #######################################################################################
 
 include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
+

@@ -15,6 +15,7 @@ export SAC_LIBRARY_PATH := $(SAC_LIBRARY_PATH):../lib
 # Setup for Makefile.standard:
 #
 # EXCLUDE_FILES               =
+# MAKE_MT_ALSO                =
 # TARGETDIR                   = .
 LIBTARGETDIR                = ../lib
 INCTARGETDIR                = ../include

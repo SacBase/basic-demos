@@ -10,6 +10,7 @@ SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3
 # Setup for Makefile.standard:
 #
 # EXCLUDE_FILES               =
+# MAKE_MT_ALSO                =
 # TARGETDIR                   = .
 LIBTARGETDIR                = lib
 INCTARGETDIR                = include
