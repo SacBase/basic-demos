@@ -19,13 +19,10 @@ SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3
 #
 # Setup for Makefile.check:
 #
+CHECKLOGFILE    = ./CHECKLOG
 # CHECKDIR = .checkdir
 # RT_FLAGS =
 #
 #######################################################################################
 
 include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
-
-
-
-

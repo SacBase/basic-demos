@@ -19,10 +19,10 @@ MAKE_NON_LOCAL_DEPENDENCIES = yes
 #
 # Setup for Makefile.check:
 #
+CHECKLOGFILE    = ./CHECKLOG
 # CHECKDIR = .checkdir
 # RT_FLAGS =
 #
 #######################################################################################
 
 include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
-

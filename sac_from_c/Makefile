@@ -20,7 +20,7 @@ SUBDIRS                     = src
 #
 # Setup for Makefile.check:
 #
-# CHECKLOGFILE    = $(HOME)/sac/CHECKLOG
+CHECKLOGFILE    = ./CHECKLOG
 # CHECKDIR        = .checkdir
 # RT_FLAGS        =
 # INPSDIR         = .
