@@ -7,7 +7,8 @@ NASmg_with_borders.sac
 README
 arrays.sac
 gcd.sac
-relax.sac
+relax_fix.sac
+relax_fix_rotate.sac
 use_CommandLine.sac
 use_IntStack.sac
 use_String.sac
