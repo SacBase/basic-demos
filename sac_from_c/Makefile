@@ -1,5 +1,8 @@
 #
 # $Log$
+# Revision 1.3  2000/11/17 13:54:56  nmw
+# *** empty log message ***
+#
 # Revision 1.2  2000/11/17 13:13:06  nmw
 # cvs header added
 #
@@ -85,4 +88,4 @@ libobjectsMod.a:src/objectsMod.sac IntStack.lib
 clean: local_clean
 
 local_clean:
-	rm -rf lib/*.a lib/*.lib include/*.h *.dec tutorial relax overload usePhm features useTwoLibs objects
+	rm -rf lib/*.a lib/*.lib include/*.h *.dec src/.*.d tutorial relax overload usePhm features useTwoLibs objects
