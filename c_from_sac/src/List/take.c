@@ -8,10 +8,10 @@
 
 #ifdef TAGGED_ARRAYS
 
-#define res_nt (res, (AUD, (NHD, (NUQ,))))
+#define res_nt   (res,   (AUD, (NHD, (NUQ,))))
 #define elems_nt (elems, (AUD, (NHD, (NUQ,))))
-#define new_nt (new, (AUD, (NHD, (NUQ,))))
-#define last_nt (last, (AUD, (NHD, (NUQ,))))
+#define new_nt   (new,   (AUD, (NHD, (NUQ,))))
+#define last_nt  (last,  (AUD, (NHD, (NUQ,))))
 
 void _take( SAC_ND_PARAM_out( res_nt, list),
             int n,
@@ -28,17 +28,17 @@ void _take( SAC_ND_PARAM_out( res_nt, list),
 
   last = (list *) SAC_MALLOC( sizeof( list));
   last->rest = NULL;
-  last->rc = (int *) SAC_MALLOC( sizeof( int));
-  *(last->rc) = 1;
+  SAC_ND_ALLOC__DESC( last_nt)
+  SAC_ND_SET__RC( last_nt, 1)
+  last->desc = SAC_ND_A_DESC( last_nt);
 #if TRACE
   fprintf( stderr, "creating NIL  at (%p)\n", last);
 #endif
 
   if (n == 0) {
-    SAC_ND_SET__RC( last_nt, 1)
     SAC_ND_RET_out( res_nt, last_nt)
 
-    if (--(*(elems->rc)) == 0) {
+    if (--(DESC_RC( elems->desc)) == 0) {
       free_list( elems);
     }
   }
@@ -47,7 +47,7 @@ void _take( SAC_ND_PARAM_out( res_nt, list),
      * Now, we do know that we have to take at least one element!
      */
 
-    if (*(elems->rc) == 1) { 
+    if (DESC_RC( elems->desc) == 1) { 
       /*
        * re-use all elems while ((rc == 1) && (n > 0)) !
        */
@@ -60,11 +60,11 @@ void _take( SAC_ND_PARAM_out( res_nt, list),
         new = elems;
         elems = elems->rest;
       }
-      while ((--n > 0) && (*(elems->rc) == 1));
+      while ((--n > 0) && (DESC_RC( elems->desc) == 1));
       /*
        * Now, we decrement the "rest" of elems.
        */
-      if (--(*(elems->rc)) == 0) {
+      if (--(DESC_RC( elems->desc)) == 0) {
         free_list( elems);
       }
 #if TRACE
@@ -82,16 +82,16 @@ void _take( SAC_ND_PARAM_out( res_nt, list),
        * After doing so, we have to decrement the rc of elems!
        */
       new = (list *) SAC_MALLOC( sizeof( list));
-      new->rc = (int *) SAC_MALLOC( sizeof( int));
-      *(new->rc) = 1;
       new->elem = elems->elem;
+      SAC_ND_ALLOC__DESC( new_nt)
+      SAC_ND_SET__RC( new_nt, 1)
+      new->desc = SAC_ND_A_DESC( new_nt);
 #if TRACE
       fprintf( stderr, "creating CONS at (%p)\n", new);
 #endif
-      SAC_ND_SET__RC( new_nt, 1);
       SAC_ND_RET_out( res_nt, new_nt);
 
-      (*(elems->rc))--;
+      (DESC_RC( elems->desc))--;
       elems = elems->rest; /* elems has to be one in advance of new! */
       n--;
     }
@@ -111,8 +111,10 @@ void _take( SAC_ND_PARAM_out( res_nt, list),
 #endif
       new = new->rest;
       new->elem = elems->elem;
-      new->rc = (int *) SAC_MALLOC( sizeof( int));
-      *(new->rc) = 1;
+      SAC_ND_ALLOC__DESC( new_nt)
+      SAC_ND_SET__RC( new_nt, 1)
+      new->desc = SAC_ND_A_DESC( new_nt);
+
       elems = elems->rest;
       n--;
     }

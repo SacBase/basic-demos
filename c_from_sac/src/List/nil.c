@@ -17,15 +17,14 @@ void nil( SAC_ND_PARAM_out( res_nt, list))
 
   res = (list *) SAC_MALLOC( sizeof( list));
   res->rest = NULL;
-
-  res->rc = (int *) SAC_MALLOC( sizeof( int));
-  (*res->rc) = 1;
+  SAC_ND_ALLOC__DESC( res_nt)
+  SAC_ND_SET__RC( res_nt, 1)
+  res->desc = SAC_ND_A_DESC( res_nt);
 
 #if TRACE
   fprintf( stderr, "creating NIL at (%p)\n", res);
 #endif
 
-  SAC_ND_SET__RC( res_nt, 1)
   SAC_ND_RET_out( res_nt, res_nt)
 }
 

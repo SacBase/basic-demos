@@ -16,7 +16,7 @@ int empty( SAC_ND_PARAM_in( elems_nt, list))
 
   res = (elems->rest == NULL);
 
-  if (--(*(elems->rc)) == 0) {
+  if (--(DESC_RC( elems->desc)) == 0) {
     free_list( elems);
   }
 

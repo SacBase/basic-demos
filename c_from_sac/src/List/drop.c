@@ -8,7 +8,7 @@
 
 #ifdef TAGGED_ARRAYS
 
-#define res_nt (res, (AUD, (NHD, (NUQ,))))
+#define res_nt   (res,   (AUD, (NHD, (NUQ,))))
 #define elems_nt (elems, (AUD, (NHD, (NUQ,))))
 
 void drop( SAC_ND_PARAM_out( res_nt, list),
@@ -29,13 +29,13 @@ void drop( SAC_ND_PARAM_out( res_nt, list),
     res=res->rest;
     n--;
   }
-  (*(res->rc))++;
+  (DESC_RC( res->desc))++;
 
-  if (--(*(elems->rc)) == 0) {
+  if (--(DESC_RC( elems->desc)) == 0) {
     free_list( elems);
   }
 
-  SAC_ND_SET__RC( res_nt, *(res->rc))
+  SAC_ND_A_DESC( res_nt) = res->desc;
   SAC_ND_RET_out( res_nt, res_nt)
 }
 
