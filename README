@@ -37,7 +37,15 @@ SAC demo programs:
 ==================
 
 
-1) arrays.sac
+1) gcd.sac
+
+This SAC demo program is ment as a very basic, introductory example.
+It prints the greatest common denominator of 22 and 27. The main objective
+of this program is to demonstrate the similarity between SAC and C programs.
+Furthermore, it makes use of some minor extensions introduced in SAC for
+convenience reasons, e.g. ommited type declarations or multiple return values.
+
+2) arrays.sac
 
 This SAC demo program prints an introduction to the SAC array concept.
 Basic issues like the SAC specific representation of arrays are covered
@@ -47,43 +55,80 @@ of SAC, but are now provided by the module 'Array' from the SAC standard
 library, is explained by means of examples.
 
 
-2) withloop.sac
+3) withloop.sac
 
 This SAC demo program prints an introduction to the SAC specific array
 construct with-loop. However, only a subset of the complete functionality
 of today's with-loops is covered by this demo program.
 
 
-3) use_CommandLine.sac
+4) use_CommandLine.sac
 
 This SAC demo program prints a reference guide to the module 'CommandLine'
 from the SAC standard library. This module provides access to the command
 line arguments of a SAC application program.
 
 
-4) use_String.sac
+5) use_String.sac
 
 This SAC demo program prints a reference guide to the module 'String' from
 he SAC standard library. This module provides strings as an abstract data type
 along with a large set of operations on strings.
 
 
-5) use_IntStack.sac
+6) use_IntStack.sac
 
 This SAC demo program demonstrates the usage of the demo class IntStack
 (see above). Some comprehensive stack operations are defined based on the
 stack primitives provided by the class IntStack. These are applied to various
-example stacks and the respective rsults are printed.
+example stacks and the respective results are printed.
 
 
-6) relax.sac
+7) relax.sac
 
 This SAC demo program implements 2-dimensional relaxation with a 4-point
 stencil and fixed boundary conditions. This is a typical example of a 
 program used for benchmarking.
 
 
+8) NASmg_with_borders.sac
+
+This is the SAC implementation of the NAS benchmark MG. The main goal
+of this implementation is to to specify exactly the same algorithm as 
+given in the Fortran benchmark, but try to specify it much more elegantly.
+For more details see <hhtp://www.informatik.uni-kiel.de/~sacbase/papers/
+scientific-applications-sac-bonn-96.ps.gz>.
+The source code contains 4 different versions which can be selected by
+setting two compiler flags. For details concerning these versions see the
+comments in the source code itself.
+
+For running this demo, an input_file has to be specified which contains the size
+as well as the non-zero elements of the initial array. Some of these can be found
+in inputs/NASmg*.
 
 
+9) NASmg_rotate.sac
 
+This is another SAC implementation of the NAS benchmark MG. The difference
+in comparison to NASmg_with_borders.sac is that the multigrid relaxation
+is not performed on arrays which carry copies of the "opposite borders"
+but on arrays without borders. This is achieved by using rotate functions
+which cyclicly shift elements of arrays. By means of With-Loop-Folding
+this program can be transformed into code which is competitive with the code
+generated from NASmg_with_borders.sac. For more details see
+<hhtp://www.informatik.uni-kiel.de/~sacbase/papers/wlf-exp-london-98.ps.gz>.
+
+Warning: due to some "non-optimal" design decisions made in the sac2c compiler,
+the compilation of this file requires about 1 GByte of memory for compilation.
+We hope to come up with a better solution for the next release...
+
+For running this demo, an input_file has to be specified which contains the size
+as well as the non-zero elements of the initial array. Some of these can be found
+in inputs/NASmg*.
+
+
+10) APLlogd3.sac
+
+This is a very small benchmark which demonstrates the capabilities of With-Loop-
+Folding in the context of APL / APL expressions.
 
