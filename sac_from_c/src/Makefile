@@ -3,7 +3,7 @@
 # General Setup:
 #
 SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3 -noWLUR
-#SAC2CFLAGS += -noopt
+#SAC2CFLAGS += -noopt -doPHM -doAPS -doRCAO -doMSCA
 
 #
 # just to make sure that local dependencies can be ressolved properly:
