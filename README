@@ -191,3 +191,12 @@ This version is derived from an FORTRAN 90 implementation.
 18) shallow.sac
 
 The shallow-water-benchmark ...
+Use -D to change parameters, for further comments refer to sac file:
+  -DMM      modifies x-direction (default 65 resulting in 64 rows)
+  -DNN      modifies y-direction (default MM resulting in MM - 1 columns)
+            DIRECTIONS will be subtracted by 1!
+  -DITER    modifies iterations (default 50)
+  -DMPRINT  tellss when printing is done
+Also changeable: 
+  - Usage of floats (default) or doubles (-DUSEDOUBLES).
+  - Inlininge: Some functions will be inlined only if -DDOINL is set.
