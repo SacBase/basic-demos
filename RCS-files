@@ -15,6 +15,7 @@ mconv.sac
 pde1.sac
 relax_fix.sac
 relax_fix_rotate.sac
+shallow.sac
 use_CommandLine.sac
 use_IntStack.sac
 use_String.sac
