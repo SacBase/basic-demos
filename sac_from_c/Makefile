@@ -49,6 +49,7 @@ INCS       = -I$(SACBASE)/runtime -I$(INCTARGETDIR)
 CCFLAGS   += $(LIBS) $(INCS)
 
 
+
 ################################################################################
 #
 # tutorial:
@@ -57,7 +58,7 @@ CCFLAGS   += $(LIBS) $(INCS)
 tutorial.d: tutorialMod.aDD tutorial
 
 tutorial: tutorial.c include/tutorialMod.h
-	$(CC) $(CCFLAGS) $(LDFLAGS) -o tutorial tutorial.c -ltutorialMod -lsac_heapmgr -lsac
+	$(CC) $(CCFLAGS) $(LDFLAGS) -o tutorial tutorial.c -ltutorialMod $(LIB_PHM) -lsac
 
 
 ################################################################################
@@ -68,7 +69,7 @@ tutorial: tutorial.c include/tutorialMod.h
 relax.d: relaxMod.aDD relax
 
 relax: relax.c include/relaxMod.h
-	$(CC) $(CCFLAGS) $(LDFLAGS) -o relax relax.c -lrelaxMod -lsac_heapmgr -lsac
+	$(CC) $(CCFLAGS) $(LDFLAGS) -o relax relax.c -lrelaxMod $(LIB_PHM) -lsac
 
 
 ################################################################################
@@ -79,7 +80,7 @@ relax: relax.c include/relaxMod.h
 overload.d: overloadMod.aDD overload
 
 overload: overload.c include/overloadMod.h
-	$(CC) $(CCFLAGS) $(LDFLAGS) -o overload overload.c -loverloadMod  -lsac_heapmgr -lsac
+	$(CC) $(CCFLAGS) $(LDFLAGS) -o overload overload.c -loverloadMod  $(LIB_PHM) -lsac
 
 
 ################################################################################
@@ -92,7 +93,7 @@ usePhm.d:
 	$(MAKE) usePhm
 
 usePhm: usePhm.c include/usePhmMod.h
-	$(CC) $(CCFLAGS) $(LDFLAGS) -o usePhm usePhm.c -lusePhmMod -lsac_heapmgr -lsac
+	$(CC) $(CCFLAGS) $(LDFLAGS) -o usePhm usePhm.c -lusePhmMod $(LIB_PHM) -lsac
 
 
 ################################################################################
@@ -121,7 +122,7 @@ features: features.c include/featuresMod_fix.h include/featuresMod_gen.h
 	                 $(SACBASE)/stdlib/hidden/lib/MathC.a \
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
-	                 $(LIB_M) -lsac_heapmgr -lsac
+	                 $(LIB_M) $(LIB_PHM) -lsac
 
 
 ################################################################################
@@ -147,7 +148,7 @@ useTwoLibs: useTwoLibs.c include/useTwoLibsMod1.h include/useTwoLibsMod2.h
 	                 $(SACBASE)/stdlib/hidden/lib/MathC.a \
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
-	                 $(LIB_M) -lsac_heapmgr -lsac
+	                 $(LIB_M) $(LIB_PHM) -lsac
 
 
 ################################################################################
@@ -175,7 +176,7 @@ objects: objects.c include/IntStack.h include/objectsMod.h
 	                 $(SACBASE)/stdlib/hidden/lib/MathC.a \
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
-	                 $(LIB_M) -lsac_heapmgr -lsac
+	                 $(LIB_M) $(LIB_PHM) -lsac
 
 
 ################################################################################
@@ -199,7 +200,7 @@ useTypes: useTypes.c include/useTypesMod.h
 			$(SACBASE)/stdlib/modules/structures/lib/List.a \
 			$(SACBASE)/stdlib/hidden/lib/MathC.a \
 			$(SACBASE)/stdlib/modules/structures/lib/Char.a \
-			$(LIB_M) -lsac_heapmgr -lsac
+			$(LIB_M) $(LIB_PHM) -lsac
 
 
 
