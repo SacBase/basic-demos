@@ -1,4 +1,5 @@
 import StdIO: all;
+import Array: all;
 
 #define MAXINT 1000
 
@@ -26,8 +27,8 @@ int main()
   NewBlock();
 
   print("with([1,1] <= idx <= [2,2])\n");
-  print("genarray([4,4,2], idx)           equals:\n");
-  print(with([1,1] <= idx <= [2,2]) genarray([4,4,2], idx));
+  print("genarray([4,4], idx)           equals:\n");
+  print(with([1,1] <= idx <= [2,2]) genarray([4,4], idx));
   NewBlock();
 
   print("with([0,1] <= idx <= [2,2])\n");
