@@ -1,6 +1,9 @@
 /*
  *
  * $Log$
+ * Revision 3.1  2000/11/20 18:07:02  sacbase
+ * new release made
+ *
  * Revision 1.2  2000/11/17 13:14:08  nmw
  * cvs header added
  *
@@ -81,4 +84,5 @@ This demo shows the usage of a SAC class/object. This example uses the
 "IntStack.sac" demo class. The c program uses this int stack as abstract
 datatype. There is also an example access to the global IntStack from
 a second SAC module.
+
 

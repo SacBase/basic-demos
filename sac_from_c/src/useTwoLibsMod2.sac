@@ -1,6 +1,9 @@
 /*
  *
  * $Log$
+ * Revision 3.1  2000/11/20 18:07:17  sacbase
+ * new release made
+ *
  * Revision 1.1  2000/11/17 13:31:19  nmw
  * Initial revision
  *
@@ -17,3 +20,4 @@ int fun(int value)
   print("\n");
   return(value+1);
 }
+

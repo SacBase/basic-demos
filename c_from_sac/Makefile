@@ -25,3 +25,4 @@ MAKE_NON_LOCAL_DEPENDENCIES = yes
 #######################################################################################
 
 include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
+

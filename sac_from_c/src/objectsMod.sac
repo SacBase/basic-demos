@@ -1,6 +1,9 @@
 /*
  *
  * $Log$
+ * Revision 3.1  2000/11/20 18:07:14  sacbase
+ * new release made
+ *
  * Revision 1.1  2000/11/17 13:28:31  nmw
  * Initial revision
  *
@@ -20,3 +23,4 @@ int GetLastItemFromStack()
 
   return(v);
 }
+

@@ -1,6 +1,9 @@
 /*
  *
  * $Log$
+ * Revision 3.1  2000/11/20 18:07:16  sacbase
+ * new release made
+ *
  * Revision 1.1  2000/11/17 13:30:32  nmw
  * Initial revision
  *
@@ -20,3 +23,4 @@ functions:
   int[] addVectors(int[20] v1, int[20] v2);
   int[] addVectors(int[30] v1, int[30] v2);
 }
+
