@@ -2,7 +2,7 @@ Module useTypesMod:
 
 import List: all;
 import Random: all;
-import ScalarIO: all;
+import StdIO: all;
 
 list newList()
 {
@@ -25,12 +25,12 @@ list fillList(list l, int count)
 
 void printList(list l)
 {
-  print("list: <");
+  printf("list: <");
   while(length(l)>0) {
-    print(hd(l));
-    print(" ");
-    l = drop(1,l);
+    printf( "%d", hd(l));
+    printf( " ");
+    l = drop( 1, l);
   } 
-  print(">\n");
+  printf(">\n");
 }
 

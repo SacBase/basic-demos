@@ -4,8 +4,9 @@ import StdIO: all;
 
 int[20] fun(int[20] v, int value)
 {
-  print(">>> output from useTwoLibsMod1: fun via ");
+  printf(">>> output from useTwoLibsMod1: fun via ");
   print(v); 
+
   return(v+value);
 }
 
