@@ -6,30 +6,30 @@
 #include "List.h"
 
 
-void append( SAC_ND_KS_DEC_OUT_RC(list *, res),
-             SAC_ND_KS_DEC_IN_RC(list *, elemsA), SAC_ND_KS_DEC_IN_RC(list *, elemsB))
+void append( SAC_ND_PARAM_out_rc(list *, res),
+             SAC_ND_PARAM_in_rc(list *, elemsA),
+             SAC_ND_PARAM_in_rc(list *, elemsB))
 {
-/*
- * we do have now:
- * - list **res__p;
- * -  int **res__rc__p;
- * - list *elemsA;
- * -  int *elemsA__rc;
- * - list *elemsB;
- * -  int *elemsB__rc;
- */
+  /*
+   * we do have now:
+   * - list **res__p;
+   * -  int **res__rc__p;
+   * - list *elemsA;
+   * -  int *elemsA__rc;
+   * - list *elemsB;
+   * -  int *elemsB__rc;
+   */
   list *new;
 
-
-  if ( elemsA->rest == NULL) { /* elemsA == NIL! */
+  if (elemsA->rest == NULL) { /* elemsA == NIL! */
     *res__p = elemsB;
     *res__rc__p = elemsB__rc;
-    if(--elemsA->rc == 0)
+    if (--elemsA->rc == 0)
       free_list( elemsA);
   }
   else {
 
-    if( elemsA->rc == 1) { /* re-use all elems while rc==1 ! */
+    if (elemsA->rc == 1) { /* re-use all elems while rc==1 ! */
       *res__p = elemsA;
       *res__rc__p = elemsA__rc;
 
@@ -49,7 +49,7 @@ void append( SAC_ND_KS_DEC_OUT_RC(list *, res),
        */
       elemsA->rc--;
 #if TRACE
-    fprintf( stderr, "changing CONS at (%p)\n", new);
+      fprintf( stderr, "changing CONS at (%p)\n", new);
 #endif
     }
 
@@ -73,8 +73,8 @@ void append( SAC_ND_KS_DEC_OUT_RC(list *, res),
     while( elemsA->rest != NULL) {
       new->rest = (list *)SAC_MALLOC(sizeof(list));
 #if TRACE
-    fprintf( stderr, "       [ %d   .   (%p)]\n", new->elem, new->rest);
-    fprintf( stderr, "creating CONS at (%p)\n", new->rest);
+      fprintf( stderr, "       [ %d   .   (%p)]\n", new->elem, new->rest);
+      fprintf( stderr, "creating CONS at (%p)\n", new->rest);
 #endif
       new = new->rest;
       new->rc = 1;
@@ -86,9 +86,8 @@ void append( SAC_ND_KS_DEC_OUT_RC(list *, res),
     fprintf( stderr, "       [ %d   .   (%p)]\n", new->elem, new->rest);
 #endif
     /* Finally, we have to do some housekeeping! (see comment above!) */
-    if( elemsA->rc == 0)
+    if( elemsA->rc == 0) {
       free_list(elemsA);
+    }
   }
 }
-
-
