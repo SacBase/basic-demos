@@ -1,3 +1,13 @@
+/*
+ *
+ * $Log$
+ * Revision 1.2  2000/11/17 13:07:34  nmw
+ * CVS header added
+ *
+ *
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "sac_cinterface.h"
