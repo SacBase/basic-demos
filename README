@@ -181,3 +181,9 @@ and requires the compiler to do some aggressive optimizations 8-))
 This version is derived from an APL implementation of TOMCATV and thus heavily
 is based on aggregate operations.
 
+
+17) pde1.sac
+
+The PDE1 benchmark is a 3D Poisson solver using red/black sucessive over-relaxation.
+This version is derived from an FORTRAN 90 implementation.
+
