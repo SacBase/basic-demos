@@ -28,8 +28,8 @@ import ArrayIO:all;
 import ScalarIO:all;
 
 /*
- *  ATTENTION: Due to problems with with the amount of memory needed for
- *             compilation of the program, not all important functions are inlined!!!
+ *  ATTENTION: Due to problems with the amount of memory needed for compilation
+ *             of the program, not all important functions are inlined!!!
  *             To achieve better performance define DOINL, so all the functions
  * 	       will be inlied.
  */
