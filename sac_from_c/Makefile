@@ -8,7 +8,7 @@ SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3
 #
 # Setup for Makefile.standard:
 #
-# EXCLUDE_FILES               = 
+# EXCLUDE_FILES               =
 # TARGETDIR                   = .
 LIBTARGETDIR                = lib
 INCTARGETDIR                = include
@@ -40,7 +40,8 @@ CCFLAGS = -ansi -g -Wall $(LIBS) $(INCS)
 LIBS    = -L$(SACBASE)/runtime -L$(LIBTARGETDIR)
 INCS    = -I$(SACBASE)/runtime -I$(INCTARGETDIR)
 
-TARGETS    = tutorial relax overload usePhm features useTwoLibs objects useTypes
+# TARGETS    = tutorial relax overload usePhm features useTwoLibs objects useTypes
+TARGETS    = tutorial relax usePhm features useTwoLibs objects useTypes
 DEPTARGETS = $(patsubst %,%.d,$(TARGETS))
 
 all: $(DEPTARGETS)
@@ -48,7 +49,6 @@ all: $(DEPTARGETS)
 RES_FILES  = $(patsubst %,$(CHECKDIR)/%.res,$(TARGETS))
 
 include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
-
 
 
 ################################################################################
@@ -90,11 +90,11 @@ overload: overload.c include/overloadMod.h
 #
 
 usePhm.d:
-	$(MAKE) "SAC2CFLAGS= $(SAC2CFLAGS) -check h" usePhmMod.aDD
+	$(MAKE) usePhmMod.aDD
 	$(MAKE) usePhm
 
 usePhm: usePhm.c include/usePhmMod.h
-	$(CC) $(CCFLAGS) -o usePhm usePhm.c -lusePhmMod -lsac_heapmgr_diag -lsac
+	$(CC) $(CCFLAGS) -o usePhm usePhm.c -lusePhmMod -lsac_heapmgr -lsac
 
 
 ################################################################################
@@ -103,8 +103,8 @@ usePhm: usePhm.c include/usePhmMod.h
 #
 
 features.d:
-	$(MAKE) "SAC2CFLAGS= $(SAC2CFLAGS) -check h" featuresMod_fix.aDD
-	$(MAKE) "SAC2CFLAGS= $(SAC2CFLAGS) -check h" featuresMod_gen.aDD
+	$(MAKE) featuresMod_fix.aDD
+	$(MAKE) featuresMod_gen.aDD
 	$(MAKE) features
 
 features: features.c include/featuresMod_fix.h include/featuresMod_gen.h
@@ -123,7 +123,7 @@ features: features.c include/featuresMod_fix.h include/featuresMod_gen.h
 	                 $(SACBASE)/stdlib/hidden/lib/MathC.a \
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
-	                 -lm -lsac_heapmgr_diag -lsac
+	                 -lm -lsac_heapmgr -lsac
 
 
 ################################################################################
@@ -214,3 +214,5 @@ clean: local_clean
 
 local_clean:
 	$(RM) $(TARGETS)
+
+
