@@ -18,8 +18,9 @@
 
 #define SIZE 10
 
-import List:all;
+import List: all;
 import StdIO: all;
+import Clock: all;
 import Random: all;
 
 /******************************************************************************
@@ -95,6 +96,8 @@ list, list sort( int pivot, list l)
 int main()
 {
   l = nil();
+
+  srandom( sec( gettime()));
 
   for( i=0; i<SIZE; i++) {
     l = cons( random( 0, 100), l);
