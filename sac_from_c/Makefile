@@ -120,6 +120,7 @@ features: features.c include/featuresMod_fix.h include/featuresMod_gen.h
 	                 $(SACBASE)/stdlib/world/stdio/lib/File.a \
 	                 $(SACBASE)/stdlib/modules/structures/lib/List.a \
 	                 $(SACBASE)/stdlib/modules/structures/lib/Char.a \
+	                 $(SACBASE)/stdlib/modules/structures/lib/Constants.a \
 	                 $(SACBASE)/stdlib/hidden/lib/MathC.a \
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
