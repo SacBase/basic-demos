@@ -39,3 +39,6 @@ CHECKLOGFILE                = ../CHECKLOG
 #######################################################################################
 
 include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
+
+MODTARGETS    := $(patsubst $(LIBTARGETDIR)/%.lib,$(LIBTARGETDIR)/lib%.a, $(MODTARGETS))
+
