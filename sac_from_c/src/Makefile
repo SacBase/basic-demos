@@ -25,7 +25,7 @@ INCTARGETDIR                = ../include
 #
 # Setup for Makefile.check:
 #
-CHECKLOGFILE    = ./CHECKLOG
+CHECKLOGFILE    = ../CHECKLOG
 # CHECKDIR = .checkdir
 # RT_FLAGS =
 #
