@@ -1,0 +1,193 @@
+/*
+ * Class IntStack:
+ *
+ * The class IntStack implements an integer stack. The stack itself
+ * is implemented by means of an integer vector where the first element
+ * of the vector is used as a stack pointer that always denotes the vector
+ * element that contains the upmost element.
+ *
+ * A stack is a typical application for a state-based data structure.
+ * Classes are the means to integrate states and state modifications into
+ * the purely functional framework of SAC.
+ *
+ * A class is similar to a module; in fact, it actually is a module. The
+ * major difference to a module is that a class always implicitly exports
+ * an abstract data type which has the same name as the class itself.
+ * This type may exclusively be used in a unique way what is checked by
+ * the SAC compiler sac2c. 
+ *
+ * Unsurprisingly, a class implementation as can be found below, must
+ * contain a definition of this unique abstract data type. This is done
+ * using the keyword 'classtype'. However, in order to be able to define
+ * any operations on this type, it has to be converted to and from the 
+ * regular data type by which it is implemented. This can be done using 
+ * the two generic conversion functions
+ *             <basetype> from_<class> (<class> cls)
+ * and         <class>    to_<class> (<basetype> val).
+ *
+ * 
+ */
+
+
+#ifndef STACKSIZE
+#define STACKSIZE 101
+#endif  /* STACKSIZE */
+
+
+Class IntStack:
+
+
+classtype int[STACKSIZE];
+
+
+import StdIO:all;
+import Array:all;
+
+
+objdef IntStack Stack=create_stack();
+
+
+IntStack create_stack()
+{
+  A = with (. <= iv <= .) genarray([STACKSIZE], 0);
+
+  stack = to_IntStack(A);
+  
+  return(stack);
+}
+
+void delete_stack(IntStack stack)
+{
+  A = from_IntStack(stack);
+}
+
+void push(IntStack &stack, int val)
+{
+  A = from_IntStack(stack);
+
+  tos = A[[0]];
+  A[[tos+1]] = val;
+  A[[0]] = tos+1;
+  
+  stack = to_IntStack(A);
+}
+
+int pop(IntStack &stack)
+{
+  A = from_IntStack(stack);
+
+  tos = A[[0]];
+  val = A[[tos]];
+  A[[0]] = tos-1;
+  
+  stack = to_IntStack(A);
+
+  return(val);
+}
+
+int top(IntStack &stack)
+{
+  A = from_IntStack(stack);
+
+  tos_vec = take([1], A);
+  val = A[tos_vec];
+  
+  stack = to_IntStack(A);
+
+  return(val);
+}
+
+bool is_empty(IntStack &stack)
+{
+  A = from_IntStack(stack);
+
+  tos = A[[0]];
+
+  if (tos<1) {
+    result = true;
+  }
+  else {
+    result = false;
+  }
+  
+  stack = to_IntStack(A);
+
+  return(result);
+}
+  
+
+bool is_full(IntStack &stack)
+{
+  A = from_IntStack(stack);
+
+  tos = A[[0]];
+
+  if (tos>=STACKSIZE-1) {
+    result = true;
+  }
+  else {
+    result = false;
+  }
+  
+  stack = to_IntStack(A);
+
+  return(result);
+}
+
+int size(IntStack &stack)
+{
+  return(STACKSIZE-1);
+}
+
+void print(IntStack &stack)
+{
+  A = from_IntStack(stack);
+
+  tos = A[[0]];
+
+  printf("stack: > ");
+  for (i=1; i<=tos; i++) {
+    printf("%d > ", A[[i]]);
+  }
+  printf("|\n");       
+  
+  stack = to_IntStack(A);
+}
+
+
+
+void push(int val)
+{
+  push(Stack, val);
+}
+
+int pop()
+{
+  return(pop(Stack));
+}
+
+int top()
+{
+  return(top(Stack));
+}
+
+bool is_empty()
+{
+  return(is_empty(Stack));
+}
+
+bool is_full()
+{
+  return(is_full(Stack));
+}
+
+int size()
+{
+  return(size(Stack));
+}
+
+void print()
+{
+  print(Stack);
+}
+

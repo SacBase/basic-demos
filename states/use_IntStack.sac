@@ -1,0 +1,162 @@
+/*
+ * use_stacks.sac
+ *
+ * This is a small demo program that shows how to use the class
+ * IntStack.
+ *
+ */
+
+
+import IntStack: all;
+
+import IOresources: all;
+
+import StdIO: 
+{
+functions:
+  printf;
+}
+
+import String:
+{
+implicit types:
+  string;
+ 
+functions:
+  to_string;
+}
+
+
+void write_to_stack(IntStack &stack)
+{
+  for (i=0; (i<10) && !is_full(stack); i++) {
+    push(stack, i);
+  }
+}
+
+void pop_entire_stack(IntStack &stack) 
+{
+  while (!is_empty(stack)) {
+    val = pop(stack);
+    printf("pop %d\n", val);
+  }
+}
+
+IntStack create_reverse_stack(IntStack &stack) 
+{
+  new_stack = create_stack();
+  help_stack = create_stack();
+  
+  while(!is_empty(stack)) {
+    push(new_stack, top(stack));
+    push(help_stack, pop(stack));
+  }
+  
+  while(!is_empty(help_stack)) {
+    push(stack, pop(help_stack));
+  }
+  
+  delete_stack(help_stack);
+  
+  return(new_stack);
+}
+
+IntStack create_copy_stack(IntStack &stack) 
+{
+  help_stack = create_stack();
+  
+  while(!is_empty(stack)) {
+    push(help_stack, pop(stack));
+  }
+  
+  new_stack = create_stack();
+
+  while(!is_empty(help_stack)) {
+    push(new_stack, top(help_stack));
+    push(stack, pop(help_stack));
+  }
+  
+  delete_stack(help_stack);
+  
+  return(new_stack);
+}
+
+void reverse_stack(IntStack &stack) 
+{
+  help_stack = create_stack();
+  
+  while(!is_empty(stack)) {
+    push(help_stack, pop(stack));
+  }
+  
+  delete_stack(stack);
+
+  stack = help_stack;
+  
+}
+
+int sum_of_stack_entries(IntStack &stack) 
+{
+  help_stack = create_stack();
+  
+  while(!is_empty(stack)) {
+    push(help_stack, pop(stack));
+  }
+  
+  sum=0;
+  
+  while(!is_empty(help_stack)) {
+    val = pop(help_stack);
+    sum += val;
+    push(stack, val);
+  }
+  
+  delete_stack(help_stack);
+  
+  return(sum);
+}
+
+
+int main()
+{
+  printf("\nThis should be the empty stack:\n");
+  print(Stack);
+  
+  write_to_stack(Stack);
+  printf("\nNow, there's something pushed on it:\n");
+  print(Stack);
+  
+  A = create_copy_stack(Stack);
+  printf("\nThis is a copy of the last stack, called 'A':\n");
+  print(A);
+  
+  B = create_reverse_stack(A);
+  printf("\nAnd, this is a reverse copy of 'A', called 'B':\n");
+  print(B);
+  
+  sum1 = sum_of_stack_entries(A);
+  sum2 = sum_of_stack_entries(B);
+  printf("\nThe sums of all entries of 'A' is %d and that of 'B' is %d\n",
+         sum1, sum2);
+
+  printf("These should better be the same.\n");
+  
+  printf("\nHowever, 'A' and 'B' are unchanged:\n");
+  print(A);
+  print(B);
+
+  reverse_stack(Stack);
+  printf("\nNow, we destructively reverse the global stack:\n");
+  print(Stack);
+
+  printf("\nAnd finally, everything is popped from it again:\n");
+  pop_entire_stack(Stack);
+  print(Stack);
+
+  delete_stack(A);
+  delete_stack(B);
+  
+  return(0);
+}
+
+
