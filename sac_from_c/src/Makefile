@@ -2,7 +2,7 @@
 #
 # General Setup:
 #
-SAC2CFLAGS = -O3 -v1 -ssa -maxlur 3 -noWLUR
+SAC2CFLAGS = -O3 -v1 -maxlur 3 -noWLUR
 #SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3 -noWLUR
 #SAC2CFLAGS += -noopt -doPHM -doAPS -doRCAO -doMSCA
 
