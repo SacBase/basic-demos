@@ -1,0 +1,84 @@
+import StdIO: all;
+
+void NewBlock()
+{
+  print("----------------------------------------\n");
+}
+
+void NewLine()
+{
+  print("\n");
+}
+
+int main()
+{
+  a = reshape([ 3, 4], [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+
+  print("Let a be defined as:\n");
+  print(a);
+  NewBlock();
+
+  print("Then dim(a) equals:\n");
+  print( dim(a));
+  NewLine(); NewBlock();
+
+  print("shape(a) equals:\n");
+  print( shape(a));
+  NewBlock();
+
+  print("shape(shape(a)) equals:\n");
+  print( shape(shape(a)));
+  NewBlock();
+
+  print("reshape([2,6], a) equals:\n");
+  print( reshape([2,6], a));
+  NewBlock();
+
+  print("a[1,0] equals:\n");
+  print( a[1,0]);
+  NewLine(); NewBlock();
+
+  print("a[1] equals:\n");
+  print( a[1]);
+  NewBlock();
+
+  print("shape(a[1]) equals:\n");
+  print( shape(a[1]));
+  NewBlock();
+
+  print("3*a equals:\n");
+  print( 3*a);
+  NewBlock();
+
+  print("a+a equals:\n");
+  print( a+a);
+  NewBlock();
+
+  print("take([1], a) equals:\n");
+  print( take([1], a));
+  NewBlock();
+
+  print("dim(take([1], a)) equals:\n");
+  print( dim(take([1], a)));
+  NewLine(); NewBlock();
+
+  print("shape(take([1], a)) equals:\n");
+  print( shape(take([1], a)));
+  NewBlock();
+
+  print("drop([1], a) equals:\n");
+  print( drop([1], a));
+  NewBlock();
+
+  print("drop([1,2], a) equals:\n");
+  print( drop([1,2], a));
+  NewBlock();
+
+  print("cat(1, a, reshape([3,1], [13,14,15])) equals:\n");
+  print( cat(1, a, reshape([3,1], [13,14,15])));
+  NewBlock();
+
+  print("rotate(1, 1, a) equals:\n");
+  print( rotate(1, 1, a));
+  return(0);
+}
