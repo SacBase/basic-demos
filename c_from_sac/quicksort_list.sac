@@ -1,29 +1,111 @@
+/*****************************************************************************
+ *
+ * file:   quicksort_list.sac
+ *
+ * description:
+ *
+ *   SAC demo program.
+ *
+ *   This SAC demo program implements quicksort on lists as they are implemented
+ *   as a SAC-extension in C. However, the implementation is not tuned for
+ *   efficiency. A far more efficient implementation can be achieved, when
+ *   operating on arrays. This implementation is ment as an example application
+ *   for the List-module given in this directory.
+ *
+ *   The number of list elements (SIZE) may be set at compile time.
+ *
+ *****************************************************************************/
+
+#define SIZE 10
+
 import List:all;
 import StdIO: all;
+import Random: all;
+
+/******************************************************************************
+ *
+ * void print( list l)
+ * 
+ *   overloads print from StdIO for objects of list type.
+ *
+ *****************************************************************************/
 
 void print( list l)
 {
-  printf( "(");
+  printf( "( ");
   if( !empty( l)) {
-    printf( "%d", hd( l));
+    printf( "%2d", hd( l));
   }
   print_tl( tl( l));
 }
 
-void print_tl( list l)
+inline void print_tl( list l)
 {
   if( empty( l)) {
-    printf( ")\n" );
+    printf( " )\n" );
   } else {
-    printf( ":%d", hd( l));
+    printf( " : %2d", hd( l));
     print_tl( tl( l));
   }
 }
 
+/******************************************************************************
+ *
+ * list quicksort( list l)
+ * 
+ *   a straight-forward implementation of quicksort on cons-lists.
+ *
+ *****************************************************************************/
+
+list quicksort( list l)
+{
+  if( empty( l)) {
+    res = l;
+  } else {
+    pivot = hd( l);
+    lower, higher = sort( pivot, tl( l));
+    res = append( quicksort( lower), cons( pivot, quicksort( higher)));
+  }
+  return( res);
+}
+
+list, list sort( int pivot, list l)
+{
+  if( empty( l)) {
+    lower = nil();
+    higher = nil();
+  } else {
+    lower, higher = sort( pivot, tl( l));
+    if( hd( l) < pivot) {
+      lower = cons( hd(l), lower);
+    } else {
+      higher = cons( hd(l), higher);
+    }
+  }
+  return( lower, higher);
+}
+
+
+/******************************************************************************
+ *
+ * int main()
+ *
+ *****************************************************************************/
+
 int main()
 {
-  l = cons( 1, nil());
+  l = nil();
 
+  for( i=0; i<SIZE; i++) {
+    l = cons( random( 0, 100), l);
+  }
+
+  printf( "Initial (random) list: ");
+  print( l);
+
+  l = quicksort( l);
+
+  printf( "Sorted list:           ");
   print( l);
 
   return(0);
