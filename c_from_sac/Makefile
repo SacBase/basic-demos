@@ -2,7 +2,7 @@
 #
 # General Setup:
 #
-SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3
+SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3 -DFIXED_SEED
 #SAC2CFLAGS += -noopt
 
 #
