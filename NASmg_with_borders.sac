@@ -25,10 +25,28 @@ import Array: all;
  * USE_SAME_SHORTCUT_AS_IN_FORTRAN indicates whether the algorithm patch
  *   used in the Fortran version of the benchmark in order to spare one
  *   copy of the largest array should be applied in SAC as well (1) or not (0).
+ * MINIMIZE_ADDITIONS chooses whether to pre-compute vectors of sums of neighbor
+ *   elements in order to share these additions among the computations of
+ *   several different elements. If set to non-zero, the number of additions per element
+ *   decreases from 27 to 16. There are two versions available using 16 additions:
+ *   The first version (1) tries to store the pre-computed values in vectors in order to
+ *   keep the memory traffic as small as possible. Unfortunately, this requires a
+ *   nested WL to be used whose compilation leads to relatively poor C-code.
+ *   As a consequence, at the time being (May 3 2000) this leads to a 
+ *   runtime slowdown of about factor 2 8-((.
+ *   The second version (2) circumvents the usage of nested WLs by using 3D arrays
+ *   for the pre-computed values. Due to the increase in memory traffic this leads
+ *   also to a slowdown when compared against the version with 27 additions (0).
+ *   Surprisingly enough, the slowdown factor for this version is about 1.7....
+ *   All these numbers where gained using gcc on a single processor machine....
  */
 
 #define DISTRIB_LAW_BUG_IS_FIXED 0
 #define USE_SAME_SHORTCUT_AS_IN_FORTRAN 1
+
+#ifndef MINIMIZE_ADDITIONS
+#define MINIMIZE_ADDITIONS 0
+#endif
 
 /* 
  * Now, we define the arrays of weights needed for relaxation (A),
@@ -164,12 +182,79 @@ inline double weighted_sum( double[] u, int[3] x, double[4] w)
 #endif
 
 
+#if (MINIMIZE_ADDITIONS == 1)
+inline double[] weighted_sum_opt( double[] u, double[] tmp, double[] tmp2, double[4] w)
+{
+  return(  psi([0],w) * u
+         + psi([1],w) * ( tmp + shift( 0, 1, 0d, u) + shift( 0, -1, 0d, u))
+         + psi([2],w) * ( tmp2 + shift( 0, 1, 0d, tmp) + shift( 0, -1, 0d, tmp))
+         + psi([3],w) * ( shift( 0, 1, 0d, tmp2) + shift( 0, -1, 0d, tmp2)) );
+}
+
+double[], double[] pre_compute( double[] u, int i, int j)
+{
+  tmp = with( . <= k <= .)
+        genarray( drop( [2], shape(u)), u[i+1, j] + u[i-1, j] + u[i, j+1] + u[i, j-1] );
+  tmp2 = with( . <= k <= .)
+        genarray( drop( [2], shape(u)), u[i-1,j-1] + u[i-1, j+1] + u[i+1, j+1] + u[i+1, j-1]
+);
+  return( tmp, tmp2);
+}
+
+inline double[] NullifyBorders( double[] a)
+{
+  res = with( . < iv < .)
+        genarray( shape(a), a[iv]);
+  return( res);
+}
+
+inline double[] relax_kernel( double[] w, double[] u)
+{
+  r = with( take( [2], 0*shape(u)+1) <= x=[i,j] <= take( [2], shape(u)-2) ) {
+        tmp, tmp2 = pre_compute( u, i, j);
+        new_vect  = weighted_sum_opt( u[[i,j]], tmp, tmp2, w);
+      } modarray( u, x, NullifyBorders( new_vect));
+  return(r);
+}
+
+#elif (MINIMIZE_ADDITIONS == 2)
+
+inline double weighted_sum_opt( double[] u, double[] tmp, double[] tmp2,
+                                                           int[] x, double[4] w)
+{
+  return(  psi([0],w) * u[x]
+         + psi([1],w) * ( tmp[x] + u[x+[0,0,1]] + u[x-[0,0,1]])
+         + psi([2],w) * ( tmp2[x] + tmp[x+[0,0,1]] + tmp[x-[0,0,1]])
+         + psi([3],w) * ( tmp2[x+[0,0,1]] + tmp2[x-[0,0,1]] ));
+}
+
+double[], double[] pre_compute( double[] u)
+{
+  tmp = with( [1,1,0] <= x <= shape(u)-2+[0,0,1] )
+        genarray( shape(u), u[x+[1,0,0]] + u[x-[1,0,0]]
+                            + u[x+[0,1,0]] + u[x-[0,1,0]] );
+  tmp2 = with( [1,1,0] <= x <= shape(u)-2+[0,0,1] )
+        genarray( shape(u), u[x+[1,1,0]] + u[x-[1,1,0]]
+                            + u[x+[1,-1,0]] + u[x-[1,-1,0]] );
+  return( tmp, tmp2);
+}
+
+inline double[] relax_kernel( double[] w, double[] u)
+{
+  tmp, tmp2 = pre_compute( u);
+  r = with( 0*shape(u)+1 <= x <= shape(u)-2)
+      modarray( u, x, weighted_sum_opt( u, tmp, tmp2, x, w));
+  return(r);
+}
+
+#else
 inline double[] relax_kernel( double[] w, double[] u)
 {
   r = with( 0*shape(u)+1 <= x <= shape(u)-2)
       modarray( u, x, weighted_sum( u, x, w));
   return(r);
 }
+#endif
 
 double[] relax( double[] u, double[] v)
 {
