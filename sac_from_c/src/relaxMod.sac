@@ -1,19 +1,5 @@
-/*
- *
- * $Log$
- * Revision 3.2  2001/06/28 11:38:07  cg
- * automatically converted to new array type syntax.
- *
- * Revision 3.1  2000/11/20 18:07:15  sacbase
- * new release made
- *
- * Revision 1.1  2000/11/17 13:29:18  nmw
- * Initial revision
- *
- *
- */
-
 Module relaxMod :
+
 import Array: all;
 
 /*****************************************************************************

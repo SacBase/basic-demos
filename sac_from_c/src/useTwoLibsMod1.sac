@@ -1,16 +1,5 @@
-/*
- *
- * $Log$
- * Revision 3.1  2000/11/20 18:07:17  sacbase
- * new release made
- *
- * Revision 1.1  2000/11/17 13:30:58  nmw
- * Initial revision
- *
- *
- */
-
 Module useTwoLibsMod1:
+
 import StdIO: all; 
 
 int[20] fun(int[20] v, int value)

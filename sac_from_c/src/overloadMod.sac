@@ -1,19 +1,4 @@
-/*
- *
- * $Log$
- * Revision 3.2  2001/06/28 11:38:06  cg
- * automatically converted to new array type syntax.
- *
- * Revision 3.1  2000/11/20 18:07:14  sacbase
- * new release made
- *
- * Revision 1.1  2000/11/17 13:28:41  nmw
- * Initial revision
- *
- *
- */
-
-Module overloadMod :
+Module overloadMod:
 
 import Array: all;
 

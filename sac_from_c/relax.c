@@ -1,15 +1,3 @@
-/*
- *
- * $Log$
- * Revision 3.1  2000/11/20 18:07:04  sacbase
- * new release made
- *
- * Revision 1.2  2000/11/17 13:10:12  nmw
- * cvs header added
- *
- *
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "sac_cinterface.h"
