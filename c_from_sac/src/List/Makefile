@@ -19,6 +19,7 @@ LIBTARGETDIR                = ../../lib
 #
 # Setup for Makefile.check:
 #
+CHECKLOGFILE   = ../../CHECKLOG
 # CHECKDIR = .checkdir
 # RT_FLAGS =
 #
@@ -26,6 +27,3 @@ LIBTARGETDIR                = ../../lib
 
 include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
 include $(SACBASE)/stdlib/Makefiles/Makefile.Clibs
-
-
-
