@@ -14,6 +14,11 @@
  *
  *   The number of list elements (SIZE) may be set at compile time.
  *
+ *   The lists are initialized by random numbers using the library "Random" and
+ *   the actual time ( library "Clock") which serves as initial seed.
+ *   However, in order to obtain identical lists for each run, the seed can
+ *   be fixed to 0 by using the compilation flag FIXED_SEED.
+ *
  *****************************************************************************/
 
 #ifndef SIZE
@@ -99,7 +104,11 @@ int main()
 {
   l = nil();
 
+#ifdef FIXED_SEED
+  srandom( 0);
+#else
   srandom( sec( gettime()));
+#endif
 
   for( i=0; i<SIZE; i++) {
     l = cons( random( 0, 100), l);
