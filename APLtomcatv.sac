@@ -1,0 +1,511 @@
+import Array: all;
+import ArrayIO: all;
+import StdIO: all;
+import Math: { functions: fabs; }
+
+/*
+ * APL_benchmark: TOMCATV
+ *
+ * TOMCATV is one of the Spec-benchmarks. It is a vectorized 
+ * mesh generation program.
+ * Within each SAC function definition, the APL counterpart (in
+ * J. Weigang transcription) is given within comments.
+ *
+ *
+ * The following flags parameterize the program:
+ *
+ * N - problem size as integer value (default 100)
+ *
+ * The next two flags are only needed since TC cannot yet do CF:
+ *
+ * Nm2 - equals (N-2)
+ *
+ *
+ * The following flags require compiler debugging / extension:
+ *
+ * INL_during_TC_works - define only if inlining is done during type checking, i.e.,
+ *                       for "inline" functions, not only shape-specific, but also
+ *                       value specific instances are built!
+ *
+ *
+ * REMARKS:
+ * --------
+ * better compile with -intrinsic p !!! => allows for more WLF!!
+ *
+ * inlining is VERY error-prone here 8-((
+ */
+
+#ifndef N
+#define N 100
+#endif
+
+#ifndef Nm2
+#define Nm2 98
+#endif
+
+/******************************************************************************
+ *
+ * int[] iota( int[] shp)
+ *
+ *****************************************************************************/
+ 
+#ifdef INL_during_TC_works
+ 
+  inline int[] iota( int[] shp)
+  {
+    res = with( . <= [i] <= .)
+          genarray( shp, i);
+    return( res);
+  }
+ 
+#else
+ 
+#define iota(shp) with( . <= [i] <= .) genarray( shp, i)
+ 
+#endif
+
+/******************************************************************************
+ *
+ * double[] OP_times(double[] a, double[] b)
+ *
+ *****************************************************************************/
+
+inline double[] OP_times(double[] a, double[] b)
+{
+  res = with( . <= [i,j] <= .)
+        genarray( [N,N], a[i] * b[j]);
+  return(res);
+}
+
+/******************************************************************************
+ *
+ * double[] abs(double[] array)
+ *
+ *****************************************************************************/
+
+inline double[] abs(double[] array)
+{
+  res = with (. <= iv <= .)
+        modarray( array, iv, fabs(array[iv]));
+ 
+  return(res);
+}
+
+/******************************************************************************
+ *
+ * double[Nm2] max_reduce(double[Nm2,Nm2] array)
+ *
+ *****************************************************************************/
+ 
+double[Nm2] max_reduce(double[Nm2,Nm2] array)
+{
+  res = with (. <= iv <= .) {
+        }genarray( [Nm2], maxval(array[iv]));
+ 
+  return(res);
+}
+
+/******************************************************************************
+ *
+ * double max_reduce(double[Nm2] array)
+ *
+ *****************************************************************************/
+ 
+double max_reduce(double[Nm2] array)
+{
+  return(maxval(array));
+}
+ 
+/******************************************************************************
+ *
+ * int iota_dy(double[] vect, double val)
+ *
+ *****************************************************************************/
+ 
+inline int iota_dy(double[] vect, double val)
+{
+  pos = 0;
+  while ((pos < shape(vect)[0]) && (vect[pos] != val)) {
+    pos++;
+  } 
+ 
+  return(pos);
+}
+
+/******************************************************************************
+ *
+ * double[] datax(int n)
+ *
+ *****************************************************************************/
+
+double[] datax(int n)
+{
+  /* xij{<-}1,((n-2){rho}0.9),1 */
+  xij = with( [1] <= iv <= [n-2])
+        genarray( [N], 0.9);
+  xij[0] = 1d;
+  xij[N-1] = 1d;
+
+  /* r{<-}(n,n){rho}(xij{times}{iota}n){divide}n-1 */
+  tmp = xij * tod(iota([N])) / tod(n-1);
+  r = genarray([N], tmp);
+  
+  /* r[0;]{<-}({iota}n){divide}n-1 */
+  r[0] = tod(iota([N])) / tod(n-1);
+
+  /* r[n-1;]{<-}({iota}n){divide}n-1 */
+  r[n-1] = tod(iota([N])) / tod(n-1);
+  
+  return(r);
+}
+
+/******************************************************************************
+ *
+ * double[] datay( double[] x, int n)
+ *
+ *****************************************************************************/
+
+double[] datay( double[] x, int n)
+{
+  /* yin{<-},(1.0-0.9{times}x[0;]){times}x[0;n-1] */
+  yin = (1.0-0.9*x[0]) * x[0,n-1];
+
+  /* r{<-}x[0;]{jot}.{times}0.9-0.81{times}x[0;] */
+  r = OP_times( x[0], (0.9 - 0.81*x[0]));
+
+  /* r[;n-1]{<-}0.1{times}x[0;] */
+  r = with( [0,n-1] <= [i,j] <= [n-1,n-1])
+      modarray( r, iv, 0.1*x[0,i]);
+ 
+
+  /* r[;0]{<-}x[0;] */
+  r = with( [0,0] <= [i,j] <= [n-1,0])
+      modarray( r, iv, x[0,i]);
+
+  /* r[n-1;]{<-}yin */
+  r[n-1] = yin;
+
+  return( r);
+}
+
+/******************************************************************************
+ *
+ * double[], double[], double[], double[] compmesh( double[] x, double[] y)
+ *
+ *****************************************************************************/
+
+double[], double[], double[], double[] compmesh( double[] x, double[] y)
+{
+  /* xx{<-}1 {neg}2{drop}{neg}1 0{drop}(2{rotate}x)-x */
+  xx = take([Nm2, Nm2], drop( [1, 0], (rotate( 1, -2, x) - x)));
+
+  /* yx{<-}1 {neg}2{drop}{neg}1 0{drop}(2{rotate}y)-y */
+  yx = take([Nm2, Nm2], drop( [1, 0], (rotate( 1, -2, y) - y)));
+
+  /* xy{<-}{neg}2 1{drop}0 {neg}1{drop}(2{rotatebar}x)-x */
+  xy = take([Nm2, Nm2], drop( [0, 1], (rotate( 0, -2, x) - x)));
+
+  /* yy{<-}{neg}2 1{drop}0 {neg}1{drop}(2{rotatebar}y)-y */
+  yy = take([Nm2, Nm2], drop( [0, 1], (rotate( 0, -2, y) - y)));
+
+  /* a{<-}0.250{times}(xy{times}xy)+yy{times}yy */
+  a = 0.250 * (xy*xy + yy*yy);
+
+  /* b{<-}0.250{times}(yx{times}yx)+xx{times}xx */
+  b = 0.250 * (yx*yx + xx*xx);
+
+  /* c{<-}0.125{times}(xy{times}xx)+yx{times}yy */
+  c = 0.125 * (xy*xx + yx*yy);
+
+
+  /*
+   * pxx{<-}(1 2{drop}{neg}1 0{drop}x)
+   *        -(2.0{times}1 1{drop}{neg}1 {neg}1{drop}x)
+   *        - 1 0{drop}{neg}1{neg}2{drop}x
+   */
+  pxx = take([Nm2,Nm2], drop([1,2], x))		/* right */
+        - (2.0*take([Nm2,Nm2], drop([1,1], x))  /* center */
+        - take([Nm2,Nm2], drop([1,0], x)));	/* left */
+  /*
+   * qxx{<-}(1 2{drop}{neg}1 0{drop}y)
+   *        -(2.0{times}1 1{drop}{neg}1 {neg}1{drop}y)
+   *        - 1 0{drop}{neg}1{neg}2{drop}y
+   */
+  qxx = take([Nm2,Nm2], drop([1,2], y))		/* right */
+        - (2.0*take([Nm2,Nm2], drop([1,1], y))	/* center */
+        - take([Nm2,Nm2], drop([1,0], y)));	/* left */
+
+  /* pyy{<-}(2 1{drop}0 {neg}1{drop}x)
+   *       -(2.0{times}1 1{drop}{neg}1 {neg}1{drop}x)
+   *       - 0 1{drop}{neg}2{neg}1{drop}x
+   */
+  pyy = take([Nm2,Nm2], drop([2,1], x))		/* down */
+        - (2.0*take([Nm2,Nm2], drop([1,1], x))	/* center */
+        - take([Nm2,Nm2], drop([0,1], x)));	/* up */
+
+  /* qyy{<-}(2 1{drop}0 {neg}1{drop}y)
+   *        -(2.0{times}1 1{drop}{neg}1 {neg}1{drop}y)
+   *        - 0 1{drop}{neg}2{neg}1{drop}y
+   */
+  qyy = take([Nm2,Nm2], drop([2,1], y))		/* down */
+        - (2.0*take([Nm2,Nm2], drop([1,1], y))	/* center */
+        - take([Nm2,Nm2], drop([0,1], y)));	/* up */
+
+  /* pxy{<-}((2 2{drop}x)-{neg}2 2{drop}x)+({neg}2 {neg}2{drop}x)-2 {neg}2{drop}x @ signs */
+  pxy = (drop([2,2], x) - take([Nm2,Nm2], drop([0,2], x)))
+      + (take([Nm2,Nm2], x) - take([Nm2,Nm2], drop([2,0], x)));
+
+  /* qxy{<-}((2 2{drop}y)-{neg}2 2{drop}y)+({neg}2 {neg}2{drop}y)-2 {neg}2{drop}y */
+  qxy = (drop([2,2], y) - take([Nm2,Nm2], drop([0,2], y)))
+      + (take([Nm2,Nm2], y) - take([Nm2,Nm2], drop([2,0], y)));
+
+  /* aa{<-}-b */
+  aa = -1.0 *b;
+
+  /* dd{<-}b+b+(2.0{divide}0.98){times}a */
+  dd = b + b + (2.0/0.98)*a;
+
+  /* rx{<-}(a{times}pxx)+(b{times}pyy)-c{times}pxy */
+  rx = a*pxx + (b*pyy - c*pxy);
+
+  /* ry{<-}(a{times}qxx)+(b{times}qyy)-c{times}qxy */
+  ry = a*qxx + (b*qyy - c*qxy);
+
+  return( aa,dd,rx,ry);
+
+}
+
+/******************************************************************************
+ *
+ * double[], double[], double[] 
+ *                  sweepup(double[] aa, double[] dd, double[] rx, double[] ry)
+ *
+ *****************************************************************************/
+ 
+double[], double[], double[] sweepup(double[] aa, double[] dd, double[] rx, double[] ry)
+{
+  /* d{<-}dd */
+  d = dd;
+
+  /* d[0;]{<-}{divide}d[0;] */
+  d[0] = 1d / d[0];
+
+  /* nrx{<-}rx */
+  nrx = rx;
+
+  /* nry{<-}ry */
+  nry = ry;
+
+  /* :for j :in 1+{iota}({rho}dd)[0]-1 */
+  for (j=1; j<shape(dd)[0]; j++) {
+
+    /* r{<-}aa[j;]{times}d[j-1;] */
+    r = aa[j] * d[j-1];
+
+    /* d[j;]{<-}{divide}d[j;]-r{times}aa[j-1;] */
+    d[j] = 1d / (d[j] - r * aa[j-1]);
+
+    /* nrx[j;]{<-}nrx[j;]-nrx[j-1;]{times}r */
+    nrx[j] = nrx[j] - nrx[j-1] * r;
+
+    /* nry[j;]{<-}nry[j;]-nry[j-1;]{times}r */
+    nry[j] = nry[j] - nry[j-1] * r;
+
+  }
+  return(d, nrx, nry);
+}
+
+
+/******************************************************************************
+ *
+ * double[] sweepdn(double[] aa, double[] dd, double[] nrx)
+ *
+ *****************************************************************************/
+ 
+double[] sweepdn(double[] aa, double[] dd, double[] nrx)
+{
+  /* lim{<-}{neg}1+({rho}dd)[0]  */
+  lim = shape(dd)[0] - 1;
+  
+  /* nrx[lim;]{<-}nrx[lim;]{times}dd[lim;]  */
+  nrx[lim] = nrx[lim] * dd[lim];
+  
+  /* :for j :in {reverse}{iota}lim */
+  for (j=lim-1; j>=0; j--) {
+    /* nrx[j;]{<-}(nrx[j;]-(aa[j;]{times}nrx[j+1;])){times}dd[j;]  */
+    nrx[j] = (nrx[j] - aa[j] * nrx[j+1]) * dd[j];
+  }
+  return(nrx);
+}
+
+
+/******************************************************************************
+ *
+ * double[] correct( double[] rx, double[] x)
+ *
+ *****************************************************************************/
+ 
+double[] correct( double[] rx, double[] x) 
+{
+  /*
+   * n{<-}1+{iota}{neg}2+({rho}x)[1]
+   * r{<-}x
+   * r[n;n]{<-}rx+r[n;n]
+   */
+  r = with (.< iv < .) 
+      modarray(x, iv, x[iv] + rx[iv-1]);
+  
+  return(r);
+}
+
+  
+/******************************************************************************
+ *
+ * double, int, int fma( double[] y)
+ *
+ *****************************************************************************/
+
+double, int, int fma( double[] y)
+{
+  /* ay{<-}|y */
+  ay = abs(y);
+
+  /* v{<-}{max}/ay */
+  v = max_reduce(ay);
+
+  /* t{<-}{max}/v */
+  t = max_reduce(v);
+
+  /* i{<-}v{iota}t */
+  i = iota_dy(v, t);
+
+  /* j{<-}ay[i;]{iota}t */
+  j = iota_dy( ay[i], t);
+
+  /* z{<-}y[i;j] */
+  z = y[i,j];
+
+  return(z, i, j);
+}
+
+/******************************************************************************
+ *
+ * int, int, int, double, int, int, double tomcatv( int n)
+ *
+ *****************************************************************************/
+
+
+int, int, int, double, int, int, double tomcatv( int n)
+{
+  x = datax(n);
+
+#ifdef DBUG
+  printf( "\n\n x = \n");
+  print(x);
+#endif
+
+  y = datay( x, n);
+
+#ifdef DBUG
+  printf( "\n\n y = \n");
+  print(y);
+#endif
+
+  ll = 0;
+
+  do {
+    aa,dd,rx,ry = compmesh( x, y);
+
+#ifdef DBUG
+    printf( "\n\n aa = \n");
+    print( aa);
+    printf( "\n\n dd = \n");
+    print( dd);
+    printf( "\n\n rx = \n");
+    print( rx);
+    printf( "\n\n ry = \n");
+    print( ry);
+#endif
+
+
+    /* rxm{<-}fma rx */
+    /* irxm{<-}j */
+    /* jrxm{<-}i */
+    rxm, jrxm, irxm = fma( rx);
+
+#ifdef DBUG
+    printf("\nmax |rx|: %g  at [%d, %d]\n", rxm, jrxm, irxm);
+#endif
+    
+    /* rym{<-}fma ry */
+    /* irym{<-}j */
+    /* jrym{<-}i */
+    rym, jrym, irym = fma( ry);
+
+#ifdef DBUG
+    printf("\nmax |ry|: %g  at [%d, %d]\n", rym, jrym, irym);
+#endif
+    
+    d, nrx, nry = sweepup( aa, dd, rx, ry);
+
+#ifdef DBUG
+    printf( "\n\n d = \n");
+    print( d);
+    printf( "\n\n nrx = \n");
+    print( nrx);
+    printf( "\n\n nry = \n");
+    print( nry);
+#endif
+
+    nrx = sweepdn( aa, d, nrx);
+
+#ifdef DBUG
+    printf( "\n\n nrx = \n");
+    print( nrx);
+#endif
+
+    nry = sweepdn( aa, d, nry);
+
+#ifdef DBUG
+    printf( "\n\n nrx = \n");
+    print( nrx);
+#endif
+
+    x = correct( nrx, x);
+
+#ifdef DBUG
+    printf( "\n\n x = \n");
+    print( x);
+#endif
+
+    y = correct( nry, y);
+
+#ifdef DBUG
+    printf( "\n\n y = \n");
+    print( y);
+#endif
+
+    ll++;
+  } while( ll < 100);
+
+  return( ll, 2+irxm, 2+jrxm, rxm, 2+irym, 2+jrym, rym);
+}
+
+/******************************************************************************
+ *
+ * int main()
+ *
+ *****************************************************************************/
+
+int main()
+{
+  ll, irxm, jrxm, rxm, irym, jrym, rym = tomcatv( N);
+
+  printf(" size: %d\n"
+         "#iter: %d\n"
+         "x max: %e  at [%d, %d]\n"
+         "y max: %e  at [%d, %d]\n",
+         N, ll, rxm, irxm, jrxm, rym, irym, jrym);
+  
+  return(0);
+}
