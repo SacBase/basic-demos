@@ -157,8 +157,8 @@ useTwoLibs: useTwoLibs.c include/useTwoLibsMod1.h include/useTwoLibsMod2.h
 #
 
 objects.d:
-	$(MAKE) "SAC2CFLAGS= $(SAC2CFLAGS) -noPHM" IntStack.aDD
-	$(MAKE) "SAC2CFLAGS= $(SAC2CFLAGS) -noPHM" objectsMod.aDD
+	$(MAKE) IntStack.aDD
+	$(MAKE) objectsMod.aDD
 	$(MAKE) objects
 
 objects: objects.c include/IntStack.h include/objectsMod.h
@@ -176,7 +176,7 @@ objects: objects.c include/IntStack.h include/objectsMod.h
 	                 $(SACBASE)/stdlib/hidden/lib/MathC.a \
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
-	                 -lm -lsac
+	                 -lm -lsac_heapmgr -lsac
 
 
 ################################################################################
