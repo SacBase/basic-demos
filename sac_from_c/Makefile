@@ -39,7 +39,6 @@ DEPTARGETS = $(patsubst %,%.d,$(TARGETS))
 
 all: $(DEPTARGETS)
 
-CLOG_FILES = $(patsubst %,$(CHECKDIR)/%.clog,$(TARGETS))
 RES_FILES  = $(patsubst %,$(CHECKDIR)/%.res,$(TARGETS))
 
 include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
