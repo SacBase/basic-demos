@@ -1,6 +1,9 @@
 /*
  *
  * $Log$
+ * Revision 3.2  2002/08/14 13:39:22  sbs
+ * fold neutral inserted.
+ *
  * Revision 3.1  2000/11/20 18:07:13  sacbase
  * new release made
  *
@@ -18,7 +21,7 @@ import Array: all;
 int calcSumOfVector(int[100] values)
 {
   int result;
-  result=with([0]<=i<[100])fold(+, values[i]);
+  result=with([0]<=i<[100])fold(+, 0, values[i]);
   return(result);
 }
 
