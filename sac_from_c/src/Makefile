@@ -1,17 +1,15 @@
-#
-# $Log$
-# Revision 1.1  2000/11/17 13:26:53  nmw
-# Initial revision
-#
-#
-
 #######################################################################################
 #
 # General Setup:
 #
-SAC2CFLAGS = -O3 -v1 -genlib c -noLIR -maxlur 3
+SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3
 #SAC2CFLAGS += -mt
 #SAC2CFLAGS += -noopt
+
+#
+# just to make sure that local dependencies can be ressolved properly:
+#
+SAC_LIBRARY_PATH := $(SAC_LIBRARY_PATH)\:../lib
 
 #
 # Setup for Makefile.standard:
@@ -19,6 +17,7 @@ SAC2CFLAGS = -O3 -v1 -genlib c -noLIR -maxlur 3
 # EXCLUDE_FILES               =
 # TARGETDIR                   = .
 LIBTARGETDIR                = ../lib
+INCTARGETDIR                = ../include
 # LIBSRCDIR                   = .
 # SUBDIRS                     =
 # MAKE_NON_LOCAL_DEPENDENCIES = yes
