@@ -1,0 +1,31 @@
+import StdIO : all; 
+ 
+     
+int gcd (int high, int low) 
+{
+  if (high < low) {
+    mem = low;
+    low = high;
+    high = mem;
+  }
+  while (low != 0) {
+    quotient, remainder = modulo (high,low);
+    high = low;
+    low = remainder;
+  }
+return (high);
+}
+ 
+int, int modulo (int x, int y)
+{ 
+  quot = x/y;
+  remain = x - quot * y;
+  return (quot,remain);
+} 
+ 
+int main ()
+{
+  printf( " gcd(22, 27) equals: %d\n", gcd(22, 27));
+return (0);
+}
+
