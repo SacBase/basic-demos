@@ -31,8 +31,6 @@ import StdIO: all;
  *                       for "inline" functions, not only shape-specific, but also
  *                       value specific instances are built!
  *
- * INL_FOLD_BUG_IS_FIXED - define only if fold-WL can be inlined error-free!
- *
  *
  * REMARKS:
  * --------
@@ -57,16 +55,16 @@ import StdIO: all;
  
 #ifdef INL_during_TC_works
  
-  inline int[] iota( int[] shp)
-  {
-    res = with( . <= [i] <= .)
-          genarray( shp, i);
-    return( res);
-  }
+inline int[] iota( int[] shp)
+{
+  res = with( . <= [i] <= .)
+        genarray( shp, i);
+  return( res);
+}
  
 #else
  
-#define iota(shp) with( . <= [i] <= .) genarray( shp, i)
+#define iota(shp) with( . <= [ii] <= .) genarray( shp, ii)
  
 #endif
 
@@ -87,7 +85,7 @@ import StdIO: all;
  
 #else
  
-#define tile(shp,offset,a) with( . <= iv <= .) genarray( shp, a[iv+offset])
+#define tile(shp,offset,a) with( . <= ivv <= .) genarray( shp, a[ivv+offset])
  
 #endif
 
@@ -97,18 +95,10 @@ import StdIO: all;
  *
  *****************************************************************************/
 
-#ifdef INL_FOLD_BUG_IS_FIXED
-
-inline double[] VxV( double[] v1, double[] v1)
+inline double VxV( double[] v1, double[] v2)
 {
   return( sum( v1*v2));
 }
-
-#else
-
-#define VxV(v,m) with(0*shape(v) <= ivv < shape(v)) fold( +, v[ivv] * m[ivv])
-
-#endif
 
 /******************************************************************************
  *
@@ -116,9 +106,7 @@ inline double[] VxV( double[] v1, double[] v1)
  *
  *****************************************************************************/
 
-#ifdef INL_FOLD_BUG_IS_FIXED
-
-inline double[] VxV_at( int dummy, int[] iv, double[] h, double[] wv)
+inline double VxV_at( int dummy, int[] ivvv, double[] h, double[] wv)
 {
   /*
    * r{<-}dummy VxVat n
@@ -126,15 +114,10 @@ inline double[] VxV_at( int dummy, int[] iv, double[] h, double[] wv)
    * @ of the same size of h, starting at position n.
    * r{<-}(({rho}w){take}n{drop}h)+.{times}w
    */
-  res = VxV( wv, tile( shape(wv), iv, h));
+  tmp = tile( shape(wv), ivvv, h);
+  res = VxV( wv, tmp);
   return( res);
 }
-
-#else
-
-#define VxV_at(dummy,ivvv,h,wv) tmp = tile( shape(wv), ivvv, h); \
-                                val = VxV( wv, tmp)
-#endif
 
 /******************************************************************************
  *
@@ -142,22 +125,13 @@ inline double[] VxV_at( int dummy, int[] iv, double[] h, double[] wv)
  *
  *****************************************************************************/
 
-#ifdef INL_FOLD_BUG_IS_FIXED
-
 inline double[] OP_VxV_at( int scal, int[] vect, double[] h, double[] wv)
 {
-  res = with( . <= iv <= .) {
-          val = VxV_at( scal, iv, h, wv);
+  res = with( . <= ivvvv <= .) {
+          val = VxV_at( scal, ivvvv, h, wv);
         } genarray( shape(vect), val);
-  return(res);
+  return( res);
 }
-
-#else
-
-#define OP_VxV_at(scal,vect,h,wv) with( . <= ivvvv <= .) {\
-                                    VxV_at( scal, ivvvv, h, wv); \
-                                  } genarray( shape(vect), val)
-#endif
 
 /******************************************************************************
  *

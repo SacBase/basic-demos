@@ -23,8 +23,6 @@ import StdIO: all;
  *
  * INL_during_TC_works - define only if inlining is done during type checking!
  *
- * INL_FOLD_BUG_IS_FIXED - define only if fold-WL can be inlined error-free!
- *
  *
  * REMARKS:
  * --------
@@ -50,12 +48,12 @@ import StdIO: all;
  
 #ifdef INL_during_TC_works
  
-  inline int[] iota( int[] shp)
-  {
-    res = with( . <= [i] <= .)
-          genarray( shp, i);
-    return( res);
-  }
+inline int[] iota( int[] shp)
+{
+  res = with( . <= [i] <= .)
+        genarray( shp, i);
+  return( res);
+}
  
 #else
  
@@ -71,12 +69,12 @@ import StdIO: all;
  
 #ifdef INL_during_TC_works
  
-  inline double[] tile( int[] shp, int[] offset, double[] a)
-  {
-    res = with( . <= iv <= .)
-          genarray( shp, a[iv+offset]);
-    return( res);
-  }
+inline double[] tile( int[] shp, int[] offset, double[] a)
+{
+  res = with( . <= iv <= .)
+        genarray( shp, a[iv+offset]);
+  return( res);
+}
  
 #else
  
@@ -90,19 +88,10 @@ import StdIO: all;
  *
  *****************************************************************************/
 
-#ifdef INL_FOLD_BUG_IS_FIXED
-
 inline double vec_prod( double[] v1, double[] v2)
 {
   return( sum( v1* v2));
 }
-
-#else
-
-#define vec_prod(v1,v2) with( 0*shape(v1) <= ivvv <shape(v1)) \
-                        fold( +, v1[ivvv] * v2[ivvv])
-
-#endif
 
 /******************************************************************************
  *

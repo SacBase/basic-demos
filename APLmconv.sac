@@ -27,8 +27,6 @@ import StdIO: all;
  *
  * INL_during_TC_works - define only if inlining is done during type checking!
  *
- * INL_FOLD_BUG_IS_FIXED - define only if fold-WL can be inlined error-free!
- *
  *
  * REMARKS:
  * --------
@@ -90,22 +88,14 @@ inline double[] rot( int[] v, double[] a)
  *
  *****************************************************************************/
  
-#ifdef INL_FOLD_BUG_IS_FIXED
- 
-  inline double[] VxM( double[] v, double[] m)
-  {
-    neutr = genarray( [shape(m)[1]], 0d);
-    res = with(0*shape(v) < iv < shape(v))
-          fold( +, neutr, v[iv] * m[iv]);
-    return(res);
-  }
- 
-#else
-
-#define VxM(v,m) with(0*shape(v) <= iv < shape(v)) \
-                 fold( +, genarray([Xm1pY], 0d), v[iv] * m[iv])
-
-#endif
+inline double[] VxM( double[] v, double[] m)
+{
+  neutr = with( . <= iv <= .)
+          genarray( [shape(m)[[1]]], 0d);
+  res = with(0*shape(v) <= iv < shape(v))
+        fold( +, neutr, v[iv] * m[iv]);
+  return(res);
+}
 
 /******************************************************************************
  *
