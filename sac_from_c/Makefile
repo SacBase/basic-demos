@@ -40,8 +40,7 @@ CCFLAGS = -ansi -g -Wall $(LIBS) $(INCS)
 LIBS    = -L$(SACBASE)/runtime -L$(LIBTARGETDIR)
 INCS    = -I$(SACBASE)/runtime -I$(INCTARGETDIR)
 
-# TARGETS    = tutorial relax overload usePhm features useTwoLibs objects useTypes
-TARGETS    = tutorial relax usePhm features useTwoLibs objects useTypes
+TARGETS    = tutorial relax overload usePhm features useTwoLibs objects useTypes
 DEPTARGETS = $(patsubst %,%.d,$(TARGETS))
 
 all: $(DEPTARGETS)
