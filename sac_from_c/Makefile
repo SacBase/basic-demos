@@ -34,7 +34,7 @@ CCFLAGS = -ansi -g -Wall $(LIBS) $(INCS)
 LIBS    = -L$(SACBASE)/runtime -L$(LIBTARGETDIR)
 INCS    = -I$(SACBASE)/runtime -I$(INCTARGETDIR)
 
-TARGETS    = tutorial relax overload usePhm features useTwoLibs objects
+TARGETS    = tutorial relax overload usePhm features useTwoLibs objects useTypes
 DEPTARGETS = $(patsubst %,%.d,$(TARGETS))
 
 all: $(DEPTARGETS)
@@ -165,6 +165,29 @@ objects: objects.c include/IntStack.h include/objectsMod.h
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
 	                 -lm -lsac
+
+
+################################################################################
+#
+# useTypes:
+#
+useTypes.d: useTypesMod.aDD useTypes
+
+useTypes: useTypes.c include/useTypesMod.h
+	$(CC) $(CCFLAGS) -o useTypes useTypes.c \
+			-luseTypesMod \
+			$(SACBASE)/stdlib/world/system/lib/SysErr.a \
+			$(SACBASE)/stdlib/hidden/lib/StringC.a \
+			$(SACBASE)/stdlib/world/system/lib/World.a \
+			$(SACBASE)/stdlib/world/system/lib/FileSystem.a \
+			$(SACBASE)/stdlib/world/system/lib/Terminal.a \
+			$(SACBASE)/stdlib/world/stdio/lib/TermFile.a \
+			$(SACBASE)/stdlib/world/stdio/lib/File.a \
+			$(SACBASE)/stdlib/classes/random/lib/Random.a \
+			$(SACBASE)/stdlib/modules/structures/lib/List.a \
+			$(SACBASE)/stdlib/hidden/lib/MathC.a \
+			$(SACBASE)/stdlib/modules/structures/lib/Char.a \
+			-lm -lsac_heapmgr -lsac
 
 
 
