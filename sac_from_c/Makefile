@@ -15,7 +15,7 @@ SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3
 LIBTARGETDIR                = lib
 INCTARGETDIR                = include
 LIBSRCDIR                   = src
-SUBDIRS                     = src
+SUBDIRS                     = src inputs
 # MAKE_NON_LOCAL_DEPENDENCIES =
  
 #
@@ -24,7 +24,7 @@ SUBDIRS                     = src
 CHECKLOGFILE    = ./CHECKLOG
 # CHECKDIR        = .checkdir
 # RT_FLAGS        =
-# INPSDIR         = .
+INPSDIR         = inputs
 #
 #######################################################################################
 
