@@ -16,7 +16,9 @@
  *
  *****************************************************************************/
 
+#ifndef SIZE
 #define SIZE 10
+#endif
 
 import List: all;
 import StdIO: all;
