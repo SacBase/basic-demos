@@ -1,17 +1,3 @@
-/*
- *
- * $Log$
- * Revision 3.2  2001/01/25 14:17:49  dkr
- * line break removed
- *
- * Revision 3.1  2000/11/20 18:07:03  sacbase
- * new release made
- *
- * Revision 1.2  2000/11/17 13:12:06  nmw
- * cvs header added
- *
- *
- */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,6 +28,7 @@ void VectorDemo()
   printf(" --- Sum of vector elements ---\n\n");
   printf("now we are going to init a c-array with %d elements.\n", ARRAYSIZE);
   printf("and values from 10 to %d\n", ARRAYSIZE+10-1);
+
   int_data=(int*)malloc(ARRAYSIZE*sizeof(int));
   
   value2=0;
@@ -318,7 +305,7 @@ int main()
   SAC_InitRuntimeSystem();
   
   printf("Welcome to the SAC<->C interface demo!\n\n");
-  printf("This demo program shows several features of the C-interface\n");
+  printf("This demo program shows several features of the C-interface\n\n");
 
   VectorDemo();
   WAIT_FOR_KEY();
@@ -335,11 +322,7 @@ int main()
   RefcountingDemo();
 
   printf(" --- demonstration finished ---\n");
-  printf(" >>> because this demo is linked with the diagnostic version of\n"
-	 "the sac privat heap manager and the modules are compiled to do\n"
-	 "some diagnostics, you will get some statitics about memeory usage.\n");
 
-  WAIT_FOR_KEY();
   SAC_FreeRuntimeSystem();
   return(0);
 }
