@@ -50,6 +50,7 @@ include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
 #
 # tutorial:
 #
+
 tutorial.d: tutorialMod.aDD tutorial
 
 tutorial: tutorial.c include/tutorialMod.h
@@ -60,6 +61,7 @@ tutorial: tutorial.c include/tutorialMod.h
 #
 # relax:
 #
+
 relax.d: relaxMod.aDD relax
 
 relax: relax.c include/relaxMod.h
@@ -70,6 +72,7 @@ relax: relax.c include/relaxMod.h
 #
 # overload:
 #
+
 overload.d: overloadMod.aDD overload
 
 overload: overload.c include/overloadMod.h
@@ -80,6 +83,7 @@ overload: overload.c include/overloadMod.h
 #
 # usePhm:
 #
+
 usePhm.d:
 	$(MAKE) "SAC2CFLAGS= $(SAC2CFLAGS) -check h" usePhmMod.aDD
 	$(MAKE) usePhm
@@ -92,6 +96,7 @@ usePhm: usePhm.c include/usePhmMod.h
 #
 # features:
 #
+
 features.d:
 	$(MAKE) "SAC2CFLAGS= $(SAC2CFLAGS) -check h" featuresMod_fix.aDD
 	$(MAKE) "SAC2CFLAGS= $(SAC2CFLAGS) -check h" featuresMod_gen.aDD
@@ -120,6 +125,7 @@ features: features.c include/featuresMod_fix.h include/featuresMod_gen.h
 #
 # useTwoLibs:
 #
+
 useTwoLibs.d: useTwoLibsMod1.aDD useTwoLibsMod2.aDD useTwoLibs
 
 useTwoLibs: useTwoLibs.c include/useTwoLibsMod1.h include/useTwoLibsMod2.h
@@ -139,6 +145,7 @@ useTwoLibs: useTwoLibs.c include/useTwoLibsMod1.h include/useTwoLibsMod2.h
 	                 $(SACBASE)/stdlib/hidden/lib/FibrePrint.a \
 	                 $(SACBASE)/stdlib/hidden/lib/PrintArray.a \
 	                 -lm -lsac_heapmgr -lsac
+
 
 ################################################################################
 #
@@ -172,6 +179,7 @@ objects: objects.c include/IntStack.h include/objectsMod.h
 #
 # useTypes:
 #
+
 useTypes.d: useTypesMod.aDD useTypes
 
 useTypes: useTypes.c include/useTypesMod.h
@@ -201,4 +209,3 @@ clean: local_clean
 
 local_clean:
 	$(RM) $(TARGETS)
-
