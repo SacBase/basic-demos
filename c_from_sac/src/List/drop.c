@@ -22,6 +22,9 @@ void drop( SAC_ND_PARAM_out( res_nt, list *),
     SAC_RuntimeError( "negative first arg of drop\n");
   }
 
+  SAC_ND_A_DESC( res_nt) = SAC_ND_A_DESC( elems_nt);
+  SAC_ND_A_FIELD( res_nt) = SAC_ND_A_FIELD( elems_nt);
+
   while (n > 0) {
     if (res->rest == NULL) {
       SAC_RuntimeError( "first arg of drop %d larger than length of list\n", n);
