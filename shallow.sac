@@ -1,4 +1,14 @@
 /*
+ *  Shallow Water
+ *
+ *  Weather prediction using a finite difference model.
+ *  Benchmark 
+ * 
+ *  Sac-version
+ *  Jan-Hendrik Schoeler, March 1999, CAU
+ *  developed from the following fortran-version:
+ *
+ *
  *     BENCHMARK WEATHER PREDICTION PROGRAM FOR COMPARING THE
  *     PREFORMANCE OF CURRENT SUPERCOMPUTERS. THE MODEL IS
  *     BASED OF THE PAPER - THE DYNAMICS OF FINITE-DIFFERENCE
@@ -10,9 +20,6 @@
  *     NATIONAL CENTER FOR ATMOSPHERIC RESEARCH
  *     BOULDER, CO
  *     OCTOBER 1984
- *
- *     fortran-code adapted for sac by
- *     Jan-Hendrik Schoeler April 1999
  */
 
 import Math:all;
@@ -21,18 +28,18 @@ import ArrayIO:all;
 import ScalarIO:all;
 
 /*
- *  ATTENTION: Due problems with with the amount of memory needed for
+ *  ATTENTION: Due to problems with with the amount of memory needed for
  *             compilation of the program, not all important functions are inlined!!!
- *             To reach better performance define DOINL, so all the functions
+ *             To achieve better performance define DOINL, so all the functions
  * 	       will be inlied.
  */
 
 /* 
- *  MM and NN define a matrix MM x NN, d.h. 0..MM-1 x 0..NN-1, with MM >= NN !!
+ *  MM and NN define a matrix MM x NN, i.e. 0..MM-1 x 0..NN-1, with MM >= NN !!
  *  If NN is not specified it will be set to the same value as MM.
  *  Dynamic continuation is used in this realisation, so there must be a row and a 
- *  column for the continuation values. So MM should be (m * m) + 1, and NN equivalent 
- *  (n * n) + 1. ITER defines the number of Iterations to be done.
+ *  column for the continuation values. MM should be (m * m) + 1, and NN equivalent to
+ *  (n * n) + 1. ITER defines the number of Iterations to be computed.
  */
 
 #ifndef MM
