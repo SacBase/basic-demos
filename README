@@ -7,7 +7,12 @@
  *   This file is to give an overview of the SAC demo programs that come
  *   with the SAC distribution.
  *   
- *   
+ *   The directory comes with a Makefile that contains pattern rules
+ *   for making executables from SAC-source files. Therefore each of the
+ *   demo programs <name>.sac can be compiled by simply running (GNU-)
+ *   "make <name>". The pattern rules provided even comprise an implicit
+ *   dependency-checking system. It makes sure that any modul needed for
+ *   the compilation of a particular program will be compiled on beforehand.
  *   
  *****************************************************************************/
 
