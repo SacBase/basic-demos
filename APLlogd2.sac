@@ -1,0 +1,146 @@
+import StdIO: all;
+import Array: all;
+
+/*
+ * APL_benchmark: LOGD version 2 (n-ary reduce)
+ *
+ * LOGD is a kernel routine from a signal processing application.
+ * This program is a direct translation of a given APL program.
+ * Within each SAC function definition, the APL counterpart (in
+ * J. Weigang transcription) is given within comments.
+ *
+ *
+ * The following flags parameterize the program:
+ *
+ * N - problem size as integer value (default 500.000)
+ *
+ *
+ * The following flags require compiler debugging / extension:
+ *
+ * INL_during_TC_works - define only if inlining is done during type checking, i.e.,
+ *                       for "inline" functions, not only shape-specific, but also
+ *                       value specific instances are built!
+ *
+ */
+
+#ifndef N
+#define N 500000
+#endif
+
+
+/******************************************************************************
+ * 
+ * int[] iota( int[] shp)
+ *
+ *****************************************************************************/
+
+#ifdef INL_during_TC_works
+
+  inline int[] iota( int[] shp)
+  {
+    res = with( . <= [i] <= .)
+          genarray( shp, i);
+    return( res);
+  }
+
+#else
+
+#define iota(shp) with( . <= [i] <= .) genarray( shp, i)
+
+#endif
+
+/******************************************************************************
+ * 
+ * double[] tile( int[] shp, int[] offset, double[] a)
+ *
+ *****************************************************************************/
+ 
+#ifdef INL_during_TC_works
+ 
+  inline double[] tile( int[] shp, int[] offset, double[] a)
+  {
+    res = with( . <= iv <= .)
+          genarray( shp, a[iv+offset]);
+    return( res);
+  }
+ 
+#else
+ 
+#define tile(shp,offset,a) with( . <= ivv <= .) genarray( shp, a[ivv+offset])
+ 
+#endif
+
+/******************************************************************************
+ * 
+ * double[] minus_2_reduce( int n, double[] v)
+ *
+ *****************************************************************************/
+
+inline double[] minus_2_reduce( int n, double[] v)
+{
+  res = with( . <= iv < .) {
+          tl = tile( [2], iv, v);
+          val = tl[1] - tl[0];       
+        } genarray( shape(v)-1, val);
+  return( res);
+}
+
+/******************************************************************************
+ * 
+ * double[] diff( double[] sig)
+ *
+ *****************************************************************************/
+
+inline double[] diff( double[] sig)
+{
+  /*
+   * RES{<-}DIFF3 SIG
+   * @edited under 2 BFRONT 89/11/21 14:09:09
+   * @ differentiation function
+   * RES{<-}{neg}2 -/ 0.0E0,SIG
+   */
+  res = minus_2_reduce( 2, cat( 0, [0d], sig));
+  return(res);
+}
+
+/******************************************************************************
+ *
+ * double[] logd( double[] wv)
+ *
+ *****************************************************************************/
+
+double[] logd( double[] wv)
+{
+  /*
+   * L{<-}LOGD3 WV;RR
+   * @edited under 2 GAPP 94/11/03 17:38:01
+   * @Computes log derivative using method
+   * @ in 4/23/85, Notebook {#}7{lefttack}
+   * @ r(t)=f'(t)/Rr+f(t)..RR allows
+   * @ real world computation
+   * RR{<-}.01
+   * L{<-}{neg}50{max}50{min}50{times}(DIFF3 WV){divide}RR+WV
+   */
+
+  res = max( -50d, min( 50d, 50d*(diff( wv) / (0.01+wv))));
+  return( res);
+}
+
+/******************************************************************************
+ *
+ * int main()
+ *
+ *****************************************************************************/
+
+int main()
+{
+  /*
+   * r{<-}benlogd3 siz
+   * @ Bench Bates' LOGDERIV function
+   * @ dcl integer scalar siz
+   * r{<-}+/LOGD3 .5+{iota}siz
+   */
+  res = sum( logd( 0.5 + tod(iota([N]))));
+  printf( "sum( logd( 0.5 + tod(iota([%d])))) = %f\n", N, res);
+  return(0);
+}

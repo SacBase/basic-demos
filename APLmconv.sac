@@ -1,0 +1,163 @@
+import Array: all;
+import ArrayIO: all;
+import StdIO: all;
+
+/*
+ * APL_benchmark: MCONV
+ *
+ * MCONV is a kernel routine from a seismic signal processing application.
+ * It implements one-dimensional convolution.
+ * The program is a direct translation of a given APL program.
+ * Within each SAC function definition, the APL counterpart (in
+ * J. Weigang transcription) is given within comments.
+ *
+ *
+ * The following flags parameterize the program:
+ *
+ * X - size of the wavelet as integer value (default 50)
+ * Y - size of the trace as integer value (default 10.000)
+ *
+ * The next two flags are only needed since TC cannot yet do CF:
+ *
+ * Xm1 - equals (X-1) 
+ * Xm1pY - equals (X-1+Y)
+ *
+ *
+ * The following flags require compiler debugging / extension:
+ *
+ * INL_during_TC_works - define only if inlining is done during type checking!
+ *
+ * INL_FOLD_BUG_IS_FIXED - define only if fold-WL can be inlined error-free!
+ *
+ *
+ * REMARKS:
+ * --------
+ * for best run-times: compile with -intrinsic rp !
+ *  -p is needed for enabling WLF,
+ *  -r generates better code for rotate!
+ */
+
+#ifndef X
+#define X 50
+#endif 
+#ifndef Xm1
+#define Xm1 49
+#endif
+#ifndef Y
+#define Y 10000
+#endif
+#ifndef Xm1pY
+#define Xm1pY 10049
+#endif
+
+/******************************************************************************
+ *
+ * int[] iota( int[] shp)
+ *
+ *****************************************************************************/
+ 
+#ifdef INL_during_TC_works
+ 
+  inline int[] iota( int[] shp)
+  {
+    res = with( . <= [i] <= .)
+          genarray( shp, i);
+    return( res);
+  }
+ 
+#else
+ 
+#define iota(shp) with( . <= [i] <= .) genarray( shp, i)
+ 
+#endif
+
+/******************************************************************************
+ *
+ * double[] rot( int[] v, double[] a)
+ *
+ *****************************************************************************/
+ 
+inline double[] rot( int[] v, double[] a)
+{
+  res = with( . <= iv <= .)
+        genarray( shape(v), rotate( 0, -v[iv], a[iv]));
+  return( res);
+}
+ 
+/******************************************************************************
+ *
+ * double[] VxM( double[] v, double[] m)
+ *
+ *****************************************************************************/
+ 
+#ifdef INL_FOLD_BUG_IS_FIXED
+ 
+  inline double[] VxM( double[] v, double[] m)
+  {
+    neutr = genarray( [shape(m)[1]], 0d);
+    res = with(0*shape(v) < iv < shape(v))
+          fold( +, neutr, v[iv] * m[iv]);
+    return(res);
+  }
+ 
+#else
+
+#define VxM(v,m) with(0*shape(v) <= iv < shape(v)) \
+                 fold( +, genarray([Xm1pY], 0d), v[iv] * m[iv])
+
+#endif
+
+/******************************************************************************
+ *
+ * double[] conv( double[] wz, double[] tr)
+ *
+ *****************************************************************************/
+
+double[] conv( double[] wz, double[] tr)
+{
+  /*
+   * r{<-}wz conv tr;npad;h;n
+   * @ Conv performs standard convolution
+   * @ wz is the filter/wavelet vector (usually shorter than tr)
+   * @ tr is the seis trace or other vector to be filtered
+   * @ conv uses reshape and matrix/vector multiplication.
+   * @ Output r is a vector, the filtered/convolved trace.
+   * h{<-}tr,({neg}1+n{<-}{rho}wz){rho}0
+   * r{<-}({rho}tr){take}wz+.{times}({iota}n){rotate}(n,{rho}h){rho}h
+   */
+  h = cat( 0, tr, genarray( [Xm1], 0d));
+
+  t = rot( iota(shape(wz)), genarray([X], h));
+  res = take( [Y], VxM( wz, t));
+
+  return(res);
+}
+
+/******************************************************************************
+ *
+ * int main()
+ *
+ *****************************************************************************/
+
+int main()
+{
+  /*
+   * r{<-}x mconv y;tr;wz
+   * @ Execute convolution problem using big temps
+   * @ dcl integer scalar x
+   * @ dcl integer scalar y
+   * wz{<-}0.01{times}1+{iota}x
+   * tr{<-}0.01{times}1+{iota}y
+   * r{<-}+/wz conv tr
+   */
+
+  wz = 0.01 * (1d + tod( iota([X])));
+  tr = 0.01 * (1d + tod( iota([Y])));
+  
+  res = sum( conv( wz,tr));
+
+  printf( "sum( conv( 0.01 * (1d + tod(iota([%d]))), 0.01 * (1d + tod(iota(%d))))) = %f\n",
+          X, Y, res);
+
+  return(0);
+}
