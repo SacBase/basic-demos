@@ -1,13 +1,11 @@
 /*
- *
  * $Log$
+ * Revision 3.2  2000/12/13 11:31:23  nmw
+ * comment useTypes added
+ * ,
+ *
  * Revision 3.1  2000/11/20 18:07:02  sacbase
  * new release made
- *
- * Revision 1.2  2000/11/17 13:14:08  nmw
- * cvs header added
- *
- *
  */
 
 /*****************************************************************************
@@ -84,5 +82,11 @@ This demo shows the usage of a SAC class/object. This example uses the
 "IntStack.sac" demo class. The c program uses this int stack as abstract
 datatype. There is also an example access to the global IntStack from
 a second SAC module.
+
+8) useTypes.c
+This demo shows the usage of a user defined type. Here a 'List'-type with
+some functions is used to fill, append and print lists. There is no access
+to the internal parts of this data type, but the 'list' datatype can be
+used as an abtract type with its functions (similar to a class).
 
 
