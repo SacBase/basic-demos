@@ -3,26 +3,33 @@
 # General Setup:
 #
 SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3
-#SAC2CFLAGS += -mt
 #SAC2CFLAGS += -noopt
 
 #
 # Setup for Makefile.standard:
 #
-# EXCLUDE_FILES               =
-MAKE_MT_ALSO                = yes
+# EXCLUDE_FILES               = 
 # TARGETDIR                   = .
 # LIBTARGETDIR                = .
+# INCTARGETDIR                = .
 # LIBSRCDIR                   = .
-# SUBDIRS                     =
-# MAKE_NON_LOCAL_DEPENDENCIES =
- 
+# SUBDIRS                     = .
+# MAKE_NON_LOCAL_DEPENDENCIES = 
+
+#
+# Setup for Makefile.versions
+#
+# EXCLUDE_FILES_FOR_MT        = 
+MAKE_MT_ALSO                = yes
+# VERSDIR                     = .
+
 #
 # Setup for Makefile.check:
 #
-CHECKLOGFILE    = ./CHECKLOG
-# CHECKDIR = .checkdir
-# RT_FLAGS =
+CHECKLOGFILE                = ./CHECKLOG
+# CHECKDIR                    = .checkdir
+# RT_FLAGS                    = 
+# INPSDIR                     = 
 #
 #######################################################################################
 
