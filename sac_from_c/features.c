@@ -1,6 +1,9 @@
 /*
  *
  * $Log$
+ * Revision 3.2  2001/01/25 14:17:49  dkr
+ * line break removed
+ *
  * Revision 3.1  2000/11/20 18:07:03  sacbase
  * new release made
  *
@@ -318,7 +321,6 @@ int main()
   printf("This demo program shows several features of the C-interface\n");
 
   VectorDemo();
-  
   WAIT_FOR_KEY();
 
   MatrixStructureDemo();
@@ -341,5 +343,3 @@ int main()
   SAC_FreeRuntimeSystem();
   return(0);
 }
-
-
