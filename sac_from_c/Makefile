@@ -145,7 +145,7 @@ objects.d:
 	$(MAKE) "SAC2CFLAGS= $(SAC2CFLAGS) -noPHM" objectsMod.aDD
 	$(MAKE) objects
 
-objects: objects.c
+objects: objects.c include/IntStack.h include/objectsMod.h
 	$(CC) $(CCFLAGS) -o objects objects.c -lIntStack -lobjectsMod \
 	                 $(SACBASE)/stdlib/hidden/lib/StringC.a \
 	                 $(SACBASE)/stdlib/hidden/lib/FibreScan.a \
