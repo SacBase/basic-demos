@@ -10,7 +10,7 @@
 
 #define elems_nt (elems, (SCL, (HID, (NUQ,))))
 
-int hd( SAC_ND_PARAM_in( elems_nt, list))
+int hd( SAC_ND_PARAM_in( elems_nt, list *))
 {
   int res;
 
