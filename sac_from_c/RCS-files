@@ -7,3 +7,4 @@ relax.c
 tutorial.c
 usePhm.c
 useTwoLibs.c
+useTypes.c
