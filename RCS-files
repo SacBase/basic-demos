@@ -1,8 +1,10 @@
 IntStack.dec
 IntStack.sac
 Makefile
-arrays1.sac
-arrays2.sac
-commandline.sac
-string.sac
+README
+arrays.sac
+relax.sac
+use_CommandLine.sac
 use_IntStack.sac
+use_String.sac
+withloop.sac
