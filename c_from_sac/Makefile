@@ -13,8 +13,8 @@ SAC2CFLAGS = -O3 -v1 -noLIR -maxlur 3
 # TARGETDIR                   = .
 # LIBTARGETDIR                = .
 LIBSRCDIR                   = $(patsubst %.libDD,src/%/,$@)
-# SUBDIRS                     = src/List
-# MAKE_NON_LOCAL_DEPENDENCIES = yes
+SUBDIRS                     = src/List
+MAKE_NON_LOCAL_DEPENDENCIES = yes
  
 #
 # Setup for Makefile.check:
@@ -25,6 +25,3 @@ LIBSRCDIR                   = $(patsubst %.libDD,src/%/,$@)
 #######################################################################################
 
 include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
-
-quicksort_list: List.libDD
-
