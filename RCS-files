@@ -1,4 +1,7 @@
-APLlogd3.sac
+APLlogd1.sac
+APLlogd2.sac
+APLmconv.sac
+APLmconv_opt.sac
 IntStack.dec
 IntStack.sac
 Makefile
