@@ -1,0 +1,34 @@
+/*
+ *
+ * $Log$
+ * Revision 1.1  2000/11/17 13:27:26  nmw
+ * Initial revision
+ *
+ *
+ */
+
+Module featuresMod_fix:
+import Array: all;
+/* demo-module with functions of fixed shape for use from a c program*/
+
+/* calculated the sum of the given vector */
+int calcSumOfVector(int[100] values)
+{
+  int result;
+  result=with([0]<=i<[100])fold(+, values[i]);
+  return(result);
+}
+
+/* calculated different values from a integer vector */
+int, int, int analyseVector(int[100] v)
+{
+  return(minval(v), maxval(v), sum(v) );
+}
+
+
+/* generates a 10x10 matrix with a border of zeros, filled with values */
+int[10,10] MatrixWithBorder(int value)
+{
+  return(with([1,1] <= idx <= [8,8])
+     genarray([10,10], value));
+}

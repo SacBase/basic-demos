@@ -1,0 +1,19 @@
+/*
+ *
+ * $Log$
+ * Revision 1.1  2000/11/17 13:31:19  nmw
+ * Initial revision
+ *
+ *
+ */
+
+Module useTwoLibsMod2:
+import StdIO: all;
+
+int fun(int value)
+{
+  print(">>> output from useTwoLibsMod2:fun ");
+  print(value);
+  print("\n");
+  return(value+1);
+}

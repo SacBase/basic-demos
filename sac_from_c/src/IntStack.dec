@@ -1,0 +1,30 @@
+ClassDec IntStack :
+
+import StdIO: all;
+own:
+{
+implicit types:
+
+explicit types:
+
+global objects:
+  IntStack Stack;
+
+functions:
+  IntStack create_stack();
+  void delete_stack(IntStack stack);
+  void push(IntStack &stack, int val);
+  int pop(IntStack &stack);
+  int top(IntStack &stack);
+  bool is_empty(IntStack &stack);
+  bool is_full(IntStack &stack);
+  int size(IntStack &stack);
+  void print(IntStack &stack);
+  void push(int val);
+  int pop();
+  int top();
+  bool is_empty();
+  bool is_full();
+  int size();
+  void print();
+}

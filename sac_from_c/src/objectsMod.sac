@@ -1,0 +1,22 @@
+/*
+ *
+ * $Log$
+ * Revision 1.1  2000/11/17 13:28:31  nmw
+ * Initial revision
+ *
+ *
+ */
+
+Module objectsMod:
+
+import IntStack: all;
+
+int GetLastItemFromStack()
+{
+  int v;
+  do {
+    v=pop();
+  } while(!is_empty());
+
+  return(v);
+}

@@ -1,0 +1,43 @@
+/*
+ *
+ * $Log$
+ * Revision 1.1  2000/11/17 13:29:18  nmw
+ * Initial revision
+ *
+ *
+ */
+
+Module relaxMod :
+import Array: all;
+
+/*****************************************************************************
+ * 
+ * based on demo-file:   relax_fix.sac
+ *   
+ *   This SAC module implements 2-dimensional relaxation on double
+ *   precision floating point numbers applying a 4-point stencil and fixed
+ *   boundary conditions.
+ *
+ *****************************************************************************/
+
+inline double[] onestep(double[.,.] B) 
+{ 
+  A = with ( . < x < . )
+      modarray(B, x, 0.25*(B[x+[1,0]]
+                           + B[x-[1,0]]
+                           + B[x+[0,1]]
+                           + B[x-[0,1]]) );
+
+  return(A);
+}
+
+inline double[] relax(double[] A, int steps)
+{
+  for (k=0; k<steps; k++) {
+    A = onestep(A);
+  }
+  
+  return(A);
+}
+
+

@@ -1,0 +1,16 @@
+/*
+ *
+ * $Log$
+ * Revision 1.1  2000/11/17 13:30:43  nmw
+ * Initial revision
+ *
+ *
+ */
+
+Module usePhmMod:
+
+int myPhmTestFun(int[10] v, int i)
+{
+  a=v+i;
+  return(a[[0]]);
+}

@@ -1,0 +1,22 @@
+/*
+ *
+ * $Log$
+ * Revision 1.1  2000/11/17 13:27:45  nmw
+ * Initial revision
+ *
+ *
+ */
+
+Module featuresMod_gen:
+
+/* demo-module with functions of generic shape for use from a c program*/
+
+int[] addValue(int[] v, int value)
+{
+  return(v+value);
+}
+
+int[] addVectors(int[] v1, int[] v2)
+{
+  return(v1+v2);
+}
