@@ -10,10 +10,10 @@
 
 #define res_nt (res, (SCL, (HID, (NUQ,))))
 
-void nil( SAC_ND_PARAM_out( res_nt, list *))
+void nil( SAC_ND_PARAM_out( res_nt, list))
 {
   SAC_ND_DECL__DESC( res_nt, )
-  SAC_ND_DECL__DATA( res_nt, list *, )
+  SAC_ND_DECL__DATA( res_nt, list, )
 
   res = (list *) SAC_MALLOC( sizeof( list));
   res->rest = NULL;
@@ -30,7 +30,7 @@ void nil( SAC_ND_PARAM_out( res_nt, list *))
 
 #undef res_nt
 
-#else
+#else  /* TAGGED_ARRAYS */
 
 void nil( SAC_ND_PARAM_out_rc( list *, res))
 {
@@ -55,4 +55,4 @@ void nil( SAC_ND_PARAM_out_rc( list *, res))
   *res__rc__p = res->rc;
 }
 
-#endif
+#endif  /* TAGGED_ARRAYS */

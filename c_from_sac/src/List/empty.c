@@ -10,7 +10,7 @@
 
 #define elems_nt (elems, (SCL, (HID, (NUQ,))))
 
-int empty( SAC_ND_PARAM_in( elems_nt, list *))
+int empty( SAC_ND_PARAM_in( elems_nt, list))
 {
   int res;
 
@@ -25,7 +25,7 @@ int empty( SAC_ND_PARAM_in( elems_nt, list *))
 
 #undef elems_nt
 
-#else
+#else  /* TAGGED_ARRAYS */
 
 int empty( SAC_ND_PARAM_in_rc( list *, elems))
 {
@@ -45,4 +45,4 @@ int empty( SAC_ND_PARAM_in_rc( list *, elems))
   return( res);
 }
 
-#endif
+#endif  /* TAGGED_ARRAYS */

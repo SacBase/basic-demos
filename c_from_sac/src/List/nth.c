@@ -10,7 +10,7 @@
 
 #define elems_nt (elems, (SCL, (HID, (NUQ,))))
 
-int nth( int n, SAC_ND_PARAM_in( elems_nt, list *))
+int nth( int n, SAC_ND_PARAM_in( elems_nt, list))
 {
   list *ptr;
   int res;
@@ -38,7 +38,7 @@ int nth( int n, SAC_ND_PARAM_in( elems_nt, list *))
 
 #undef elems_nt
 
-#else
+#else  /* TAGGED_ARRAYS */
 
 int nth( int n, SAC_ND_PARAM_in_rc( list *, elems))
 {
@@ -72,4 +72,4 @@ int nth( int n, SAC_ND_PARAM_in_rc( list *, elems))
   return( res);
 }
 
-#endif
+#endif  /* TAGGED_ARRAYS */

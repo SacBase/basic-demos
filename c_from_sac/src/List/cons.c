@@ -11,12 +11,12 @@
 #define res_nt   (res,   (SCL, (HID, (NUQ,))))
 #define elems_nt (elems, (SCL, (HID, (NUQ,))))
 
-void cons( SAC_ND_PARAM_out( res_nt, list *),
+void cons( SAC_ND_PARAM_out( res_nt, list),
            int elem,
-           SAC_ND_PARAM_in( elems_nt, list *))
+           SAC_ND_PARAM_in( elems_nt, list))
 {
   SAC_ND_DECL__DESC( res_nt, )
-  SAC_ND_DECL__DATA( res_nt, list *, )
+  SAC_ND_DECL__DATA( res_nt, list, )
 
   res = (list *) SAC_MALLOC( sizeof( list));
   res->elem = elem;
@@ -38,7 +38,7 @@ void cons( SAC_ND_PARAM_out( res_nt, list *),
 #undef elemsB_nt
 #undef new_nt
 
-#else
+#else  /* TAGGED_ARRAYS */
 
 void cons( SAC_ND_PARAM_out_rc( list *, res),
            int elem,
@@ -70,4 +70,4 @@ void cons( SAC_ND_PARAM_out_rc( list *, res),
   *res__rc__p = res->rc;
 }
 
-#endif
+#endif  /* TAGGED_ARRAYS */

@@ -13,12 +13,12 @@
 #define elemsB_nt (elemsB, (SCL, (HID, (NUQ,))))
 #define new_nt    (new,    (SCL, (HID, (NUQ,))))
 
-void append( SAC_ND_PARAM_out( res_nt, list *),
-             SAC_ND_PARAM_in( elemsA_nt, list *),
-             SAC_ND_PARAM_in( elemsB_nt, list *))
+void append( SAC_ND_PARAM_out( res_nt, list),
+             SAC_ND_PARAM_in( elemsA_nt, list),
+             SAC_ND_PARAM_in( elemsB_nt, list))
 {
   SAC_ND_DECL__DESC( new_nt, )
-  SAC_ND_DECL__DATA( new_nt, list *, )
+  SAC_ND_DECL__DATA( new_nt, list, )
 
   if (elemsA->rest == NULL) { /* elemsA == NIL! */
     SAC_ND_RET_out( res_nt, elemsB_nt)
@@ -99,7 +99,7 @@ void append( SAC_ND_PARAM_out( res_nt, list *),
 #undef elemsB_nt
 #undef new_nt
 
-#else
+#else  /* TAGGED_ARRAYS */
 
 void append( SAC_ND_PARAM_out_rc( list *, res),
              SAC_ND_PARAM_in_rc( list *, elemsA),
@@ -192,4 +192,4 @@ void append( SAC_ND_PARAM_out_rc( list *, res),
   }
 }
 
-#endif
+#endif  /* TAGGED_ARRAYS */

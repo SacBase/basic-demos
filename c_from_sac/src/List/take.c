@@ -13,14 +13,14 @@
 #define new_nt   (new,   (SCL, (HID, (NUQ,))))
 #define last_nt  (last,  (SCL, (HID, (NUQ,))))
 
-void _take( SAC_ND_PARAM_out( res_nt, list *),
+void _take( SAC_ND_PARAM_out( res_nt, list),
             int n,
-            SAC_ND_PARAM_in( elems_nt, list *))
+            SAC_ND_PARAM_in( elems_nt, list))
 {
   SAC_ND_DECL__DESC( new_nt, )
-  SAC_ND_DECL__DATA( new_nt, list *, )
+  SAC_ND_DECL__DATA( new_nt, list, )
   SAC_ND_DECL__DESC( last_nt, )
-  SAC_ND_DECL__DATA( last_nt, list *, )
+  SAC_ND_DECL__DATA( last_nt, list, )
 
   if (n < 0) {
     SAC_RuntimeError( "negative first arg of take\n");
@@ -131,7 +131,7 @@ void _take( SAC_ND_PARAM_out( res_nt, list *),
 #undef new_nt
 #undef last_nt
 
-#else
+#else  /* TAGGED_ARRAYS */
 
 void _take( SAC_ND_PARAM_out_rc( list *, res),
             int n,
@@ -247,4 +247,4 @@ void _take( SAC_ND_PARAM_out_rc( list *, res),
   }
 }
 
-#endif
+#endif  /* TAGGED_ARRAYS */

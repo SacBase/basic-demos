@@ -11,12 +11,12 @@
 #define res_nt   (res,   (SCL, (HID, (NUQ,))))
 #define elems_nt (elems, (SCL, (HID, (NUQ,))))
 
-void drop( SAC_ND_PARAM_out( res_nt, list *),
+void drop( SAC_ND_PARAM_out( res_nt, list),
            int n,
-           SAC_ND_PARAM_in( elems_nt, list *))
+           SAC_ND_PARAM_in( elems_nt, list))
 {
   SAC_ND_DECL__DESC( res_nt, )
-  SAC_ND_DECL__DATA( res_nt, list *, )
+  SAC_ND_DECL__DATA( res_nt, list, )
 
   if (n < 0) {
     SAC_RuntimeError( "negative first arg of drop\n");
@@ -45,7 +45,7 @@ void drop( SAC_ND_PARAM_out( res_nt, list *),
 #undef res_nt
 #undef elems_nt
 
-#else
+#else  /* TAGGED_ARRAYS */
 
 void drop( SAC_ND_PARAM_out_rc( list *, res),
            int n,
@@ -82,4 +82,4 @@ void drop( SAC_ND_PARAM_out_rc( list *, res),
   *res__rc__p = res->rc;
 }
 
-#endif
+#endif  /* TAGGED_ARRAYS */

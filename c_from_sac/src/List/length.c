@@ -10,7 +10,7 @@
 
 #define elems_nt (elems, (SCL, (HID, (NUQ,))))
 
-int length( SAC_ND_PARAM_in( elems_nt, list *))
+int length( SAC_ND_PARAM_in( elems_nt, list))
 {
   list *ptr = elems;
   int res = 0;
@@ -28,7 +28,7 @@ int length( SAC_ND_PARAM_in( elems_nt, list *))
 
 #undef elems_nt
 
-#else
+#else  /* TAGGED_ARRAYS */
 
 int length( SAC_ND_PARAM_in_rc( list *, elems))
 {
@@ -52,4 +52,4 @@ int length( SAC_ND_PARAM_in_rc( list *, elems))
   return( res);
 }
 
-#endif
+#endif  /* TAGGED_ARRAYS */
