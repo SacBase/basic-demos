@@ -1,15 +1,24 @@
+/*
+ *
+ * $Log$
+ * Revision 1.2  2000/11/17 13:14:08  nmw
+ * cvs header added
+ *
+ *
+ */
+
 /*****************************************************************************
  * 
  * file:   README
  *
  * description:
  *
- *   This file is to give an overview of the SAC demo programs of this
+ *   This file is to give an overview of the C demo programs of this
  *   directory.
  *   
- *   The directory comes with a Makefile that contains pattern rules
- *   for making executables from SAC-source files. Therefore each of the
- *   demo programs <name>.sac can be compiled by simply running (GNU-)
+ *   The directory comes with a Makefile that contains rules
+ *   for making executables from the C-source files. Therefore each of the
+ *   demo programs <name>.c can be compiled by simply running (GNU-)
  *   "make <name>". The pattern rules provided even comprise an implicit
  *   dependency-checking system. It makes sure that any module needed for
  *   the compilation of a particular program will be compiled on beforehand.
@@ -18,185 +27,58 @@
 
 
 
-SAC demo modules and classes:
-=============================
+C demo programms using SAC modules and classes:
+===============================================
+These C demo programs use the SAC interface for C. You can export a
+SAC module as a C library and use the SAC functions in your C code.
+You can find the sources of the SAC modules used by these demos in the
+"src" directory. The compiled and exported libraries you can find in the
+"lib" directory, the corresponding headerfile in the "include" directory.
+The necessary specialization files for the generic functions in the SAC
+modules are also located in the "src" directory.
+For further details concerning the SAC interface for C programs have a look
+at the "sac_cinterface.h" headerfile in the runtime directory of your
+SAC compiler.
+
+1) tutorial.c
+This C program demonstrates how a SAC module is used by a C program.
+It performs the five simple steps: initialize data, convert c data to
+SAC, call to the exported SAC function, convert back SAC result to c
+and finish the program.
+The program inits a vector and adds it to itself using a simple 
+generic SAC function defined in module "tutorialMod.sac".
+
+2) features.c
+This C programm shows several features of the SAC interface for C
+programs concerning vector and matrix operations. The used functions are
+defined in the "featuresMod_fix.sac" and "featuresMod_gen.sac" (functions
+with fixed shape and generic functions).
+ 
+3) relax.c
+This is a small numerical example that calculates a relaxation. The SAC 
+function in "relaxMod.sac" is based on the relax example in the
+SAC demo/numerical directory.
+The user can select the matrix size and the number of iteration when
+calculating the relaxation.
+
+4) overload.c
+The SAC module "overloadMod.sac" used in this demo contains generic
+functions specialized for the fixed shapes specified in the
+"overloadMod.spec" file. The interface allows you to overload functions
+of different types, too.
+
+5) usePhm.c
+This demo shows the usage of the SAC private heap manager and its debug
+statistical output after you run your program. The private heap manager
+is used for the SAC- and the C-part of your program.
+
+6) useTwoLibs.c
+This program demonstrates how to use two or more SAC modules in your c
+programm even if the share global objects.
+
+7) objects.c
+This demo shows the usage of a SAC class/object. This example uses the
+"IntStack.sac" demo class. The c program uses this int stack as abstract
+datatype. There is also an example access to the global IntStack from
+a second SAC module.
 
-
-1) IntStack.dec / IntStack.sac
-
-The SAC class IntStack demonstrates the basic concepts of how states and
-state modifications are integrated into the functional framework of SAC.
-An integer stack is implemented as an example data structure. Besides the
-appropriate abstract data type, a set of common access and manipulation
-functions is provided. Using the notion of global objects in SAC, also,
-a predefined global stack is incorporated.
-
-Apart from the state specific stuff, this class is also a useful introduction
-to the declaration and implementation of modules in SAC since classes are
-special kinds of modules.
-
-
-
-
-SAC demo programs:
-==================
-
-
-1) gcd.sac
-
-This SAC demo program is ment as a very basic, introductory example.
-It prints the greatest common denominator of 22 and 27. The main objective
-of this program is to demonstrate the similarity between SAC and C programs.
-Furthermore, it makes use of some minor extensions introduced in SAC for
-convenience reasons, e.g. omited type declarations or multiple return values.
-
-2) arrays.sac
-
-This SAC demo program prints an introduction to the SAC array concept.
-Basic issues like the SAC specific representation of arrays are covered
-as well as the basic operations on arrays. Moreover, the functionality of
-some high-level array operations that used to be primitive in former versions
-of SAC, but are now provided by the module 'Array' from the SAC standard 
-library, is explained by means of examples.
-
-
-3) withloop.sac
-
-This SAC demo program prints an introduction to the SAC specific array
-construct with-loop. However, only a subset of the complete functionality
-of today's with-loops is covered by this demo program.
-
-
-4) use_CommandLine.sac
-
-This SAC demo program prints a reference guide to the module 'CommandLine'
-from the SAC standard library. This module provides access to the command
-line arguments of a SAC application program.
-
-
-5) use_String.sac
-
-This SAC demo program prints a reference guide to the module 'String' from
-he SAC standard library. This module provides strings as an abstract data type
-along with a large set of operations on strings.
-
-
-6) use_IntStack.sac
-
-This SAC demo program demonstrates the usage of the demo class IntStack
-(see above). Some comprehensive stack operations are defined based on the
-stack primitives provided by the class IntStack. These are applied to various
-example stacks and the respective results are printed.
-
-
-7) relax_fix.sac
-
-This SAC demo program implements 2-dimensional relaxation with a 4-point
-stencil and fixed boundary conditions. This is a typical example of a 
-program used for benchmarking.
-
-
-8) relax_fix_rotate.sac
-
-Basically, this is the same program as "relax_fix.sac". The only difference
-is that the relaxation step is specified by a summation of rotated arrays
-rather than an element-wise specification of sums of neighbor elements.
-It demonstrates nicely the effect of WithLoopFolding. For more details see
-<hhtp://www.informatik.uni-kiel.de/~sacbase/papers/wlf-exp-london-98.ps.gz>.
-
-
-9) NASmg_with_borders.sac
-
-This is the SAC implementation of the NAS benchmark MG. The main goal
-of this implementation is to to specify exactly the same algorithm as 
-given in the Fortran benchmark, but try to specify it much more elegantly.
-For more details see <hhtp://www.informatik.uni-kiel.de/~sacbase/papers/
-scientific-applications-sac-bonn-96.ps.gz>.
-The source code contains 4 different versions which can be selected by
-setting two compiler flags. For details concerning these versions see the
-comments in the source code itself.
-
-For running this demo, an input_file has to be specified which contains the size
-as well as the non-zero elements of the initial array. Some of these can be found
-in inputs/NASmg*.
-
-
-10) NASmg_rotate.sac
-
-This is another SAC implementation of the NAS benchmark MG. The difference
-in comparison to NASmg_with_borders.sac is that the multigrid relaxation
-is not performed on arrays which carry copies of the "opposite borders"
-but on arrays without borders. This is achieved by using rotate functions
-which cyclicly shift elements of arrays. By means of With-Loop-Folding
-this program can be transformed into code which is competitive with the code
-generated from NASmg_with_borders.sac. For more details see
-<hhtp://www.informatik.uni-kiel.de/~sacbase/papers/wlf-exp-london-98.ps.gz>.
-
-Warning: due to some "non-optimal" design decisions made in the sac2c compiler,
-the compilation of this file requires about 1 GByte of memory for compilation.
-We hope to come up with a better solution for the next release...
-
-For running this demo, an input_file has to be specified which contains the size
-as well as the non-zero elements of the initial array. Some of these can be found
-in inputs/NASmg*.
-
-
-11) APLlogd1.sac
-
-This is a very small benchmark which demonstrates the capabilities of With-Loop-
-Folding in the context of APL / APL expressions. It originates from a kernel
-routine from a signal processing application.
-
-
-12) APLlogd2.sac
-
-APLlogd2.sac is a variant of APLlogd1.sac. Instead of using vector minus, it uses
-2-ary reduce for computing the differences between adjacent elements of a vector.
-
-
-13) APLmconv.sac
-
-APLmconv.sac is a kernel routine from a seismic signal processing application.
-It implements one-dimensional convolution and heavily relies on vector valued
-operations. 
-
-
-14) APLmconv_opt.sac
-
-This program mimics an (very UGLY) alternative APL-implementation of the 
-one-dimensional convolution implemented by APLmconv.sac. The main difference 
-being that this APL-version avoids huge intermediate arrays.
-
-
-15) mconv.sac
-
-This is a third version of one-dimensional convolution. It constitutes an approach
-as one might want to write a SAC program directly.
-
-
-16) APLtomcatv.sac
-
-TOMCATV is one of the Spec-benchmarks. It is a vectorized mesh generation program
-and requires the compiler to do some aggressive optimizations 8-))
-This version is derived from an APL implementation of TOMCATV and thus heavily
-is based on aggregate operations.
-
-
-17) pde1.sac
-
-The PDE1 benchmark is a 3D Poisson solver using red/black sucessive over-relaxation.
-This version is derived from an FORTRAN 90 implementation.
-
-
-18) shallow.sac
-
-The shallow-water-benchmark ...
-Use -D to change parameters, for further comments refer to sac file:
-  -DMM      modifies x-direction (default 65 resulting in 64 rows)
-  -DNN      modifies y-direction (default MM resulting in MM - 1 columns)
-            DIRECTIONS will be subtracted by 1!
-  -DITER    modifies iterations (default 50)
-  -DMPRINT  tellss when printing is done
-Also changeable: 
-  - Usage of floats (default) or doubles (-DUSEDOUBLES).
-  - Inlininge: Some functions will be inlined only if -DDOINL is set.

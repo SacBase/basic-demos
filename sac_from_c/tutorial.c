@@ -1,4 +1,13 @@
-/* *******  c program using a SAC module exported as a c library ****** */
+/*
+ *
+ * $Log$
+ * Revision 1.2  2000/11/17 13:09:29  nmw
+ * cvs header added
+ *
+ *
+ */
+
+/********  c program using a SAC module exported as a c library *******/
 #include <stdlib.h>
 #include <stdio.h>
 #include "sac_cinterface.h"
