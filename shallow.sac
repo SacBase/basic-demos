@@ -1,0 +1,438 @@
+/*
+ *     BENCHMARK WEATHER PREDICTION PROGRAM FOR COMPARING THE
+ *     PREFORMANCE OF CURRENT SUPERCOMPUTERS. THE MODEL IS
+ *     BASED OF THE PAPER - THE DYNAMICS OF FINITE-DIFFERENCE
+ *     MODELS OF THE SHALLOW-WATER EQUATIONS, BY ROBERT SADOURNY
+ *     J. ATM. SCIENCES, VOL 32, NO 4, APRIL 1975.
+ *
+ *     ORIGINAL FORTRAN CODE BY
+ *     PAUL N. SWARZTRAUBER
+ *     NATIONAL CENTER FOR ATMOSPHERIC RESEARCH
+ *     BOULDER, CO
+ *     OCTOBER 1984
+ *
+ *     fortran-code adapted for sac by
+ *     Jan-Hendrik Schoeler April 1999
+ */
+
+import Math:all;
+import Array:all;
+import ArrayIO:all;
+import ScalarIO:all;
+
+/*
+ *  ATTENTION: Due problems with with the amount of memory needed for
+ *             compilation of the program, not all important functions are inlined!!!
+ *             To reach better performance define DOINL, so all the functions
+ * 	       will be inlied.
+ */
+
+/* 
+ *  MM and NN define a matrix MM x NN, d.h. 0..MM-1 x 0..NN-1, with MM >= NN !!
+ *  If NN is not specified it will be set to the same value as MM.
+ *  Dynamic continuation is used in this realisation, so there must be a row and a 
+ *  column for the continuation values. So MM should be (m * m) + 1, and NN equivalent 
+ *  (n * n) + 1. ITER defines the number of Iterations to be done.
+ */
+
+#ifndef MM
+#define MM 65
+#endif
+
+#ifndef NN
+#define NN MM
+#endif
+
+#ifndef ITER
+#define ITER 50
+#endif
+
+#ifndef MPRINT
+#define MPRINT 1
+#endif
+
+/* 
+ *  The standard type of the array elements is float.
+ *  To use doubles instead of floats simply define USEDOUBLES.
+ *
+ *  The type of the arrays is defined by macro FPTYPE (floating-point-type).
+ *  Constants must be written with macro NUMBER, so the choosen type
+ *  can be inserted automatically.
+ */
+
+#ifdef USEDOUBLES
+#define FPTYPE double
+#define NUMBER(n) n##d
+#else
+#define FPTYPE float
+#define NUMBER(n) n##f
+#endif
+
+/* 
+ *  Returns the sizes of an array, used for abstraction of periodicXX.
+ */
+inline int, int sizes (FPTYPE[] a)
+{
+  return (shape(a)[0], shape(a)[1]);
+}
+
+/* 
+ *  the periodicXY's - periodic contiuation's
+ *
+ *  The elements of the first row are named north (N), the ones of the last south (S).
+ *  The elements of the first column are named west (W), the ones of the last east (E).
+ *  opposite(N) = S, opposite(S) = N, opposite(W) = E, opposite(E) = W.
+ *
+ *  a periodicXY copies row(opposite(X)) to row(X) and row(opposite(Y)) to row(Y) 
+ *
+ */
+
+/* 
+ *  Periodic-North-East - comment see above.
+ */
+inline FPTYPE[] periodicNE (FPTYPE[] a)
+{
+  mm, nn = sizes(a);
+
+  a = with ([0,0] <= [i,j] <= [0,nn-2])
+      modarray (a, iv, a[mm-1,j]);
+  a = with ([1,nn-1] <= [i,j] <= [mm-1,nn-1])
+      modarray (a, iv, a[i,0]); 
+  a[0,nn-1] = a[mm-1,0];
+
+  return (a);
+}
+
+/* 
+ *  Periodic-South-West - comment see above.
+ */
+inline FPTYPE[] periodicSW (FPTYPE[] a)
+{
+  mm, nn = sizes(a);
+
+  a = with ([mm-1,1] <= [i,j] <= [mm-1,nn-1])
+      modarray (a, iv, a[0,j]);
+  a = with ([0,0] <= [i,j] <= [mm-2,0])
+      modarray (a, iv, a[i,nn-1]);
+  a[mm-1,0] = a[0,nn-1];
+
+  return (a);
+}
+
+/* 
+ *  Periodic-North-West - comment see above.
+ */
+inline FPTYPE[] periodicNW (FPTYPE[] a)
+{
+  mm, nn = sizes (a);
+
+  a = with ([0,1] <= [i,j] <= [0,nn-1])
+      modarray (a, iv, a[mm-1,j]);
+  a = with ([1,0] <= [i,j] <= [nn-1,0])
+      modarray (a, iv, a[i,nn-1]);
+  a[0,0] = a[mm-1,nn-1];
+
+  return (a);
+}
+
+/* 
+ *  Periodic-South-East - comment see above.
+ */
+inline FPTYPE[] periodicSE (FPTYPE[] a)
+{
+  mm, nn = sizes (a);
+
+  a = with ([mm-1, 0] <= [i,j] <= [mm-1,nn-2])
+      modarray (a, iv, a[0,j]);
+  a = with ([0,nn-1] <= [i,j] <= [mm-2,nn-1])
+      modarray (a, iv, a[i,0]);
+  a[mm-1,nn-1] = a[0,0];
+
+  return (a);
+}
+
+/*
+ *  The function is derived from the fortran function calc2.
+ *
+ *  The values: unew, vnew, pnew are returned in this order.
+ */
+#ifdef DOINL
+inline
+#endif
+FPTYPE[], FPTYPE[], FPTYPE[] 
+  compute_new_u_v_p (FPTYPE[] uold, FPTYPE[] vold, FPTYPE[] pold,
+                     FPTYPE[] cu, FPTYPE[] cv, FPTYPE[] h, FPTYPE[] z,
+                     FPTYPE dx, FPTYPE dy, FPTYPE tdt)
+{
+  tdts8= tdt / NUMBER(8);
+  tdtsdx = tdt / dx;
+  tdtsdy = tdt / dy;  
+
+  unew = with ([1,0] <= iv <= [MM-1,NN-2]) 
+         {
+           cvSum = cv[iv+[0,1]] + cv[iv+[-1,1]] + cv[iv-[1,0]] + cv[iv];
+           zSum = z[iv+[0,1]] + z[iv];
+           hSum = h[iv] - h[iv-[1,0]];
+           val = uold[iv] + tdts8 * zSum * cvSum - tdtsdx * hSum;
+         }
+         genarray ([MM,NN], val);
+  unew = periodicNE (unew);
+
+  vnew = with ([0,1] <= iv <= [MM-2,NN-1])
+         {
+           cuSum = cu[iv+[1,0]] + cu[iv] + cu[iv-[0,1]] + cu[iv+[1,-1]]; 
+           zSum = z[iv+[1,0]] + z[iv];
+           hSum = h[iv] - h[iv-[0,1]];
+           val = vold[iv] - tdts8 * zSum * cuSum - tdtsdy * hSum;
+         }
+         genarray ([MM,NN], val);
+  vnew = periodicSW (vnew);
+
+  pnew = with (. <= iv < .)
+         {
+           val = pold[iv] - tdtsdx * (cu[iv+[1,0]] - cu[iv])
+                          - tdtsdy * (cv[iv+[0,1]] - cv[iv]);
+         }
+         genarray ([MM,NN], val);
+  pnew = periodicSE (pnew); 
+
+  return (unew, vnew, pnew);
+} 
+
+/*
+ * This function is derived from the fortran function calc3z.
+ *
+ * The values of u, v, p, uold, vold, pold, tdt are returned in this order.
+ */
+#ifdef DOINL
+inline
+#endif
+FPTYPE[], FPTYPE[], FPTYPE[], 
+FPTYPE[], FPTYPE[], FPTYPE[], FPTYPE 
+  first_u_v_p (FPTYPE[] u   , FPTYPE[] v   , FPTYPE[] p,
+               FPTYPE[] unew, FPTYPE[] vnew, FPTYPE[] pnew,
+               FPTYPE[] uold, FPTYPE[] vold, FPTYPE[] pold, FPTYPE tdt)
+{
+  tdt = tdt + tdt; 
+  uold = u;
+  u = unew;
+  vold = v;
+  v = vnew;
+  pold = p;
+  p = pnew;
+
+  return (u, v, p, uold, vold, pold, tdt); 
+}
+
+/*
+ *  This function is derived from the fortran function calc3.
+ *
+ *  The return values are: u, v, p, uold, vold, pold in this order.
+ */
+#ifdef DOINL
+inline
+#endif
+FPTYPE[], FPTYPE[], FPTYPE[], 
+FPTYPE[], FPTYPE[], FPTYPE[] 
+  rotate_u_v_p (FPTYPE[] u   , FPTYPE[] v   , FPTYPE[] p,
+                FPTYPE[] unew, FPTYPE[] vnew, FPTYPE[] pnew,
+                FPTYPE[] uold, FPTYPE[] vold, FPTYPE[] pold, FPTYPE alpha)
+{
+  uold = u + alpha * (unew - NUMBER(2) * u + uold);
+  uold = periodicSE (uold);
+
+  vold = v + alpha * (vnew - NUMBER(2) * v + vold);
+  vold = periodicSE (vold);
+
+  pold = p + alpha * (pnew - NUMBER(2) * p + pold);
+  pold = periodicSE (pold);
+
+  u = periodicSE (unew);
+  v = periodicSE (vnew);
+  p = periodicSE (pnew);
+
+  return (u, v, p, uold, vold, pold);
+}
+
+/*
+ *  This function is derived from the fortran function calc1.
+ *
+ *  The return values are cu, cv, z, h in this order.
+ */
+#ifdef DOINL
+inline
+#endif
+FPTYPE[], FPTYPE[], FPTYPE[], FPTYPE[] 
+  compute_cu_cv_z_h (FPTYPE[] u, FPTYPE[] v, FPTYPE[] p, 
+                     FPTYPE dx, FPTYPE dy)
+{
+  cu = with ([1,0] <= iv <= [MM-1,NN-2])
+       genarray ([MM,NN], NUMBER(0.5) * (p[iv] + p[iv-[1,0]]) * u[iv]);
+  cu = periodicNE (cu);
+
+  cv = with ([0,1] <= iv <= [MM-2,NN-1])
+       genarray ([MM,NN], NUMBER(0.5) * (p[iv] + p[iv-[0,1]]) * v[iv]);
+  cv = periodicSW (cv);
+
+  fsdx = NUMBER(4) / dx;
+  fsdy = NUMBER(4) / dy;
+
+  z = with (. < iv <= .)
+      { 
+        d1 = fsdx * (v[iv] - v[iv-[1,0]]) - fsdy * (u[iv] - u[iv-[0,1]]); 
+        d2 = p[iv-[1,1]] + p[iv-[0,1]] + p[iv] + p[iv-[1,0]];      
+        val = d1 / d2;
+      }
+      genarray([MM,NN], val); 
+  z = periodicNW (z);
+
+  h = with (. <= iv < .)
+      {
+        val = p[iv] + 
+              NUMBER(0.25) * (u[iv+[1,0]] * u[iv+[1,0]] + u[iv] * u[iv] + 
+                            v[iv+[0,1]] * v[iv+[0,1]] + v[iv] * v[iv]);
+      }
+      genarray ([MM,NN], val);
+  h = periodicSE (h);
+
+  return (cu, cv, z, h);
+}
+
+/*
+ *  Add the values of the diagonal elements and prints the result.
+ */
+
+inline void PrintDiagonalSum (FPTYPE[] a)
+{
+  sum = NUMBER(0); 
+  for(i=0;i<=(NN-2);i++) {
+    sum = sum + a[i,i];   
+  }
+  printf ("%20.7f\n", sum);
+}
+
+/*
+ *  Prints the values of p, u and v resp pnew, unew and vnew if ((ncycle % mprint) = 0) 
+ *  or (mprint = -1).
+ *  So it can print at each mprint cycle or at special moments marked by -1 only.
+ */
+inline void PrintPUV (FPTYPE[] p, FPTYPE[] u, FPTYPE[] v, int ncycle, int mprint)
+{
+  printf("Cycle: %i\n", ncycle);
+
+  if (((ncycle % mprint) == 0) || (mprint == -1)) 
+  {
+    printf("SUM OF DIAGONAL ELEMENTS OF P[NEW]: ");
+    PrintDiagonalSum (p);
+    printf("SUM OF DIAGONAL ELEMENTS OF U[NEW]: ");
+    PrintDiagonalSum (u);
+    printf("SUM OF DIAGONAL ELEMENTS OF V[NEW]: ");
+    PrintDiagonalSum (v);
+  }
+}
+
+int main ()
+{
+  /* 
+   *  Here the initialization begins.
+   */
+  dt = NUMBER(20);
+  tdt = dt;
+ 
+  dx = NUMBER(25000);
+  dy = NUMBER(25000);
+  a = NUMBER(1000000);
+  alpha = NUMBER(0.001);
+  itmax = ITER;
+  mprint = MPRINT;
+  el = (NN - 1) * dx;
+  pi = NUMBER(4) * atan(NUMBER(1));
+  tpi = pi + pi;
+  di = tpi / (MM - 1);
+  dj = tpi / (NN - 1); 
+  pcf = pi * pi * a * a / (el * el);
+
+  printf("pi: %e\n", pi);
+  printf("pcf: %e\n", pcf);
+
+  psipsi = with (. <= [i,j] <= .)
+           genarray ([MM,NN], a * (sin((i + NUMBER(0.5)) * di) * 
+                                   sin((j + NUMBER(0.5)) * dj)));
+
+  u = with([1,0] <= iv <= [MM-1,NN-2])
+      {
+        psi1 = psipsi[iv + [0,1]];
+        psi2 = psipsi[iv];
+      }
+      genarray ([MM,NN], (0 - (psi1 - psi2)) / dy);
+  u = periodicNE (u);  
+
+  p = with (. <= [i,j] <= .)
+      genarray ([MM,NN], pcf * (cos(NUMBER(2) * (i ) * di) + cos(NUMBER(2) * (j ) * dj)) + NUMBER(50000)); 
+ 
+  v = with([0,1] <= iv <= [MM-2,NN-1])
+      genarray ([MM,NN], (psipsi[iv + [1,0]] - psipsi[iv]) / dx);  
+  v = periodicSW (v);
+
+  uold = u;
+  vold = v;
+  pold = p;
+  /* 
+   *  Here the initialization ends and the real calculation starts.
+   */
+
+  printf("FPTYPE OF POINTS IN THE X DIRECTION %i\n", MM - 1);
+  printf("FPTYPE OF POINTS IN THE Y DIRECTION %i\n", NN - 1);
+  printf("GRID SPACING IN THE X DIRECTION     %g\n", dx); 
+  printf("GRID SPACING IN THE Y DIRECTION     %g\n", dy);
+  printf("TIME STEP                           %g\n", dt);
+  printf("TIME FILTER PARAMETER               %g\n", alpha);
+  printf("NUMBER OF ITERATIONS                %i\n", itmax);
+
+  ncycle = 0;
+
+  PrintPUV (p, u, v, ncycle, -1);
+
+  /*
+   *  This while is used only in cycle 0 to 1.
+   */ 
+  while ((ncycle < 1) && (ncycle < itmax)) 
+  {
+    ncycle = ncycle + 1;
+ 
+    /* calc1 */
+    cu, cv, z, h = compute_cu_cv_z_h (u, v, p, dx, dy);
+    /* calc2 */
+    unew, vnew, pnew = compute_new_u_v_p (uold, vold, pold, cu, cv, h, z, dx, dy, tdt); 
+#ifdef DOPRINT
+    PrintPUV (p, u, v, ncycle, mprint);
+#endif
+    /* calc3z */
+    u, v, p, uold, vold, pold, tdt = first_u_v_p (u, v, p, unew, vnew, pnew, uold, vold, pold, tdt);
+  }
+  while (ncycle < (itmax - 1))
+  {
+    ncycle = ncycle + 1;
+ 
+    /* calc1 */
+    cu, cv, z, h = compute_cu_cv_z_h (u, v, p, dx, dy);
+    /* calc2 */
+    unew, vnew, pnew = compute_new_u_v_p (uold, vold, pold, cu, cv, h, z, dx, dy, tdt); 
+#ifdef DOPRINT   
+    PrintPUV (pnew, unew, vnew, ncycle, mprint);
+#endif
+    /* calc3 */
+    u, v, p, uold, vold, pold = rotate_u_v_p (u, v, p, unew, vnew, pnew, uold, vold, pold, alpha);
+  }
+
+  ncycle = ncycle + 1;
+  /* calc1 */
+  cu, cv, z, h = compute_cu_cv_z_h (u, v, p, dx, dy);
+  /* calc2 */
+  unew, vnew, pnew = compute_new_u_v_p (uold, vold, pold, cu, cv, h, z, dx, dy, tdt); 
+ 
+  PrintPUV (pnew, unew, vnew, ncycle, -1);
+ 
+  return (0);
+}
+
