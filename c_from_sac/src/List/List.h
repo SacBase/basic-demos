@@ -12,6 +12,16 @@
 #define TRACE 0
 
 
+#ifdef TAGGED_ARRAYS
+
+typedef struct LIST {
+  int                  elem;
+  struct LIST          *rest;
+  SAC_array_descriptor *desc;
+} list;
+
+#else
+
 /*
  * CAUTION:
  * For the time being in SAC reference counter and data vector must be
@@ -24,6 +34,8 @@ typedef struct LIST {
   struct LIST *rest;
   int         *rc;
 } list;
+
+#endif
 
 
 extern void free_list( list *elems);
