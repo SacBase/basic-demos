@@ -1,14 +1,3 @@
-/*
- *
- * $Log$
- * Revision 3.1  2000/11/20 18:07:05  sacbase
- * new release made
- *
- * Revision 1.2  2000/11/17 13:08:39  nmw
- * CVS header added
- *
- *
- */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,8 +32,6 @@ int main()
 
 
   printf(" --- demonstration finished ---\n");
-  printf("\n\nat cleanup we get some information about the"
-	 " heap management:\n");
   SAC_FreeRuntimeSystem();
   return(0);
 }
