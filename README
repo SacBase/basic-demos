@@ -11,7 +11,7 @@
  *   for making executables from SAC-source files. Therefore each of the
  *   demo programs <name>.sac can be compiled by simply running (GNU-)
  *   "make <name>". The pattern rules provided even comprise an implicit
- *   dependency-checking system. It makes sure that any modul needed for
+ *   dependency-checking system. It makes sure that any module needed for
  *   the compilation of a particular program will be compiled on beforehand.
  *   
  *****************************************************************************/
@@ -48,7 +48,7 @@ This SAC demo program is ment as a very basic, introductory example.
 It prints the greatest common denominator of 22 and 27. The main objective
 of this program is to demonstrate the similarity between SAC and C programs.
 Furthermore, it makes use of some minor extensions introduced in SAC for
-convenience reasons, e.g. ommited type declarations or multiple return values.
+convenience reasons, e.g. omited type declarations or multiple return values.
 
 2) arrays.sac
 
@@ -89,14 +89,23 @@ stack primitives provided by the class IntStack. These are applied to various
 example stacks and the respective results are printed.
 
 
-7) relax.sac
+7) relax_fix.sac
 
 This SAC demo program implements 2-dimensional relaxation with a 4-point
 stencil and fixed boundary conditions. This is a typical example of a 
 program used for benchmarking.
 
 
-8) NASmg_with_borders.sac
+8) relax_fix_rotate.sac
+
+Basically, this is the same program as "relax_fix.sac". The only difference
+is that the relaxation step is specified by a summation of rotated arrays
+rather than an element-wise specification of sums of neighbor elements.
+It demonstrates nicely the effect of WithLoopFolding. For more details see
+<hhtp://www.informatik.uni-kiel.de/~sacbase/papers/wlf-exp-london-98.ps.gz>.
+
+
+9) NASmg_with_borders.sac
 
 This is the SAC implementation of the NAS benchmark MG. The main goal
 of this implementation is to to specify exactly the same algorithm as 
@@ -112,7 +121,7 @@ as well as the non-zero elements of the initial array. Some of these can be foun
 in inputs/NASmg*.
 
 
-9) NASmg_rotate.sac
+10) NASmg_rotate.sac
 
 This is another SAC implementation of the NAS benchmark MG. The difference
 in comparison to NASmg_with_borders.sac is that the multigrid relaxation
@@ -132,7 +141,7 @@ as well as the non-zero elements of the initial array. Some of these can be foun
 in inputs/NASmg*.
 
 
-10) APLlogd3.sac
+11) APLlogd3.sac
 
 This is a very small benchmark which demonstrates the capabilities of With-Loop-
 Folding in the context of APL / APL expressions.
