@@ -20,8 +20,10 @@ SUBDIRS                     = src
 #
 # Setup for Makefile.check:
 #
-# CHECKDIR = .checkdir
-# RT_FLAGS =
+# CHECKLOGFILE    = $(HOME)/sac/CHECKLOG
+# CHECKDIR        = .checkdir
+# RT_FLAGS        =
+# INPSDIR         = .
 #
 #######################################################################################
 
@@ -37,8 +39,11 @@ DEPTARGETS = $(patsubst %,%.d,$(TARGETS))
 
 all: $(DEPTARGETS)
 
+CLOG_FILES = $(patsubst %,$(CHECKDIR)/%.clog,$(TARGETS))
+RES_FILES  = $(patsubst %,$(CHECKDIR)/%.res,$(TARGETS))
 
 include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
+
 
 
 ################################################################################
