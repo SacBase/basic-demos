@@ -41,3 +41,8 @@ SAC demo programs:
 
 1) quicksort_list.sac
 
+quicksort_list.sac straight-forwardly implements quicksort on cons-lists
+as provided by the module List.  However, the implementation is not tuned for
+efficiency. A far more efficient implementation can be achieved, when 
+operating on arrays. This implementation is ment as an example application
+for using the List module only.
