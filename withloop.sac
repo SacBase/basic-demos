@@ -22,23 +22,23 @@ int main()
   NewBlock();
 
   print("Then with( . <= idx <= .)\n");
-  print("     genarray([6,6], 3)          equals:\n");
-  print( with( . <= idx <= .) genarray( [6,6], 3));
+  print("     genarray([9,12], 3)          equals:\n");
+  print( with( . <= idx <= .) genarray( [9,12], 3));
   NewBlock();
 
-  print("Then with([1,1] <= idx <= [4,4])\n");
-  print("genarray([6,6], 3)               equals:\n");
-  print( with([1,1] <= idx <= [4,4]) genarray([6,6], 3));
+  print("Then with([1,1] <= idx <= [7,10])\n");
+  print("genarray([9,12], 3)               equals:\n");
+  print( with([1,1] <= idx <= [7,10]) genarray([9,12], 3));
   NewBlock();
 
-  print("with([1,1] <= idx <= [4,4] step [3,2])\n");
-  print("genarray([6,6], 3)               equals:\n");
-  print( with([1,1] <= idx <= [4,4] step [3,2]) genarray([6,6], 3));
+  print("with([1,1] <= idx <= [7,10] step [3,2])\n");
+  print("genarray([9,12], 3)               equals:\n");
+  print( with([1,1] <= idx <= [7,10] step [3,2]) genarray([9,12], 3));
   NewBlock();
 
-  print("with([1,1] <= idx <= [4,4] step [3,2] width [2,1])\n");
-  print("genarray([6,6], 3)               equals:\n");
-  print( with([1,1] <= idx <= [4,4] step [3,2] width [2,1]) genarray([6,6], 3));
+  print("with([1,1] <= idx <= [7,10] step [3,2] width [2,1])\n");
+  print("genarray([9,12], 3)               equals:\n");
+  print( with([1,1] <= idx <= [7,10] step [3,2] width [2,1]) genarray([9,12], 3));
   NewBlock();
 
   print("with([1,1] <= idx <= [2,2])\n");
