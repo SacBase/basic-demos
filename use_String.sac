@@ -337,7 +337,7 @@ int main()
   printf("             The string result contains the remainder\n");
   printf("             of the input string.\n");
   printf("Example:     strtod(\"  2343e-5 Moin Moin\")\n");
-  printf("             ->   %g, \"%s\"\n\n\n", n, X);
+  printf("             ->   %g, \"%s\"\n\n\n", d, X);
 
 
 
