@@ -247,8 +247,11 @@ double nas_mgrid( double[] u, double[] v, int[] pos, int[] neg, int iter)
   v = setup_periodic_border(v);
 
   r = relax( u, v);
-  for( i=0; i<iter; i++) {
 
+  i = 0;
+  
+  do {
+    
 #if USE_SAME_SHORTCUT_AS_IN_FORTRAN
     rn = fine2coarse(r);
     zn = mgrid(rn);
@@ -260,7 +263,10 @@ double nas_mgrid( double[] u, double[] v, int[] pos, int[] neg, int iter)
 #endif
 
     r  = relax( u, v);
+  
+    i += 1;
   }
+  while (i<iter);
 
   z = l2norm_inner( r);
   return(z);
