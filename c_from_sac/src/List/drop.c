@@ -6,6 +6,44 @@
 #include "List.h"
 
 
+#ifdef TAGGED_ARRAYS
+
+#define res_nt (res, (AUD, (NHD, (NUQ,))))
+#define elems_nt (elems, (AUD, (NHD, (NUQ,))))
+
+void drop( SAC_ND_PARAM_out( res_nt, list),
+           int n,
+           SAC_ND_PARAM_in( elems_nt, list))
+{
+  SAC_ND_DECL__DESC( res_nt, )
+  SAC_ND_DECL__DATA( res_nt, list, )
+
+  if (n < 0) {
+    SAC_RuntimeError( "negative first arg of drop\n");
+  }
+
+  while (n > 0) {
+    if (res->rest == NULL) {
+      SAC_RuntimeError( "first arg of drop %d larger than length of list\n", n);
+    }
+    res=res->rest;
+    n--;
+  }
+  (*(res->rc))++;
+
+  if (--(*(elems->rc)) == 0) {
+    free_list( elems);
+  }
+
+  SAC_ND_SET__RC( res_nt, *(res->rc))
+  SAC_ND_RET_out( res_nt, res_nt)
+}
+
+#undef res_nt
+#undef elems_nt
+
+#else
+
 void drop( SAC_ND_PARAM_out_rc( list *, res),
            int n,
            SAC_ND_PARAM_in_rc( list *, elems))
@@ -18,25 +56,27 @@ void drop( SAC_ND_PARAM_out_rc( list *, res),
    * - list *elems;
    * -  int *elems__rc;
    */
-  list * res=elems;
+  list *res = elems;
 
-  if (n<0) {
+  if (n < 0) {
     SAC_RuntimeError( "negative first arg of drop\n");
   }
 
-  while (n>0) {
+  while (n > 0) {
     if (res->rest == NULL) {
       SAC_RuntimeError( "first arg of drop %d larger than length of list\n", n);
     }
     res=res->rest;
     n--;
   }
-  res->rc++;
+  (*(res->rc))++;
 
-  if(--elems->rc == 0) {
+  if (--(*(elems->rc)) == 0) {
     free_list( elems);
   }
 
   *res__p = res;
-  *res__rc__p = &res->rc;
+  *res__rc__p = res->rc;
 }
+
+#endif

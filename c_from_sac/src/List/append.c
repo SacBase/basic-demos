@@ -6,9 +6,103 @@
 #include "List.h"
 
 
-void append( SAC_ND_PARAM_out_rc(list *, res),
-             SAC_ND_PARAM_in_rc(list *, elemsA),
-             SAC_ND_PARAM_in_rc(list *, elemsB))
+#ifdef TAGGED_ARRAYS
+
+#define res_nt (res, (AUD, (NHD, (NUQ,))))
+#define elemsA_nt (elemsA, (AUD, (NHD, (NUQ,))))
+#define elemsB_nt (elemsB, (AUD, (NHD, (NUQ,))))
+#define new_nt (new, (AUD, (NHD, (NUQ,))))
+
+void append( SAC_ND_PARAM_out( res_nt, list),
+             SAC_ND_PARAM_in( elemsA_nt, list),
+             SAC_ND_PARAM_in( elemsB_nt, list))
+{
+  SAC_ND_DECL__DESC( new_nt, )
+  SAC_ND_DECL__DATA( new_nt, list, )
+
+  if (elemsA->rest == NULL) { /* elemsA == NIL! */
+    SAC_ND_RET_out( res_nt, elemsB_nt)
+    if (--(*(elemsA->rc)) == 0) {
+      free_list( elemsA);
+    }
+  }
+  else {
+
+    if (*(elemsA->rc) == 1) { /* re-use all elems while (rc == 1)! */
+      SAC_ND_RET_out( res_nt, elemsA_nt)
+
+      do {
+        new = elemsA;
+        elemsA = elemsA->rest;
+      }
+      while ((elemsA->rest != NULL) && (*(elemsA->rc) == 1));
+      /*
+       * Now, we decrement the "rest" of elemsA.
+       * Although this may lead to a 0 rc in case of NIL,
+       * we do NOT free that node, since we have to make
+       * sure that it survives the copying while-loop.
+       * After that loop we check, whether the rc is 0.
+       * If that is the case, we know that there were
+       * no copies to be done and we can free the NIL!
+       */
+      (*(elemsA->rc))--;
+#if TRACE
+      fprintf( stderr, "changing CONS at (%p)\n", new);
+#endif
+    }
+
+    else { /* copy first elem & decrement rc of 'elemsA'! */
+      new = (list *) SAC_MALLOC( sizeof( list));
+      new->elem = elemsA->elem;
+      new->rc = (int *) SAC_MALLOC( sizeof( int));
+      *(new->rc) = 1;
+#if TRACE
+      fprintf( stderr, "creating CONS at (%p)\n", new);
+#endif
+      SAC_ND_SET__RC( new_nt, 1)
+      SAC_ND_RET_out( res_nt, new_nt)
+      (*(elemsA->rc))--;
+
+      elemsA = elemsA->rest; /* 'elemsA' has to be one in advance of 'new'! */
+    }
+
+    /*
+     * 'new' points to the last elem reused/copied
+     * 'elemsA' is one in front
+     */
+    while (elemsA->rest != NULL) {
+      new->rest = (list *) SAC_MALLOC( sizeof( list));
+#if TRACE
+      fprintf( stderr, "       [ %d   .   (%p)]\n", new->elem, new->rest);
+      fprintf( stderr, "creating CONS at (%p)\n", new->rest);
+#endif
+      new = new->rest;
+      new->elem = elemsA->elem;
+      new->rc = (int *) SAC_MALLOC( sizeof( int));
+      *(new->rc) = 1;
+      elemsA = elemsA->rest;
+    }
+    new->rest = elemsB;
+#if TRACE
+    fprintf( stderr, "       [ %d   .   (%p)]\n", new->elem, new->rest);
+#endif
+    /* Finally, we have to do some housekeeping! (see comment above!) */
+    if (*(elemsA->rc) == 0) {
+      free_list( elemsA);
+    }
+  }
+}
+
+#undef res_nt
+#undef elemsA_nt
+#undef elemsB_nt
+#undef new_nt
+
+#else
+
+void append( SAC_ND_PARAM_out_rc( list *, res),
+             SAC_ND_PARAM_in_rc( list *, elemsA),
+             SAC_ND_PARAM_in_rc( list *, elemsB))
 {
   /*
    * we do have now:
@@ -21,15 +115,17 @@ void append( SAC_ND_PARAM_out_rc(list *, res),
    */
   list *new;
 
+
   if (elemsA->rest == NULL) { /* elemsA == NIL! */
     *res__p = elemsB;
     *res__rc__p = elemsB__rc;
-    if (--elemsA->rc == 0)
+    if (--(*(elemsA->rc)) == 0) {
       free_list( elemsA);
+    }
   }
   else {
 
-    if (elemsA->rc == 1) { /* re-use all elems while rc==1 ! */
+    if (*(elemsA->rc) == 1) { /* re-use all elems while (rc == 1)! */
       *res__p = elemsA;
       *res__rc__p = elemsA__rc;
 
@@ -37,7 +133,7 @@ void append( SAC_ND_PARAM_out_rc(list *, res),
         new = elemsA;
         elemsA = elemsA->rest;
       }
-      while( (elemsA->rest != NULL) && ( elemsA->rc ==1));
+      while ((elemsA->rest != NULL) && (*(elemsA->rc) == 1));
       /*
        * Now, we decrement the "rest" of elemsA.
        * Although this may lead to a 0 rc in case of NIL,
@@ -47,38 +143,41 @@ void append( SAC_ND_PARAM_out_rc(list *, res),
        * If that is the case, we know that there were
        * no copies to be done and we can free the NIL!
        */
-      elemsA->rc--;
+      (*(elemsA->rc))--;
 #if TRACE
       fprintf( stderr, "changing CONS at (%p)\n", new);
 #endif
     }
 
-    else { /* copy first elem & decrement rc of elemsA ! */
-      new = (list *)SAC_MALLOC(sizeof(list));
-      new->rc = 1;
+    else { /* copy first elem & decrement rc of 'elemsA'! */
+      new = (list *) SAC_MALLOC( sizeof( list));
       new->elem = elemsA->elem;
+      new->rc = (int *) SAC_MALLOC( sizeof( int));
+      *(new->rc) = 1;
 #if TRACE
-    fprintf( stderr, "creating CONS at (%p)\n", new);
+      fprintf( stderr, "creating CONS at (%p)\n", new);
 #endif
       *res__p = new;
-      *res__rc__p = &new->rc;
-      elemsA->rc--;
+      *res__rc__p = new->rc;
+      (*(elemsA->rc))--;
 
-      elemsA = elemsA->rest; /* elemsA has to be one in advance of new ! */
+      elemsA = elemsA->rest; /* 'elemsA' has to be one in advance of 'new'! */
     }
 
-    /* new points to the last elem reused/ copied
-     * elemsA is one in front!
+    /*
+     * 'new' points to the last elem reused/copied
+     * 'elemsA' is one in front
      */
-    while( elemsA->rest != NULL) {
-      new->rest = (list *)SAC_MALLOC(sizeof(list));
+    while (elemsA->rest != NULL) {
+      new->rest = (list *) SAC_MALLOC( sizeof( list));
 #if TRACE
       fprintf( stderr, "       [ %d   .   (%p)]\n", new->elem, new->rest);
       fprintf( stderr, "creating CONS at (%p)\n", new->rest);
 #endif
       new = new->rest;
-      new->rc = 1;
       new->elem = elemsA->elem;
+      new->rc = (int *) SAC_MALLOC( sizeof( int));
+      *(new->rc) = 1;
       elemsA = elemsA->rest;
     }
     new->rest = elemsB;
@@ -86,8 +185,10 @@ void append( SAC_ND_PARAM_out_rc(list *, res),
     fprintf( stderr, "       [ %d   .   (%p)]\n", new->elem, new->rest);
 #endif
     /* Finally, we have to do some housekeeping! (see comment above!) */
-    if( elemsA->rc == 0) {
-      free_list(elemsA);
+    if (*(elemsA->rc) == 0) {
+      free_list( elemsA);
     }
   }
 }
+
+#endif

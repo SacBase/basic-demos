@@ -20,5 +20,5 @@ void free_list( list *elems)
     SAC_FREE( elems);
     elems = next;
   }
-  while ((elems != NULL) && (--elems->rc == 0));
+  while ((elems != NULL) && (--(*(elems->rc)) == 0));
 }

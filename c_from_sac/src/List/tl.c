@@ -6,7 +6,39 @@
 #include "List.h"
 
 
-void tl( SAC_ND_PARAM_out_rc(list *, res), SAC_ND_PARAM_in_rc(list *, elems))
+#ifdef TAGGED_ARRAYS
+
+#define res_nt (res, (AUD, (NHD, (NUQ,))))
+#define elems_nt (elems, (AUD, (NHD, (NUQ,))))
+
+void tl( SAC_ND_PARAM_out( res_nt, list),
+         SAC_ND_PARAM_in( elems_nt, list))
+{
+  SAC_ND_DECL__DESC( res_nt, )
+  SAC_ND_DECL__DATA( res_nt, list, )
+
+  if (elems->rest == NULL) {
+    SAC_RuntimeError( "tl applied to NIL\n");
+  }
+  res = elems->rest;
+
+  (*(res->rc))++;
+
+  if (--(*(elems->rc)) == 0) {
+    free_list( elems);
+  }
+ 
+  SAC_ND_SET__RC( res_nt, *(res->rc))
+  SAC_ND_RET_out( res_nt, res_nt)
+}
+
+#undef res_nt
+#undef elems_nt
+
+#else
+
+void tl( SAC_ND_PARAM_out_rc( list *, res),
+         SAC_ND_PARAM_in_rc( list *, elems))
 {
   /*
    * we do have now:
@@ -15,19 +47,21 @@ void tl( SAC_ND_PARAM_out_rc(list *, res), SAC_ND_PARAM_in_rc(list *, elems))
    * - list *elems;
    * -  int *elems__rc;
    */
-  list * res;
+  list *res;
 
   if (elems->rest == NULL) {
     SAC_RuntimeError( "tl applied to NIL\n");
   }
   res = elems->rest;
 
-  res->rc++;
+  (*(res->rc))++;
 
-  if (--elems->rc == 0) {
+  if (--(*(elems->rc)) == 0) {
     free_list( elems);
   }
-
+  
   *res__p = res;
-  *res__rc__p = &res->rc;
+  *res__rc__p = res->rc;
 }
+
+#endif

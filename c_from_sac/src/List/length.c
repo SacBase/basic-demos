@@ -6,6 +6,30 @@
 #include "List.h"
 
 
+#ifdef TAGGED_ARRAYS
+
+#define elems_nt (elems, (AUD, (NHD, (NUQ,))))
+
+int length( SAC_ND_PARAM_in( elems_nt, list))
+{
+  list *ptr = elems;
+  int res = 0;
+
+  while (ptr->rest != NULL) {
+    ptr = ptr->rest;
+    res++;
+  }
+  if (--(*(elems->rc)) == 0) {
+    free_list( elems);
+  }
+
+  return( res);
+}
+
+#undef elems_nt
+
+#else
+
 int length( SAC_ND_PARAM_in_rc( list *, elems))
 {
   /*
@@ -14,16 +38,18 @@ int length( SAC_ND_PARAM_in_rc( list *, elems))
    * -  int *__elems_rc;
    */
 
-  list *ptr=elems;
-  int res=0;
+  list *ptr = elems;
+  int res = 0;
 
   while (ptr->rest != NULL) {
-    ptr=ptr->rest;
+    ptr = ptr->rest;
     res++;
   }
-  if (--elems->rc == 0) {
+  if (--(*(elems->rc)) == 0) {
     free_list( elems);
   }
 
   return( res);
 }
+
+#endif
