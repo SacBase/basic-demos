@@ -32,28 +32,27 @@ import Random: all;
 
 /******************************************************************************
  *
- * void print( list l)
- * 
- *   overloads print from StdIO for objects of list type.
+ * void printl( list l)
  *
  *****************************************************************************/
 
-void print( list l)
+void printl( list l)
 {
   printf( "( ");
-  if( !empty( l)) {
+  if (! empty( l)) {
     printf( "%2d", hd( l));
   }
-  print_tl( tl( l));
+  printl_tl( tl( l));
 }
 
-inline void print_tl( list l)
+inline void printl_tl( list l)
 {
-  if( empty( l)) {
+  if (empty( l)) {
     printf( " )\n" );
-  } else {
+  }
+  else {
     printf( " : %2d", hd( l));
-    print_tl( tl( l));
+    printl_tl( tl( l));
   }
 }
 
@@ -115,13 +114,12 @@ int main()
   }
 
   printf( "Initial (random) list: ");
-  print( l);
+  printl( l);
 
   l = quicksort( l);
 
   printf( "Sorted list:           ");
-  print( l);
+  printl( l);
 
   return(0);
 }
-
