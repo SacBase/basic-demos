@@ -43,3 +43,15 @@ include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
 
 MODTARGETS    := $(patsubst $(LIBTARGETDIR)/%.lib,$(LIBTARGETDIR)/lib%.a, $(MODTARGETS))
 
+#
+# just to get -noWLUR running (due to a bug in wlur in the (obsolete) noSSA opts...)
+#
+$(LIBTARGETDIR)/liboverloadMod.a $(INCTARGETDIR)/overloadMod.h: overloadMod.sac
+        @ $(MKDIR) $(LIBTARGETDIR)
+        @ $(MKDIR) $(INCTARGETDIR)
+        $(SAC2C) $(SAC2CFLAGS) -noWLUR -genlib c -o $(LIBTARGETDIR) $<
+        @ if [ "$(LIBTARGETDIR)" != "$(INCTARGETDIR)" ]; then \
+            $(MV) $(LIBTARGETDIR)/overloadMod.h $(INCTARGETDIR); \
+          fi
+        $(CLOCK_SKEW_ELIMINATION) $@
+
