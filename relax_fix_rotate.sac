@@ -1,0 +1,86 @@
+/*****************************************************************************
+ * 
+ * file:   relax_rotate_cb.sac
+ *
+ * description:
+ *
+ *   SAC demo program.
+ *   
+ *   This SAC demo program implements 2-dimensional relaxation on double
+ *   precision floating point numbers applying a 4-point stencil and fixed
+ *   boundary conditions.
+ * 
+ *   The vertical (SIZE1) and the horizontal (SIZE2) array size as well as
+ *   the number of iterations to be performed (LOOP) may be set at compile 
+ *   time.
+ *
+ *   The selection of neighbor elements in this version is done implicitly
+ *   by utilizing the "rotate" function from the module "Array".
+ *   
+ *****************************************************************************/
+
+
+#ifndef LOOP
+#define LOOP 100
+#endif
+
+#ifndef SIZE1
+#define SIZE1 1000
+#endif
+
+#ifndef SIZE2
+#define SIZE2 1000
+#endif
+
+
+import ScalarIO: all;
+import Array: all;
+
+inline double[] CopyInner( double[] A, double[] I)
+{
+  /*
+   * for selecting the inner elements only, we use
+   * ". < i < ." as a generator, since "." represents
+   * the maximum / minimum legal index, respectively.
+   * Thus using "<" and ">" instead of "<=" and ">="
+   * selects exactly the desired elements!
+   */
+  res = with( . < i < .) {
+        } modarray( A, i, I[i]);
+  return(res);
+}
+
+
+inline double[] onestep(double[] B) 
+{ 
+  I = 0.25 * ( rotate(0,1,B) + rotate(0,-1,B) + rotate(1,1,B) + rotate(1,-1,B));
+  A = CopyInner( B, I);
+
+  return(A);
+}
+
+inline double[] relax(double[] A, int steps)
+{
+  for (k=0; k<steps; k++) {
+    A = onestep(A);
+  }
+  
+  return(A);
+}
+
+int main ()
+{
+  A = with( . <= x <= .)
+      genarray([SIZE1, SIZE2], 0.0d);
+
+  A = modarray(A, [0,1], 500.0d);
+
+  A = relax( A, LOOP);
+
+  z = with( 0*shape(A) <= x < shape(A))
+      fold(+, A[x]);
+
+  printf("%.10g\n", z);
+
+  return(0);
+}
