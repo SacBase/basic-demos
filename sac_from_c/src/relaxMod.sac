@@ -1,6 +1,9 @@
 /*
  *
  * $Log$
+ * Revision 3.2  2001/06/28 11:38:07  cg
+ * automatically converted to new array type syntax.
+ *
  * Revision 3.1  2000/11/20 18:07:15  sacbase
  * new release made
  *
@@ -23,7 +26,7 @@ import Array: all;
  *
  *****************************************************************************/
 
-inline double[] onestep(double[.,.] B) 
+inline double[+] onestep(double[.,.] B) 
 { 
   A = with ( . < x < . )
       modarray(B, x, 0.25*(B[x+[1,0]]
@@ -34,7 +37,7 @@ inline double[] onestep(double[.,.] B)
   return(A);
 }
 
-inline double[] relax(double[] A, int steps)
+inline double[+] relax(double[+] A, int steps)
 {
   for (k=0; k<steps; k++) {
     A = onestep(A);

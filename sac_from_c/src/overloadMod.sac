@@ -1,6 +1,9 @@
 /*
  *
  * $Log$
+ * Revision 3.2  2001/06/28 11:38:06  cg
+ * automatically converted to new array type syntax.
+ *
  * Revision 3.1  2000/11/20 18:07:14  sacbase
  * new release made
  *
@@ -14,12 +17,12 @@ Module overloadMod :
 
 import Array: all;
 
-int sumFun(int[] a)
+int sumFun(int[+] a)
 {
   return(sum(a));
 }
 
-double sumFun(double[] a)
+double sumFun(double[+] a)
 {
   return(sum(a));
 }

@@ -1,6 +1,9 @@
 /*
  *
  * $Log$
+ * Revision 3.2  2001/06/28 11:38:04  cg
+ * automatically converted to new array type syntax.
+ *
  * Revision 3.1  2000/11/20 18:07:13  sacbase
  * new release made
  *
@@ -14,12 +17,12 @@ Module featuresMod_gen:
 
 /* demo-module with functions of generic shape for use from a c program*/
 
-int[] addValue(int[] v, int value)
+int[+] addValue(int[+] v, int value)
 {
   return(v+value);
 }
 
-int[] addVectors(int[] v1, int[] v2)
+int[+] addVectors(int[+] v1, int[+] v2)
 {
   return(v1+v2);
 }
