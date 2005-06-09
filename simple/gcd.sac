@@ -1,4 +1,5 @@
-import StdIO : all; 
+use SimplePrint : all; 
+use ScalarArith: all;
  
      
 int gcd (int high, int low) 
@@ -25,8 +26,8 @@ int, int modulo (int x, int y)
  
 int main ()
 {
-  printf( " gcd(22, 27) equals: %d\n", gcd(22, 27));
-return (0);
+  res = print( gcd(22, 27));
+  return (res);
 }
 
 
