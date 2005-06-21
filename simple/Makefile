@@ -21,7 +21,7 @@ SAC2CFLAGS = -O3 -v1 -maxlur 3
 # Setup for Makefile.versions
 #
 # EXCLUDE_FILES_FOR_MT        = 
-MAKE_MT_ALSO                = yes
+# MAKE_MT_ALSO                = yes
 # VERSDIR                     = .
 
 #
