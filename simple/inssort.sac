@@ -1,45 +1,6 @@
 use Array: all;
 use SimplePrint: all;
 
-#if 1
-
-/*
- * Unfortunately, for the time being, a custom predicate function is required
- * for the sorting loop. This is necessary as accessing A[-1] cannot be avoided
- * using the current strict implementations of && and ||.
- */
-
-inline bool cond( int[.] A, int j, int t) {
- if (j > 0) {
-   res = A[j-1] > t;
- }
- else {
-   res = false;
- }
- return( res);
-}
-
-int[.] inssort(int[.] A) {
- n = shape(A)[0];
-
- for (i = 1; i < n; i++) {
-   t = A[i];
-   j = i;
-   while ( cond(A,j,t)) {
-     A[j] = A[j-1];
-     j--;
-   }
-   A[j] = t;
- }
-
- return( A);
-}
-
-#else
-
-/*
- * Nice version, requiring non-strict && operator
- */
 int[.] inssort(int[.] A) {
  n = shape(A)[0];
 
@@ -55,8 +16,6 @@ int[.] inssort(int[.] A) {
 
  return( A);
 }
-
-#endif
 
 int main() {
   A = with ( . <= iv = [i] <= .)
