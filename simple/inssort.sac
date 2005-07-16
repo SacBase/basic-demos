@@ -23,7 +23,7 @@ int main() {
   c = print( A);
 
   B = inssort( A);
-  c = print( B);
+  c += print( B);
 
-  return(0);
+  return(c);
 }
