@@ -34,17 +34,19 @@
 #endif  /* STACKSIZE */
 
 
-Class IntStack:
+class IntStack;
 
 
 classtype int[STACKSIZE];
 
 
-import StdIO:all;
-import Array:all;
+use Array: all;
 
 
-objdef IntStack Stack=create_stack();
+export all;
+
+
+objdef IntStack Stack = create_stack();
 
 
 IntStack create_stack()
@@ -145,11 +147,11 @@ void print(IntStack &stack)
 
   tos = A[[0]];
 
-  printf("stack: > ");
+  StdIO::printf("stack: > ");
   for (i=1; i<=tos; i++) {
-    printf("%d > ", A[[i]]);
+          StdIO::printf("%d > ", A[[i]]);
   }
-  printf("|\n");       
+  StdIO::printf("|\n");       
   
   stack = to_IntStack(A);
 }
@@ -190,5 +192,4 @@ void print()
 {
   print(Stack);
 }
-
 

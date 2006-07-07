@@ -11,21 +11,9 @@ import IntStack: all;
 
 import IOresources: all;
 
-import StdIO: 
-{
-functions:
-  printf;
-}
+import StdIO: { printf };
 
-import String:
-{
-implicit types:
-  string;
- 
-functions:
-  to_string;
-}
-
+import String: { string, to_string };
 
 void write_to_stack(IntStack &stack)
 {
