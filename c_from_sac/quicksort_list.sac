@@ -25,10 +25,10 @@
 #define SIZE 10
 #endif
 
-import List: all;
-import StdIO: all;
-import Clock: all;
-import Random: all;
+use MyList: all;
+use StdIO: all;
+use Clock: all;
+use Random: all;
 
 /******************************************************************************
  *
