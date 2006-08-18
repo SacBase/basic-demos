@@ -29,6 +29,7 @@ use MyList: all;
 use StdIO: all;
 use Clock: all;
 use Random: all;
+use Array: all except {min, drop, take};
 
 /******************************************************************************
  *

@@ -13,15 +13,15 @@ SAC2CFLAGS = -O3 -v1 -maxlur 3 -DFIXED_SEED
 # TARGETDIR                   = .
 # LIBTARGETDIR                = .
 # INCTARGETDIR                = .
-LIBSRCDIR                   = $(patsubst %.libDD,src/%/,$@)
+# LIBSRCDIR                   = $(patsubst %.libDD,src/%/,$@)
 SUBDIRS                     = src/List
-MAKE_NON_LOCAL_DEPENDENCIES = yes
+#MAKE_NON_LOCAL_DEPENDENCIES = yes
 
 #
 # Setup for Makefile.versions
 #
 # EXCLUDE_FILES_FOR_MT        = 
-MAKE_MT_ALSO                = yes
+# MAKE_MT_ALSO                = yes
 # VERSDIR                     = .
 
 #
