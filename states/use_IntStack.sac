@@ -7,13 +7,9 @@
  */
 
 
-import IntStack: all;
-
-import IOresources: all;
-
-import StdIO: { printf };
-
-import String: { string, to_string };
+use Array: all;
+use IntStack: all;
+use StdIO: { printf };
 
 void write_to_stack(IntStack &stack)
 {
