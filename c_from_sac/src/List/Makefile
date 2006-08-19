@@ -11,7 +11,7 @@ SAC2CFLAGS = -O3 -v1 -ssa -maxlur 3
 #
 # EXCLUDE_FILES               = 
 # TARGETDIR                   = .
-LIBTARGETDIR                = ../../lib
+# LIBTARGETDIR                = ../../lib
 # INCTARGETDIR                = .
 # LIBSRCDIR                   = .
 # SUBDIRS                     = 
