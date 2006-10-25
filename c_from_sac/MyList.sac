@@ -13,6 +13,7 @@ external typedef list;
 external list nil();
          #pragma refcounting [0]
          #pragma linkobj "src/MyList/nil.o"
+         #pragma linkobj "src/MyList/free.o"
 external list cons( int ELEM, list LIST);
          #pragma refcounting [0,2]
          #pragma linkobj "src/MyList/cons.o"
