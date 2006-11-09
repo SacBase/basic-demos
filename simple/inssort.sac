@@ -18,8 +18,11 @@ int[.] inssort(int[.] A) {
 }
 
 int main() {
-  A = with ( . <= iv = [i] <= .)
-      genarray( [16], 16-i, 0);
+  
+  A = with {
+        ( . <= iv = [i] <= . ) : 16-i;
+      } : genarray( [16], 0 );
+
   c = print( A);
 
   B = inssort( A);
