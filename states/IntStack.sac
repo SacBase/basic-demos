@@ -51,7 +51,9 @@ objdef IntStack Stack = create_stack();
 
 IntStack create_stack()
 {
-  A = with (. <= iv <= .) genarray([STACKSIZE], 0);
+  A = with {
+        ( . <= iv <= . ) : 0;
+      } : genarray( [STACKSIZE] );
 
   stack = to_IntStack(A);
   
