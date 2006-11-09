@@ -14,11 +14,12 @@ import Array: all;
 
 inline double[+] onestep(double[.,.] B) 
 { 
-  A = with ( . < x < . )
-      modarray(B, x, 0.25*(B[x+[1,0]]
-                           + B[x-[1,0]]
-                           + B[x+[0,1]]
-                           + B[x-[0,1]]) );
+  A = with {
+        ( . < x < . ) : 0.25*(B[x+[1,0]]
+                              + B[x-[1,0]]
+                              + B[x+[0,1]]
+                              + B[x-[0,1]]);
+      } : modarray( B );
 
   return(A);
 }

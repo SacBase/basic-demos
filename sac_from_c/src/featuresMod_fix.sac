@@ -7,7 +7,11 @@ import Array: all;
 int calcSumOfVector(int[100] values)
 {
   int result;
-  result=with([0]<=i<[100])fold(+, 0, values[i]);
+  
+  result = with {
+             ( [0] <= i < [100] ) : values[i];
+           } : fold( +, 0 );
+
   return(result);
 }
 
@@ -21,7 +25,10 @@ int, int, int analyseVector(int[100] v)
 /* generates a 10x10 matrix with a border of zeros, filled with values */
 int[10,10] MatrixWithBorder(int value)
 {
-  return(with([1,1] <= idx <= [8,8])
-     genarray([10,10], value));
+  val = with {
+          ( [1,1] <= idx <= [8,8] ) : value;
+        } : genarray( [10,10], 0 );
+        
+  return( val );
 }
 
