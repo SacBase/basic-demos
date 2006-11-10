@@ -1,4 +1,4 @@
-use SimplePrint : all; 
+use ScalarIO: {print};
 use ScalarArith: all;
  
      
@@ -26,8 +26,8 @@ int, int modulo (int x, int y)
  
 int main ()
 {
-  res = print( gcd(22, 27));
-  return (res);
+  print( gcd(22, 27));
+  return (0);
 }
 
 

@@ -1,5 +1,5 @@
 use Array: all;
-use SimplePrint: all;
+use StdIO: {print};
 
 int[.] inssort(int[.] A) {
  n = shape(A)[0];
@@ -23,10 +23,9 @@ int main() {
         ( . <= iv = [i] <= . ) : 16-i;
       } : genarray( [16], 0 );
 
-  c = print( A);
-
+  print( A);
   B = inssort( A);
-  c += print( B);
+  print( B);
 
-  return(c);
+  return(0);
 }
