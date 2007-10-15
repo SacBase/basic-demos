@@ -13,9 +13,9 @@ int main()
   int *int_data_in;
   int *int_data_out;
 
-  SACarg vector_out;
-  SACarg vector_in;
-  SACarg parameter;
+  SACarg *vector_out;
+  SACarg *vector_in;
+  SACarg *parameter;
 
   /**
    *  init C data vector:
@@ -29,7 +29,7 @@ int main()
    * convert c data to abstract datatype SAC_arg:
    */
   vector_in = SACARGconvertFromIntPointer( int_data_in, 1, SMALLARRAY);
-  parameter = SACARGconvertFromInt(99);
+  parameter = SACARGconvertFromIntScalar(99);
 
   /**
    * Now, we call a SAC-function. Note here, that this consumes
