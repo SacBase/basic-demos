@@ -1,5 +1,7 @@
 module tutorialMod;
 
+use Array: all;
+
 export all;
 
 int[+] addValue(int[+] v, int value)
