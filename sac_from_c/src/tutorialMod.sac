@@ -1,6 +1,7 @@
-Module tutorialMod:
+module tutorialMod;
 
-/* generic implementations */
+export all;
+
 int[+] addValue(int[+] v, int value)
 {
   return(v+value);
@@ -11,4 +12,11 @@ int[+] addVectors(int[+] v1, int[+] v2)
   return(v1+v2);
 }
 
+specialize int[+] addValue(int[10] v, int value);
+specialize int[+] addValue(int[20] v, int value);
+specialize int[+] addValue(int[30] v, int value);
+
+specialize int[+] addVectors(int[10] v1, int[10] v2);
+specialize int[+] addVectors(int[20] v1, int[20] v2);
+specialize int[+] addVectors(int[30] v1, int[30] v2);
 
