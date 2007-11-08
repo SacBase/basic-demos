@@ -11,7 +11,7 @@
 #define new_nt   (new,   (SCL, (HID, (NUQ,))))
 #define last_nt  (last,  (SCL, (HID, (NUQ,))))
 
-void _take( SAC_ND_PARAM_out( res_nt, list *),
+void take( SAC_ND_PARAM_out( res_nt, list *),
             int n,
             SAC_ND_PARAM_in( elems_nt, list *))
 {
