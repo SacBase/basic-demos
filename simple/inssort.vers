@@ -1,0 +1,3 @@
+dp  : -DDP
+l   : -DLARGE
+l_dp: -DLARGE -DDP
