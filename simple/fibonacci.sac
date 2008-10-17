@@ -1,0 +1,20 @@
+use Array: all;
+use StdIO: all;
+
+int fib( int n)
+{
+  if( n<= 1) {
+    res = 1;
+  } else {
+    res = fib( n-1) + fib( n-2) + 1;
+  }
+  return( res);
+}
+
+int main()
+{
+  n = FibreScanInt(stdin);
+  print( fib(n));
+
+  return( 0);
+}
