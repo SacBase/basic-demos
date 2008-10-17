@@ -1,20 +1,77 @@
 use Array: all;
 use StdIO: all;
 
+#define FIB arrfib
+
 int fib( int n)
 {
   if( n<= 1) {
-    res = 1;
+    res = n;
   } else {
-    res = fib( n-1) + fib( n-2) + 1;
+    res = fib( n-1) + fib( n-2) ;
   }
   return( res);
 }
 
+/*----------------------------------------------------------------------------*/
+
+int linfib( int n)
+{
+  if( n<= 1) {
+    res = n;
+  } else {
+    res = linfib( n, 1, 0);
+  }
+
+  return( res);
+}
+
+int linfib( int n, int n_1, int n_2)
+{
+  if( n > 1) {
+    n_1  = linfib( n-1, n_1 + n_2, n_1);
+  }
+  return( n_1);
+}
+
+/*----------------------------------------------------------------------------*/
+
+int arrfib( int n)
+{
+  return( matvec( matprod( genarray( [n],  [ [0,1],
+                                             [1,1]] )),
+                  [0,1]) [[0]] );
+}
+
+inline
+int[.] matvec( int[.,.] m, int[.] v)
+{
+  return( { [i] -> sum( m[[i,.]] * v) });
+}
+
+inline
+int[.,.] matmul( int[.,.] m, int[.,.] m2)
+{
+  return( { [i,j] -> sum( m[[i,.]] * m2[[.,j]]) });
+}
+
+inline
+int[.,.] matprod( int[.,.,.] m)
+{
+  res = with {
+          ( [0] <= iv < take([1], shape(m))): m[iv];
+        } : fold( matmul, [[1,0], [0,1]]);
+
+  return( res);
+}
+
+/*----------------------------------------------------------------------------*/
+
 int main()
 {
   n = FibreScanInt(stdin);
-  print( fib(n));
+
+  print( { iv -> FIB(iota(n)[ iv])});
 
   return( 0);
 }

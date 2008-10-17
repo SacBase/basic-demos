@@ -34,3 +34,8 @@ convenience reasons, e.g. omited type declarations or multiple return values.
 
 This SAC program contains an implementation of the insertion sort algorithm.
 Once again, the program looks strikingly similar to a C or Java implementation.
+
+
+3) fibonacci.sac
+
+Three versions of the fibonacci function in SaC.
