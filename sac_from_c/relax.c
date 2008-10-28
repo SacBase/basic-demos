@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "sac_cinterface.h"
-#include "relaxMod.h"
+#include "relaxMod_c.h"
 
 int main()
 {
@@ -13,11 +12,9 @@ int main()
   int size;
   int loops;
 
-  SAC_arg result;
+  SACarg *result;
   
-  /* first of all init the SAC Runtime-System */
-  SAC_InitRuntimeSystem();
-
+#ifndef FIXED
   printf("Welcome to the SAC<->C interface demo!\n\n"
 	 "this program does some relaxation on a matrix.\n\n"
 	 "The relaxMod contains a generic relax function for a\n"
@@ -34,6 +31,10 @@ int main()
   printf("iterations: ");
   scanf("%d", &loops);
   printf("\nfirst we build up a matrix: [%d, %d]\n", size, size);
+#else
+  size = 1000;
+  loops = 100;
+#endif
   
   mat_in=(double*)malloc(size*size*sizeof(double));
   for(i=0; i<size; i++)
@@ -44,11 +45,11 @@ int main()
   mat_in[0*size+1]=500.0;
 
   printf("Calling SAC-function relax(matrix, iterations)...");
-  SAC_relaxMod_relax_1_2(&result,
-			 SAC_DoubleArray2Sac(SAC_CONSUME_ARG,
+  relaxMod__relax2(&result,
+			 SACARGconvertFromDoublePointer(
 					     mat_in, 2, size, size),
-			 SAC_Int2Sac(loops));
-  mat_out = SAC_Sac2DoubleArray(SAC_CONSUME_ARG, result);
+			 SACARGconvertFromIntScalar(loops));
+  mat_out = SACARGconvertToDoubleArray(result);
   printf("finished!\n");
   
   sum=0;
@@ -59,7 +60,6 @@ int main()
   printf("calculating the resulting sum: %.10g\n\n", sum);
   
   printf(" --- demonstration finished ---\n");
-  SAC_FreeRuntimeSystem();
   return(0);
 }
 
