@@ -6,10 +6,10 @@
 #include "List.h"
 
 
-#define res_nt   (res,   (SCL, (HID, (NUQ,))))
-#define elems_nt (elems, (SCL, (HID, (NUQ,))))
-#define new_nt   (new,   (SCL, (HID, (NUQ,))))
-#define last_nt  (last,  (SCL, (HID, (NUQ,))))
+#define res_nt   (res,   T_SHP(SCL, T_HID(HID, T_UNQ(NUQ, T_EMPTY))))
+#define elems_nt (elems, T_SHP(SCL, T_HID(HID, T_UNQ(NUQ, T_EMPTY))))
+#define new_nt   (new,   T_SHP(SCL, T_HID(HID, T_UNQ(NUQ, T_EMPTY))))
+#define last_nt  (last,  T_SHP(SCL, T_HID(HID, T_UNQ(NUQ, T_EMPTY))))
 
 void take( SAC_ND_PARAM_out( res_nt, list *),
             int n,

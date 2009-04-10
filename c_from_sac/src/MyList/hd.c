@@ -6,7 +6,7 @@
 #include "List.h"
 
 
-#define elems_nt (elems, (SCL, (HID, (NUQ,))))
+#define elems_nt (elems, T_SHP(SCL, T_HID(HID, T_UNQ(NUQ, T_EMPTY))))
 
 int hd( SAC_ND_PARAM_in( elems_nt, list *))
 {

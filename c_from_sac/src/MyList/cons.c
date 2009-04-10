@@ -6,8 +6,8 @@
 #include "List.h"
 
 
-#define res_nt   (res,   (SCL, (HID, (NUQ,))))
-#define elems_nt (elems, (SCL, (HID, (NUQ,))))
+#define res_nt   (res,   T_SHP(SCL, T_HID(HID, T_UNQ(NUQ, T_EMPTY))))
+#define elems_nt (elems, T_SHP(SCL, T_HID(HID, T_UNQ(NUQ, T_EMPTY))))
 
 void cons( SAC_ND_PARAM_out( res_nt, list *),
            int elem,
