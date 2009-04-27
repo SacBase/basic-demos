@@ -1,0 +1,49 @@
+use Array: all;
+use StdIO: all;
+
+/*
+ * Quicksort
+ *
+ * This naive quicksort implementation accepts as input a
+ * vector of ints in FibreScan format through standard in.
+ *
+ */
+
+int main()
+{
+  /* 200 is hard-coded right now. This should go. */
+  ip = FibreScanIntArray( stdin, 1, [200]);
+  print( quicksort( ip));
+  return( 0);
+}
+
+int[.] quicksort( int[.] in)
+{
+  if( shape( in)[0] == 0) {
+    returnVal = [];
+  }
+  else {
+    pivot = in[0];
+    list = drop( [1], in);
+    returnVal =   
+      quicksort( filterGT( list, pivot)) ++
+      [pivot] ++ 
+      quicksort( filterLT( list, pivot));
+  }
+  return( returnVal);
+}
+
+int[.] filterGT( int[.] A, int p)
+{ 
+  return( with {
+    ( [0] <= iv < [shape(A)[0]]) : ( A[iv] > p ? [] : [ A[iv]]);
+  } : fold( ++, []));
+}
+
+int[.] filterLT( int[.] A, int p)
+{ 
+  return( with {
+    ( [0] <= iv < [shape(A)[0]]) : ( A[iv] < p ? [] : [ A[iv]]);
+  } : fold( ++, []));
+}
+
