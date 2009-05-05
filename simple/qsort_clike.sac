@@ -1,0 +1,98 @@
+use StdIO: all;
+use Array: all;
+
+/*
+ * SAC quicksort implementation which uses a recursion.
+ *
+ * This implementation is quite C-like in sense we 
+ * do not use native SAC constructions like with-loops
+ * and so on.
+ */
+
+
+/*
+ * We must define a size of the array when we compile this
+ * source. (Because we are using FibreScan for reading an 
+ * input)
+ */
+#ifndef SIZE
+#   define SIZE     1000
+#endif
+
+#ifndef TIMES
+#   define TIMES    1
+#endif
+
+#define DO do
+#define WHILE while
+
+/*
+ * An interface to the main function.
+ */
+int [SIZE], int
+qsort(int[SIZE] array, int i) {
+    return (
+        _qsort(array, 0, shape(array)[[0]]-1),
+        i
+    );
+}
+
+/*
+ * Function which provides a quicksort.
+ */
+int [SIZE] 
+_qsort(int[SIZE] array, int left, int right) {
+    if (right > left) {
+        pivotIndex = left;
+        pivotIndex, array = partition(array, left, right, pivotIndex);
+        array = _qsort(array, left, pivotIndex-1);
+        array = _qsort(array, pivotIndex+1, right);
+    }
+    return (array) ;
+}
+
+
+int, int[SIZE] 
+partition(int[SIZE] array, int left, int right, int pivotIndex) {
+    pivot = array[[pivotIndex]];
+    array = swap(array, pivotIndex, right);
+    storeIndex = left;
+    for ( i=left; i <= right-1; i++) {
+        if (array[[i]] <= pivot) {
+            array = swap(array, i, storeIndex);
+            storeIndex++;
+        }
+    }
+    array = swap(array, storeIndex, right);
+    return (storeIndex, array);
+}
+
+
+inline int[SIZE] 
+swap(int[SIZE] array, int l, int r) {
+    tmp = array[[l]];
+    return(
+        modarray(
+            modarray( array, [l], array[[r]]),
+            [r], tmp
+        )
+    );
+}
+
+
+int main() {    
+    int[SIZE] y;
+    int i ;
+    i = 0;
+
+    ip = FibreScanIntArray( stdin, 1, [SIZE]);
+   
+    DO {
+        i += 1;
+        ip, i = qsort(ip, i);
+    } WHILE (i < TIMES);
+
+
+    print(ip[0]);
+    return( 0);
+}
