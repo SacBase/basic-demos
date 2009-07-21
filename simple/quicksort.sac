@@ -12,7 +12,7 @@ use StdIO: all;
 int main()
 {
   /* 200 is hard-coded right now. This should go. */
-  ip = FibreScanIntArray( stdin, 1, [200]);
+  ip = FibreScanIntArray();
   print( quicksort( ip));
   return( 0);
 }

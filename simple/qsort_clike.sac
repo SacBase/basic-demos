@@ -85,7 +85,7 @@ int main() {
     int i ;
     i = 0;
 
-    ip = FibreScanIntArray( stdin, 1, [SIZE]);
+    ip = FibreScanIntArray();
    
     DO {
         i += 1;
