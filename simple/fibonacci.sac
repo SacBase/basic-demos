@@ -69,7 +69,7 @@ int[.,.] matprod( int[.,.,.] m)
 
 int main()
 {
-  n = FibreScanIntArray();
+  n = (:int)FibreScanIntArray();
 
   print( { iv -> FIB(iota(n)[ iv])});
 
