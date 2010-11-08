@@ -33,7 +33,7 @@
 #endif  /* STACKSIZE */
 
 
-Class IntStack:
+class IntStack;
 
 
 classtype int[STACKSIZE];
@@ -51,7 +51,6 @@ IntStack create_stack()
   A = with {
         ( . <= iv <= . ) : 0;
       } : genarray( [STACKSIZE] );
-w
   stack = to_IntStack(A);
   
   return(stack);
@@ -140,7 +139,7 @@ int size(IntStack &stack)
   return(STACKSIZE-1);
 }
 
-void print(IntStack &stack)
+void printStack(IntStack &stack)
 {
   A = from_IntStack(stack);
 
@@ -187,9 +186,9 @@ int size()
   return(size(Stack));
 }
 
-void print()
+void printStack()
 {
-  print(Stack);
+  printStack(Stack);
 }
 
 
