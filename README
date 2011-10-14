@@ -4,8 +4,8 @@
  *
  * description:
  *
- *   This file is to give an overview of the SAC demo programs that come
- *   with the SAC distribution.
+ *   This file is to give an overview of the basic SaC programs contained
+ *   in the basics section of the demos that come with the SAC distribution.
  *   
  *   The directory comes with a Makefile that genericly forces the creation
  *   of all demo programs by calling make recursively in all of it's 
@@ -25,7 +25,7 @@ This directory contains very simple examples such as gcd only. It is primarily
 usefull for the entirely novice user.
 
 
-2) tutorials
+2) composing_programs
 
 The demo programs of this directory are less ment for studying the program codes
 themselves but for running the compiled applications and inspecting the output
@@ -41,13 +41,6 @@ state-modifications in SAC is not too extensive this might be a good
 source for getting started with states in SAC.
 
 
-4) numerical
-
-Several benchmarks from numerical computing can be found in this directory.
-In most cases, the SAC programs contain several alternative implementations
-between which can be chosen by means of compiler flags.
-
-
 5) c_from_sac
 
 The programs in this directory demonstrate how C-libraries can be used from
@@ -61,5 +54,9 @@ of SAC to the C world. Probably, this is the most interesting part of the demos
 if you intend to replace part of an existing C/C++/Fortran program by a
 SAC implementation.
 
+6') sac_from_c_obsolete
+
+This are now obsolete programs using the old style module system.
+Somebody should recode them in the new style.....
 
 
