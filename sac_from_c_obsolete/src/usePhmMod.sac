@@ -1,8 +1,0 @@
-Module usePhmMod:
-
-int myPhmTestFun(int[10] v, int i)
-{
-  a=v+i;
-  return(a[[0]]);
-}
-
