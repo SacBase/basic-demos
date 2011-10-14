@@ -1,0 +1,91 @@
+import StdIO: all;
+import Array: all;
+import Constants: all;
+
+void NewBlock()
+{
+  printf("----------------------------------------------\n");
+}
+ 
+void NewLine()
+{
+  printf("\n");
+}
+ 
+int main()
+{
+  a = reshape([ 4, 4], [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+
+  printf("Let a be defined as:\n");
+  print(a);
+  NewBlock();
+
+  printf("Then with { ( . <= idx <= .) : 3;\n");
+  printf("     } : genarray([9,12], 0)           equals:\n");
+  print( with { ( . <= idx <= .) : 3; } : genarray( [9,12], 0));
+  NewBlock();
+
+  printf("Then with { ([1,1] <= idx <= [7,10]) : 3;\n");
+  printf("     } : genarray([9,12], 0)           equals:\n");
+  print( with { ([1,1] <= idx <= [7,10]) : 3; } : genarray([9,12], 0));
+  NewBlock();
+
+  printf("with { ([1,1] <= idx <= [7,10] step [3,2]) :3; \n");
+  printf("     } : genarray([9,12], 0)           equals:\n");
+  print( with { ([1,1] <= idx <= [7,10] step [3,2]) :3; } : genarray([9,12], 0));
+  NewBlock();
+
+  printf("with { ([1,1] <= idx <= [7,10] step [3,2] width [2,1]) : 3;\n");
+  printf("     } : genarray([9,12], 0)           equals:\n");
+  print( with { ([1,1] <= idx <= [7,10] step [3,2] width [2,1]) :3; } : genarray([9,12], 0));
+  NewBlock();
+
+  printf("with { ([1,1] <= idx <= [2,2]) : idx; \n");
+  printf("     } : genarray([4,4], [0,0])            equals:\n");
+  print(with { ([1,1] <= idx <= [2,2]) : idx; } : genarray([4,4], [0,0]));
+  NewBlock();
+
+  printf("with { ([0,1] <= idx <= [2,2]) : 42; \n");
+  printf("     } : modarray(a)                   equals:\n");
+  print(with { ([0,1] <= idx <= [2,2]) : 42; } : modarray(a));
+  NewBlock();
+
+  printf("with { ([1,0] <= idx <= [2,2]) : a[idx]+20; \n");
+  printf("     } : modarray(a)                   equals:\n");
+  print(with { ([1,0] <= idx <= [2,2]) : a[idx]+20; } : modarray(a));
+  NewBlock();
+
+  printf("with { ([1,1] <= idx <= [2,2]) : a[(idx-[1,0])]; \n");
+  printf("     } : modarray(a)                   equals:\n");
+  print(with { ([1,1] <= idx <= [2,2]) : a[(idx-[1,0])]; } : modarray(a));
+  NewBlock();
+
+  printf("with { ([0,0] <= idx <= [2,2]) : a[idx]; \n");
+  printf("     } : fold(+, 0)                    equals:\n");
+  print(with { ([0,0] <= idx <= [2,2]) : a[idx]; } : fold(+, 0));
+  NewLine(); NewBlock();
+
+  printf("with { ([1,1] <= idx <= [2,2]) : 1;\n");
+  printf("     } : fold(+, 0)                    equals:\n");
+  print(with { ([1,1] <= idx <= [2,2]) : 1;} : fold(+, 0));
+  NewLine(); NewBlock();
+
+  printf("with { ([1,1] <= idx <= [3,2]): a[idx]*2; \n");
+  printf("     } : fold(+, 0)                    equals:\n");
+  print(with { ([1,1] <= idx <= [3,2]): a[idx]*2;} : fold(+, 0));
+  NewLine(); NewBlock();
+
+  printf("with { ([1,1] <= idx <= [2,2]) : a[idx]; \n");
+  printf("     } : fold(min, maxint())           equals:\n");
+  print(with { ([1,1] <= idx <= [2,2]) : a[idx];} : fold(min, maxint()));
+  NewLine(); NewBlock();
+
+  printf("with { ([1,1] <= idx <= [2,2]) : a[idx]; \n");
+  printf("     } : fold(min, 0)                  equals:\n");
+  print(with { ([1,1] <= idx <= [2,2]) : a[idx];} : fold(min, 0));
+  NewLine(); NewBlock();
+
+  return(0);
+}
+
+

@@ -1,0 +1,381 @@
+/*
+ *  Program for demonstrating the string standard modules
+ */
+
+
+
+use String:all;
+
+use TermFile:all;
+
+
+int main()
+{
+  int m;
+  int n;
+
+  printf("\n\nDemo Program for Strings\n");
+  printf("========================\n");
+  
+
+
+  A = "Hello World ! ";
+  B = "The sun always shines on TV.";
+
+  printf("\nLet us consider the two following strings:\n\n");
+  printf("\tA = \"%s\"\n", A);
+  printf("\tB = \"%s\"\n\n\n", B);
+
+  
+  
+  X = strmod(A, 12, '?');
+
+  printf("Function:    strmod\n");
+  printf("Signature:   string strmod(string S, int P, char C)\n");
+  printf("Description: Change position P of string S to character C.\n");
+  printf("Example:     strmod(A, 12, '?')\n");
+  printf("             ->   \"%s\"\n\n\n", X);
+
+
+
+  X = strins(B, 14, " and always");
+
+  printf("Function:    strins\n");
+  printf("Signature:   string strins(string S1, int P, string S2)\n");
+  printf("Description: Insert string S2 into string S1 starting at position P.\n");
+  printf("Example:     strins(B, 14, \" and always\")\n");
+  printf("             ->   \"%s\"\n\n\n", X);
+  
+
+
+  X = strovwt(B, 25, "you.");
+
+  printf("Function:    strovwt\n");
+  printf("Signature:   string strovwt(string S1, int P, string S2)\n");
+  printf("Description: Overwrite string S2 with string S1 starting at position P.\n");
+  printf("Example:     strovwt(B, 25, \"you.\")\n");
+  printf("             ->   \"%s\"\n\n\n", X);
+  
+
+
+  c = strsel(A, 7);
+
+  printf("Function:    strsel\n");
+  printf("Signature:   char strsel(string S, int P)\n");
+  printf("Description: Select character P of string S.\n");
+  printf("Info:        strsel allows for a bracket notation overloading the selection operator.\n");
+  printf("Example:     strsel(A, 7)  or A[[7]]");
+  printf("             ->  '%c'\n\n\n", c);
+  
+
+  
+  X = strcat(A, B);
+  X = A + B;
+
+  printf("Function:    strcat\n");
+  printf("Signature:   string strcat(string S1, string S2)\n");
+  printf("Description: Concatenate strings S1 and S2.\n");
+  printf("Info:        strcat allows for an infix notation using the symbol '+'\n");
+  printf("Example:     strcat(A, B)   or   A+B\n");
+  printf("             ->   \"%s\"\n\n\n", X);
+  
+
+  
+  
+  X = strncat(A, B, 7);
+
+  printf("Function:    strncat\n");
+  printf("Signature:   string strncat(string S1, string S2, int N)\n");
+  printf("Description: Concatenate string S1 and the first N characters of string S2.\n");
+  printf("Example:     strncat(A, B, 7)\n");
+  printf("             ->   \"%s\"\n\n\n", X);
+  
+
+
+  n = strcmp(A, B);
+  m = strcmp(A, A);
+
+  printf("Function:    strcmp\n");
+  printf("Signature:   int strcmp(string S1, string S2)\n");
+  printf("Description: Compare strings S1 and S2.\n");
+  printf("             Result is 0 if the S1 and S2 are identical.\n");
+  printf("             Result is positive if S1 is lexicographically greater than S2.\n");
+  printf("             Result is negative if S1 is lexicographically less than S2.\n");
+  printf("Info:        strcmp allows for various infix notations using the commom\n");
+  printf("             symbols  '!=', '==', '<', '>', '<=', and '>='\n");
+  printf("Example:     strcmp(A, B)  ->  %d\n", n);
+  printf("             strcmp(A, A)  ->  %d\n\n\n", m);
+  
+
+/*
+  b = (A==B);
+
+  printf("Function:    \n");
+  printf("Signature:   \n");
+  printf("Description: \n");
+  printf("Example:     \n\n\n", );
+  
+
+  
+  b = (A!=B);
+
+  printf("Function:    \n");
+  printf("Signature:   \n");
+  printf("Description: \n");
+  printf("Example:     \n\n\n", );
+  
+
+  
+  b = (A<B);
+
+  printf("Function:    \n");
+  printf("Signature:   \n");
+  printf("Description: \n");
+  printf("Example:     \n\n\n", );
+  
+
+  
+  b = (A<=A);
+
+  printf("Function:    \n");
+  printf("Signature:   \n");
+  printf("Description: \n");
+  printf("Example:     \n\n\n", );
+  
+
+  
+  b = (A>B);
+
+  printf("Function:    \n");
+  printf("Signature:   \n");
+  printf("Description: \n");
+  printf("Example:     \n\n\n", );
+  
+
+  
+  b = (B>=B);
+
+  printf("Function:    \n");
+  printf("Signature:   \n");
+  printf("Description: \n");
+  printf("Example:     \n\n\n", );
+  
+
+  
+  b = (A==B);
+
+  printf("Function:    \n");
+  printf("Signature:   \n");
+  printf("Description: \n");
+  printf("Example:     \n\n\n", );
+*/
+
+  
+  n = strncmp(A, B, 5);
+
+  printf("Function:    strncmp\n");
+  printf("Signature:   int strncmp(string S1, string S2, int N)\n");
+  printf("Description: Compare the first N characters of strings S1 and S2.\n");
+  printf("             Result is similar to function strcmp.\n");
+  printf("Example:     strncmp(A, B, 5)  ->  %d\n\n\n", n);
+  
+
+  
+  n = strlen(A);
+  m = strlen(B);
+
+  printf("Function:    strlen\n");
+  printf("Signature:   int strlen(string S)\n");
+  printf("Description: Return the length of string S.\n");
+  printf("Example:     strlen(A)  ->  %d\n", n);
+  printf("             strlen(B)  ->  %d\n\n\n", m);
+  
+
+  
+  X = strtake(B, 14);
+
+  printf("Function:    strtake\n");
+  printf("Signature:   string strtake(string S, int N)\n");
+  printf("Description: Return the first N characters of string S.\n");
+  printf("Example:     strtake(B, 14)\n");
+  printf("             ->   \"%s\"\n\n\n", X);
+  
+
+  
+  X = strdrop(B, 14);
+
+  printf("Function:    strdrop\n");
+  printf("Signature:   string strdrop(string S, int N)\n");
+  printf("Description: Return all but the first N characters of string S.\n");
+  printf("Example:     strdrop(B, 14)\n");
+  printf("             ->   \"%s\"\n\n\n", X);
+  
+
+
+  X = strext(B, 8, 13);
+
+  printf("Function:    strext\n");
+  printf("Signature:   string strext(string S, int FIRST, int LEN)\n");
+  printf("Description: Extract the substring beginning at character FIRST with\n");
+  printf("             length LEN from string S.\n");
+  printf("Example:     strext(B, 8, 13)\n");
+  printf("             ->   \"%s\"\n\n\n", X);
+  
+
+
+  X = sprintf("%d", 1234);
+  
+  printf("Function:    sprintf\n");
+  printf("Signature:   string sprintf(string FORMAT, ...)\n");
+  printf("Description: Generate a string depending on the format string and a\n");
+  printf("             variable number of arguments similar to the printf and \n");
+  printf("             fprintf functions.\n");
+  printf("Example:     sprintf(\"%%d\", 1234)\n");
+  printf("             ->   \"%s\"\n\n\n", X);
+  
+
+  
+  success, n, m = sscanf("14 123", "%d %d");
+
+  printf("Function:    sscanf\n");
+  printf("Signature:   int, ... sscanf(string S, string FORMAT)\n");
+  printf("Description: Scan the string S concerning the format string FORMAT.\n");
+  printf("             The format string is the same as for fscanf.\n");
+  printf("             The int result gives the number of successfully \n");
+  printf("             performed conversions.\n");
+  printf("             CAUTION: In contrast to C, conversion specifiers related to\n");
+  printf("                      strings are not supported and may cause runtime\n");
+  printf("                      errors. Use sscanf_str instead.\n");
+  printf("Example:     sscanf(\"14 123\", \"%%d %%d\")\n");
+  printf("             ->   %d %d %d\n\n\n",success, n, m);
+  
+
+  
+  X = sscanf_str(A, "Hello %s");
+
+  printf("Function:    sscanf_str\n");
+  printf("Signature:   string sscanf_str(string S, string FORMAT)\n");
+  printf("Description: Scan the string S concerning the format string FORMAT.\n");
+  printf("             FORMAT must have exactly one string conversion specifier.\n");
+  printf("             The scanned substring is returned.\n");
+  printf("Example:     sscanf_str(A, \"Hello %%s\")\n");
+  printf("             ->   \"%s\"\n\n\n", X);
+  
+
+  
+  n = strchr(A, 'W');
+  m = strchr(A, 'x');
+
+  printf("Function:    strchr\n");
+  printf("Signature:   int strchr(string S, char C)\n");
+  printf("Description: Return the position of the first occurrence of character C\n");
+  printf("             in string S. The result is -1 if character C does not occurr\n");
+  printf("             at all.\n");
+  printf("Example:     strchr(A, 'W')   ->  %d\n", n);
+  printf("             strchr(A, 'x')   ->  %d\n\n\n", m);
+  
+
+   
+  n = strrchr(B, 's');
+
+  printf("Function:    strrchr\n");
+  printf("Signature:   int strchr(string S, char C)\n");
+  printf("Description: Return the position of the last occurrence of character C\n");
+  printf("             in string S. The result is -1 if character C does not occurr\n");
+  printf("             at all.\n");
+  printf("Example:     strrchr(B, 's')  ->  %d\n\n\n", n);
+  
+
+  
+  n = strcspn(B, "xyz");
+
+  printf("Function:    strcspn\n");
+  printf("Signature:   int strcspn(string S, string REJECT)\n");
+  printf("Description: Return the length of the initial segment of S which\n");
+  printf("             consists entirely of characters not in REJECT.\n");
+  printf("Example:     strcspn(B, \"xyz\")  ->  %d\n\n\n", n);
+  
+
+  
+  n = strspn(B, "The sunal");
+
+  printf("Function:    strspn\n");
+  printf("Signature:   int strspn(string S, string ACCEPT)\n");
+  printf("Description: Return the length of the initial segment of S which\n");
+  printf("             consists entirely of characters in ACCEPT.\n");
+  printf("Example:     strspn(B, \"The sunal\")  ->  %d\n\n\n", n);
+  
+
+  
+  n, X = strtoi("  2343 Moin Moin", 10);
+  m, Y = strtoi("  FF Moin Moin", 16);
+
+  printf("Function:    strtoi\n");
+  printf("Signature:   int, string strtoi(string S, int BASE)\n");
+  printf("Description: Convert the string S into an integer value.\n");
+  printf("             BASE specifies the format\n");
+  printf("             and must be in the range from 2 to 32. This feature allows for\n");
+  printf("             scanning hexadecimal or octal numbers as well as decimal\n");
+  printf("             representations. The string result contains the remainder\n");
+  printf("             of the input string.\n");
+  printf("Example:     strtoi(\"  2343 Moin Moin\", 10)\n");
+  printf("             ->   %d, \"%s\"\n", n, X);
+  printf("             strtoi(\"  FF Moin Moin\", 16)\n");
+  printf("             ->   %d, \"%s\"\n\n\n", m, Y);
+
+
+  
+  n = toi("1234.678");
+
+  printf("Function:    toi\n");
+  printf("Signature:   int toi(string S)\n");
+  printf("Description: Convert string S into integer value\n");
+  printf("Example:     toi(\"1234.678\")  ->  %d\n\n\n", n);
+  
+
+
+  d, X = strtod("  2343e-5 Moin Moin");
+  
+  printf("Function:    strtod\n");
+  printf("Signature:   double, string strtod(string S)\n");
+  printf("Description: Convert string S into double value.\n");
+  printf("             The string result contains the remainder\n");
+  printf("             of the input string.\n");
+  printf("Example:     strtod(\"  2343e-5 Moin Moin\")\n");
+  printf("             ->   %g, \"%s\"\n\n\n", d, X);
+
+
+
+  d = tod("  2.5!!");
+  
+  printf("Function:    tod\n");
+  printf("Signature:   double tod(string S)\n");
+  printf("Description: Convert string S into double value.\n");
+  printf("Example:     tod(\"  2.5!!\")  ->  %g\n\n\n", d);
+  
+
+/*  
+  printf("Function:    \n");
+  printf("Signature:   \n");
+  printf("Description: \n");
+  printf("Example:     \n\n\n", );
+  
+
+  
+  printf("Function:    \n");
+  printf("Signature:   \n");
+  printf("Description: \n");
+  printf("Example:     \n\n\n", );
+  
+*/
+  
+
+
+  return(0);
+  
+}
+
+  
+
+
+
