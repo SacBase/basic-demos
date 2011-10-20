@@ -15,7 +15,7 @@ SAC2CFLAGS = -O3 -v1 -maxlur 3 -DFIXED_SEED
 # INCTARGETDIR                = .
 # LIBSRCDIR                   = $(patsubst %.libDD,src/%/,$@)
 SUBDIRS                     = src/MyList
-#MAKE_NON_LOCAL_DEPENDENCIES = yes
+# MAKE_NON_LOCAL_DEPENDENCIES = yes
 
 #
 # Setup for Makefile.versions
