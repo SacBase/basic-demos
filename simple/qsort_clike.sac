@@ -23,9 +23,6 @@ use Array: all;
 #   define TIMES    1
 #endif
 
-#define DO do
-#define WHILE while
-
 /*
  * An interface to the main function.
  */
@@ -87,10 +84,10 @@ int main() {
 
     ip = FibreScanIntArray();
    
-    DO {
+    do {
         i += 1;
         ip, i = qsort(ip, i);
-    } WHILE (i < TIMES);
+    } while (i < TIMES);
 
 
     print(ip[0]);
