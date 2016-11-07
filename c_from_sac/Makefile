@@ -15,7 +15,6 @@ SAC2CFLAGS = -O3 -v1 -maxlur 3 -DFIXED_SEED
 # INCTARGETDIR                = .
 # LIBSRCDIR                   = $(patsubst %.libDD,src/%/,$@)
 SUBDIRS                     = src/MyList
-# MAKE_NON_LOCAL_DEPENDENCIES = yes
 
 #
 # Setup for Makefile.versions
@@ -34,6 +33,6 @@ CHECKLOGFILE                = ./CHECKLOG
 #
 #######################################################################################
 
-include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
-include $(SACBASE)/stdlib/Makefiles/Makefile.Clibs
+include $(SACBASE)/Makefiles/Makefile_template.prg
+include $(SACBASE)/Makefiles/Makefile.Clibs
 

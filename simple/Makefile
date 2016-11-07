@@ -15,7 +15,6 @@ SAC2CFLAGS = -O3 -v1 -maxlur 3
 # INCTARGETDIR                = .
 # LIBSRCDIR                   = .
 # SUBDIRS                     = 
-# MAKE_NON_LOCAL_DEPENDENCIES = 
 
 #
 # Setup for Makefile.versions
@@ -34,4 +33,4 @@ CHECKLOGFILE                = ./CHECKLOG
 #
 #######################################################################################
 
-include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
+include $(SACBASE)/Makefiles/Makefile_template.prg
