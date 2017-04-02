@@ -9,18 +9,18 @@ SAC2CFLAGS = -O3 -v1 -maxlur 3
 #
 # Setup for Makefile.standard:
 #
-# EXCLUDE_FILES               = 
+# EXCLUDE_FILES               =
 # TARGETDIR                   = .
 # LIBTARGETDIR                = .
 # INCTARGETDIR                = .
 # LIBSRCDIR                   = .
 # SUBDIRS                     = sac_from_c
-SUBDIRS                     = simple states composing_programs c_from_sac 
+SUBDIRS                     = simple states composing_programs c_from_sac
 
 #
 # Setup for Makefile.versions
 #
-# EXCLUDE_FILES_FOR_MT        = 
+# EXCLUDE_FILES_FOR_MT        =
 # MAKE_MT_ALSO                = yes
 # VERSDIR                     = .
 
@@ -30,7 +30,7 @@ SUBDIRS                     = simple states composing_programs c_from_sac
 CHECKLOGFILE                = ./CHECKLOG
 # CHECKDIR                    = .checkdir
 # RT_FLAGS                    =
-# INPSDIR                     = 
+# INPSDIR                     =
 #
 #######################################################################################
 

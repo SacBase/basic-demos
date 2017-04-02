@@ -9,18 +9,18 @@ SAC2CFLAGS = -O3 -v1 -ssa -maxlur 3
 #
 # Setup for Makefile.standard:
 #
-# EXCLUDE_FILES               = 
+# EXCLUDE_FILES               =
 # TARGETDIR                   = .
 # LIBTARGETDIR                = ../../lib
 # INCTARGETDIR                = .
 # LIBSRCDIR                   = .
-# SUBDIRS                     = 
-# MAKE_NON_LOCAL_DEPENDENCIES = 
+# SUBDIRS                     =
+# MAKE_NON_LOCAL_DEPENDENCIES =
 
 #
 # Setup for Makefile.versions
 #
-# EXCLUDE_FILES_FOR_MT        = 
+# EXCLUDE_FILES_FOR_MT        =
 # MAKE_MT_ALSO                = yes
 # VERSDIR                     = .
 
@@ -30,9 +30,9 @@ SAC2CFLAGS = -O3 -v1 -ssa -maxlur 3
 CHECKLOGFILE                = ../../CHECKLOG
 # CHECKDIR                    = .checkdir
 # RT_FLAGS                    =
-# INPSDIR                     = 
+# INPSDIR                     =
 #
 #######################################################################################
 
-include $(SACBASE)/stdlib/Makefiles/Makefile_template.prg
-include $(SACBASE)/stdlib/Makefiles/Makefile.Clibs
+include $(SACBASE)/Makefiles/Makefile_template.prg
+include $(SACBASE)/Makefiles/Makefile.Clibs
