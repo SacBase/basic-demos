@@ -22,10 +22,10 @@
  *****************************************************************************/
 
 #ifndef SIZE
-#define SIZE 10
+#define SIZE 20
 #endif
 
-use MyList: all;
+use List: all;
 use StdIO: all;
 use Clock: all;
 use Random: all;
@@ -105,9 +105,9 @@ int main()
   l = nil();
 
 #ifdef FIXED_SEED
-  srandom( 0);
+  srandom( 0ui);
 #else
-  srandom( sec( gettime()));
+  srandom( _toui_S_ (sec( gettime())));
 #endif
 
   for( i=0; i<SIZE; i++) {

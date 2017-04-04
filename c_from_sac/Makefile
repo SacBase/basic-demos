@@ -9,12 +9,12 @@ SAC2CFLAGS = -O3 -v1 -maxlur 3 -DFIXED_SEED
 #
 # Setup for Makefile.standard:
 #
-# EXCLUDE_FILES               = 
+EXCLUDE_FILES                = MyList.sac
 # TARGETDIR                   = .
 # LIBTARGETDIR                = .
 # INCTARGETDIR                = .
 # LIBSRCDIR                   = $(patsubst %.libDD,src/%/,$@)
-SUBDIRS                     = src/MyList
+# SUBDIRS                     = src/MyList
 
 #
 # Setup for Makefile.versions
