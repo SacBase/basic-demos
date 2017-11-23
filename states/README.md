@@ -2,7 +2,7 @@ SAC demo modules and classes
 ============================
 
 
-1) `IntStack.sac`
+## `IntStack.sac`
 
 The SAC class `IntStack` demonstrates the basic concepts of how states and
 state modifications are integrated into the functional framework of SAC.
@@ -22,7 +22,7 @@ SAC demo programs
 =================
 
 
-1) `use_IntStack.sac`
+## `use_IntStack.sac`
 
 This SAC demo program demonstrates the usage of the demo class `IntStack`
 (see above). Some comprehensive stack operations are defined based on the
