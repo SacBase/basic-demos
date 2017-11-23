@@ -1,8 +1,7 @@
 SAC demo modules and classes
 ============================
 
-
-1) `MyList.sac` / `src/List/*.[ch]`
+## `MyList.sac` / `src/List/*.[ch]`
 
 The C module List naively implements cons-lists on integer numbers in C.
 In order to properly handle the memory management involved, the C-code
@@ -13,13 +12,10 @@ This is indicated to the `sac2c` compiler by proper `refcounting` - pragmas
 in the declaration file `MyList.sac`.
 
 
-
-
 SAC demo programs
 =================
 
-
-1) `quicksort_list.sac`
+## `quicksort_list.sac`
 
 `quicksort_list.sac` straight-forwardly implements QuickSort on cons-lists
 as provided by the module List.  However, the implementation is not tuned for
