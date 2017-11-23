@@ -1,6 +1,12 @@
 module Sum;
 
-import Structures : {sum};
+//import Structures : {sum};
+// This doesn't work, as the linker fails to find symbols
+//     basic-demos/sac_from_c/cwrapper/host/seq/libcwrapper.so: undefined reference to `SACARGcopyDataInternal'
+//     basic-demos/sac_from_c/cwrapper/host/seq/libcwrapper.so: undefined reference to `SACARGfreeDataInternal'
+// My current assumption is that it has to do with handling user-defined type Complex.
+// If we change the above code to the one below, the sac4c gets operational.
+import Array : {sum};
 
 export {sum};
 
