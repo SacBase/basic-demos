@@ -14,7 +14,9 @@ SET (LINKSETSIZE        "0"         CACHE STRING "Set a value for -linksetsize p
 INCLUDE ("cmake-common/check-sac2c.cmake")
 INCLUDE ("cmake-common/misc-macros.cmake")
 
-SET (SAC2C_DEF_FLAGS -v0 -linksetsize ${LINKSETSIZE} -L ${DLL_BUILD_DIR} -T ${DLL_BUILD_DIR})
+# The old Makefile had SAC2CFLAGS set to "-O3 -v1 -maxlur 3"
+# We port -O3 and -maxlur 3, but we use -v0
+SET (SAC2C_DEF_FLAGS -v0 -O3 -maxlur 3 -linksetsize ${LINKSETSIZE} -L ${DLL_BUILD_DIR} -T ${DLL_BUILD_DIR})
 
 # For every target run CMakeLists.txt in src
 FOREACH (TARGET IN ITEMS ${TARGETS})

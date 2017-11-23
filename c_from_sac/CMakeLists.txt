@@ -26,6 +26,9 @@ SET (C_DEPS_SRC
     src/MyList/cons.c
     src/MyList/append.c)
 
+
+SET (SAC2C_DEF_FLAGS ${SAC2C_DEF_FLAGS} -DFIXED_SEED)
+
 FOREACH(name ${C_DEPS_SRC})
   SET (src "${CMAKE_CURRENT_SOURCE_DIR}/${name}")
 
