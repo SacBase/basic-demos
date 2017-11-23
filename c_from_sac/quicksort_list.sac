@@ -25,7 +25,7 @@
 #define SIZE 20
 #endif
 
-use List: all;
+use MyList: all;
 use StdIO: all;
 use Clock: all;
 use Random: all;
