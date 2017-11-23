@@ -1,41 +1,21 @@
-/*****************************************************************************
- * 
- * file:   README
- *
- * description:
- *
- *   This file is to give an overview of the SAC demo programs of this
- *   directory.
- *   
- *   The directory comes with a Makefile that contains pattern rules
- *   for making executables from SAC-source files. Therefore each of the
- *   demo programs <name>.sac can be compiled by simply running (GNU-)
- *   "make <name>". The pattern rules provided even comprise an implicit
- *   dependency-checking system. It makes sure that any module needed for
- *   the compilation of a particular program will be compiled on beforehand.
- *   
- *****************************************************************************/
+SAC demo programs
+=================
 
 
+1) `gcd.sac`
 
-SAC demo programs:
-==================
-
-
-1) gcd.sac
-
-This SAC demo program is ment as a very basic, introductory example.
+This SAC demo program is meant as a very basic, introductory example.
 It prints the greatest common denominator of 22 and 27. The main objective
 of this program is to demonstrate the similarity between SAC and C programs.
 Furthermore, it makes use of some minor extensions introduced in SAC for
-convenience reasons, e.g. omited type declarations or multiple return values.
+convenience reasons, e.g. omitted type declarations or multiple return values.
 
-2) inssort.sac
+2) `inssort.sac`
 
 This SAC program contains an implementation of the insertion sort algorithm.
 Once again, the program looks strikingly similar to a C or Java implementation.
 
 
-3) fibonacci.sac
+3) `fibonacci.sac`
 
-Three versions of the fibonacci function in SaC.
+Three versions of the Fibonacci function in `SaC`.

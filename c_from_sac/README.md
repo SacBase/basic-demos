@@ -1,49 +1,28 @@
-/*****************************************************************************
- * 
- * file:   README
- *
- * description:
- *
- *   This file is to give an overview of the SAC demo programs of this
- *   directory.
- *   
- *   The directory comes with a Makefile that contains pattern rules
- *   for making executables from SAC-source files. Therefore each of the
- *   demo programs <name>.sac can be compiled by simply running (GNU-)
- *   "make <name>". The pattern rules provided even comprise an implicit
- *   dependency-checking system. It makes sure that any module needed for
- *   the compilation of a particular program will be compiled on beforehand.
- *   
- *****************************************************************************/
+SAC demo modules and classes
+============================
 
 
-
-SAC demo modules and classes:
-=============================
-
-
-1) List.dec / src/List/*.[ch]
+1) `MyList.sac` / `src/List/*.[ch]`
 
 The C module List naively implements cons-lists on integer numbers in C.
 In order to properly handle the memory management involved, the C-code
-makes use of some macros of the SAC runtime system such as SAC_MALLOC,
-SAC_ND_KS_DEC_OUT_RC, SAC_ND_KS_DEC_IN_RC as can be seen in the C source
-files in src/List/*.[ch]. 
-This is indicated to the sac2c compiler by proper refcounting - pragmas
-in the declaration file List.dec.
+makes use of some macros of the SAC runtime system such as `SAC_MALLOC`,
+`SAC_ND_KS_DEC_OUT_RC`, `SAC_ND_KS_DEC_IN_RC` as can be seen in the C source
+files in `src/List/*.[ch]`. 
+This is indicated to the `sac2c` compiler by proper `refcounting` - pragmas
+in the declaration file `MyList.sac`.
 
 
 
 
-SAC demo programs:
-==================
+SAC demo programs
+=================
 
 
-1) quicksort_list.sac
+1) `quicksort_list.sac`
 
-quicksort_list.sac straight-forwardly implements quicksort on cons-lists
+`quicksort_list.sac` straight-forwardly implements QuickSort on cons-lists
 as provided by the module List.  However, the implementation is not tuned for
 efficiency. A far more efficient implementation can be achieved, when 
-operating on arrays. This implementation is ment as an example application
-for using the List module only.
-
+operating on arrays. This implementation is meant as an example application
+for using the MyList module only.
