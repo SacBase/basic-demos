@@ -1,5 +1,21 @@
 This is a repository with example sac programs.
 
+Building programs require operational sac2c and sac4c as well as CMake at least version 3.3.
+
+Building instructions:
+```bash
+$ cd basic-demos
+$ git submodule init
+$ git submodule update
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make -j5
+```
+Compiled files will be available under `build` directory, under corresponding
+sub-directories.  Each directory will be build for `seq` and `mt_pth` targets,
+appending the name of the target to the name of the directory.
+
 # simple
 
 This directory contains very simple examples such as `gcd` only. It is primarily
