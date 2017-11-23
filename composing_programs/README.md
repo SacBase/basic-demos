@@ -2,7 +2,7 @@ SAC demo programs
 =================
 
 
-1) `arrays.sac`
+## `arrays.sac`
 
 This SAC demo program prints an introduction to the SAC array concept.
 Basic issues like the SAC specific representation of arrays are covered
@@ -12,21 +12,21 @@ of SAC, but are now provided by the module 'Array' from the SAC standard
 library, is explained by means of examples.
 
 
-2) `withloop.sac`
+## `withloop.sac`
 
 This SAC demo program prints an introduction to the SAC specific array
 construct with-loop. However, only a subset of the complete functionality
 of today's with-loops is covered by this demo program.
 
 
-3) `use_CommandLine.sac`
+## `use_CommandLine.sac`
 
 This SAC demo program prints a reference guide to the module `CommandLine`
 from the SAC standard library. This module provides access to the command
 line arguments of a SAC application program.
 
 
-4) `use_String.sac`
+## `use_String.sac`
 
 This SAC demo program prints a reference guide to the module `String` from
 he SAC standard library. This module provides strings as an abstract data type
