@@ -52,10 +52,10 @@ ADD_CUSTOM_COMMAND (
     OUTPUT ${c_binary}
     COMMAND
     ${CMAKE_C_COMPILER} -o ${c_binary}
+                        ${c_src}
                         `${SAC4C} -ccflags ${namewe} -o ${sac4c_out_name} `
                         `${SAC4C} -ldflags ${namewe} -o ${sac4c_out_name} `
                         #-I${CMAKE_CURRENT_BINARY_DIR}
-                        ${c_src}
     #WORKING_DIRECTORY ${dir}
     MAIN_DEPENDENCY ${c_src}
     DEPENDS ${WRAPPER_SO} ${WRAPPER_H}
